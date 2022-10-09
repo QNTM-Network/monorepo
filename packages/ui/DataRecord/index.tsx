@@ -10,6 +10,7 @@ interface Props {
   handleDelete: (dataRecord: any) => void;
 }
 
+
 import { map } from "lodash";
 
 export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
