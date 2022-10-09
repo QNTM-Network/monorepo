@@ -6,8 +6,13 @@ import { ProviderContext } from "../contexts/providerContext";
 import { savePage	, getPages} from "../utils/page";
 import Data from "./Data"
 
+interface Props {
+	pageContent: any;
+	setPageContent: (pages: any) => void;
+}
 
-const Earnings = ( {pageContent , setPageContent} ) => {
+
+const Earnings = ( {pageContent , setPageContent} : Props) => {
 	const { provider } = useContext(ProviderContext);
 	const [balance, setBalance] = useState(null);
 	const [input , setInput] = useState('');
@@ -16,7 +21,8 @@ const Earnings = ( {pageContent , setPageContent} ) => {
 	const createQuant = async () => {
 
     await savePage(input, 'newquant', format(new Date(), "MMMM dd, yyyy"), format(new Date(), "p"))
-		setPageContent(await getPages())
+		const pages = await getPages();
+		setPageContent(pages)
 
 	}
 

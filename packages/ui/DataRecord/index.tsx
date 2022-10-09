@@ -5,13 +5,15 @@ import {Check, AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
 
+interface Props {
+  dataRecord: any;
+  handleDelete: (dataRecord: any) => void;
+}
 
 import { map } from "lodash";
 
-export const DataRecord = ( { dataRecord , handleDelete}) => {
+export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
   const [selected, setSelected] = useState(false);
-
-
 
   return (
     <div className={styles.data}>
