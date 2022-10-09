@@ -1,0 +1,36 @@
+.data {
+
+&__record {
+  background-color: black;
+  display: flex;
+  width: 302px;
+  height: 36px;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 4px 0;
+    padding: 3px 15.5px 4px;
+  opacity: 0.8;
+  border-radius: 4px;
+
+
+&__left {
+  display: flex;
+  align-items: flex-start;
+align-items: center;
+  width: 70%;
+  flex-grow: 1;
+}
+
+
+&__title {
+  color: white;
+}
+
+}
+}
+
+.data-record-checkbox {
+  background-color: yellow;
+}
+
+
