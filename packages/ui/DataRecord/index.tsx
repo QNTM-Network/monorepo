@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { format, parseISO} from 'date-fns'
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
 
