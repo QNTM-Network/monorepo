@@ -1,9 +1,8 @@
 // bottom navigation
-import React , { useContext }from 'react';
-import { PageContext } from "../contexts/pageContext";
+import React , { useContext , useState}from 'react';
 
 const Footer = () => {
-	const { page, setPage } = useContext(PageContext);
+	const [page, setPage ] = useState('')
 	
 	return (
 		<footer className="footer">

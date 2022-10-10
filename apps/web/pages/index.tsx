@@ -1,53 +1,7 @@
-import { useState, useEffect , useMemo} from "react";
-import {map} from "lodash";
-import { DataRecord } from "ui";
+import WebApp from './_app'
 
-const dataRecord = {
-  title: "title",
-  time: "time",
-  url: "url",
-};
-
-const handleDelete = () => {
-  console.log("delete");
-};
-
-const quants = [ {
-  title: "title",
-  time: "time",
-  url: "url",
-}]
-
-
-
-
-export default function Web() {
-	const [input , setInput] = useState('');
-  const [quants, setQuants] = useState([{
-  title: "title",
-  time: "time",
-  url: "url",
-}]);
-
-
-
-	const createQuant = () => {
-const     newQuants = [...quants, {title: input, time: input, url: input}]
-    setQuants(newQuants);
-
-	}
+export default function Home() {
   return (
-    <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-      <h1>Quantmn Web</h1>
-		<button onClick={createQuant}>New item</button>
-		<input onChange={e => setInput(e.target.value)}/>	
-    {map(quants, (quant, key) => {
-      return (
-        <div key={key}>
-          <DataRecord handleDelete={handleDelete} dataRecord={quant} />
-          </div>
-      );
-    })}
-    </div>
-  );
+    <WebApp/>
+    )
 }
