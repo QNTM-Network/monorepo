@@ -1,7 +1,7 @@
 // bottom navigation
 import React , { useContext , useState}from 'react';
 
-const Footer = () => {
+export const Footer = () => {
 	const [page, setPage ] = useState('')
 	
 	return (
@@ -32,5 +32,3 @@ const Footer = () => {
 		</footer>
 	);
 }
-
-export default Footer;

@@ -1,5 +1,7 @@
 import { useState} from "react";
-import { Button } from "../Button"
+
+// @ts-ignore
+
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
 
@@ -34,7 +36,6 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               </div>
               </div>
 
-                  <Button label={'Open'}></Button> 
               <div className="time">
                 <p className={styles.data__record__title}>{dataRecord.time}</p>
               </div>
