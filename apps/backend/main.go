@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/akhil/go-fiber-crm-basic/database"
-	"github.com/akhil/go-fiber-crm-basic/lead"
+	"github.com/quantmn-dao/monorepo/tree/master/apps/backend/database"
+	"github.com/quantmn-dao/monorepo/blob/master/apps/backend/lead"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
