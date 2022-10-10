@@ -1,10 +1,10 @@
-import Data from "./Data";
+import Data from "../Data";
 
-const YourData = ( {pageContent} ) => {
+const YourData = ( {} ) => {
 	return (
 		<div>
 			<p className='page-title'>Your Data</p>
-			<Data pageContent={pageContent}/>
+			<Data />
 		</div>
 	);
 };

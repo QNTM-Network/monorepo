@@ -1,36 +1,21 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { format } from "date-fns";
 
-import PageHeader from "./PageHeader";
-import  Earnings  from "./Earnings";
-import YourData from "./YourData";
-import History from "./History";
-import {PageContext, ToggleContext} from "../contexts/pageContext";
-import {
-  getPages,
-} from "../utils/page";
+import  Earnings  from "../Earnings";
+import YourData from "../YourData";
+import History from "../History";
 
 const Page = () => {
   const [pageContent, setPageContent] = useState("");
-  const {page, setPage} = useContext(PageContext);
-  const {toggle } = useContext(ToggleContext);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const pages = await getPages();
-      setPageContent(pages);
-
-
-    };
-    fetchData();
-  }, []);
+	const [page, setPage ] = useState('')
+  
 
   const renderSection = useCallback(() => {
     switch (page) {
       case "earnings" || "home":
-        return <Earnings setPageContent={setPageContent} pageContent={pageContent} />;
+        return <Earnings  />;
       case "my data":
-        return <YourData setPageContent={setPageContent}pageContent={pageContent} />;
+        return <YourData />;
       case "history":
         return <History />;
     }
@@ -46,7 +31,6 @@ const Page = () => {
         return (
 
     <div className="page">
-      <PageHeader selectedTab={page} setSelectedTab={setPage} />
       <div className="page-content">
         {renderSection()}
         <div className="holding-page">
