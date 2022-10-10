@@ -1,7 +1,7 @@
 package lead
 
 import (
-	"github.com/akhil/go-fiber-crm-basic/database"
+	"github.com/quantmn-dao/monorepo/tree/master/apps/backend/database"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
