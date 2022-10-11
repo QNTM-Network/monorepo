@@ -15,10 +15,12 @@ interface Props {
 
 const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
+  const [displayQuants, setDisplayQuants] = useState(quants);
 
 
 	const createQuant = () => {
 
+    setDisplayQuants([...displayQuants, {name: input}]);
       axios.post('/api/quant', {name: input}) 
         .then(
           (response) => {
@@ -34,6 +36,7 @@ const Web = ({quants}: Props) => {
 
 const handleDelete = (quant: IQuant) => {
   console.log("delete");
+  setDisplayQuants(displayQuants.filter((q: IQuant) => q._id !== quant._id));
   const removed = true
   axios.patch(`/api/quant/${quant._id}`, {id: quant._id, removed})
     .then(
@@ -53,7 +56,7 @@ const handleDelete = (quant: IQuant) => {
       <h1>Quantmn Web</h1>
 		<button onClick={createQuant}>New item</button>
 		<input onChange={e => setInput(e.target.value)}/>	
-    {map(quants, (quant, key) => {
+    {map(displayQuants, (quant, key) => {
       return (
         <div key={key}>
           <DataRecord handleDelete={handleDelete} dataRecord={quant} />
