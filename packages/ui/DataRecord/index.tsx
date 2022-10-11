@@ -34,7 +34,6 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               </div>
               </div>
 
-                  <Button label={'Open'}></Button> 
               <div className="time">
                 <p className={styles.data__record__title}>{dataRecord.time}</p>
               </div>

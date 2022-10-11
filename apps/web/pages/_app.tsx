@@ -1,6 +1,6 @@
 import { useState, useEffect , useMemo} from "react";
 import {map} from "lodash";
-import { DataRecord, Header, Button} from "ui";
+import { DataRecord, Header} from "ui";
 
 const dataRecord = {
   title: "title",
@@ -39,7 +39,7 @@ const     newQuants = [...quants, {title: input, time: input, url: input}]
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
       <Header></Header>
       
-      <Button label={'Create Quant'} onClick={createQuant}/>
+      <button onClick={createQuant}>Create New Quant</button>
 		<input onChange={e => setInput(e.target.value)}/>	
     {map(quants, (quant, key) => {
       return (
