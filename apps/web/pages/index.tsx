@@ -4,11 +4,8 @@ import { DataRecord } from "ui";
 import dbConnect from "../utils/dbConnect";
 import axios from "axios";
 import Quant from "../models/Quant";
+import {IQuant} from "../utils/types/index";
 
-
-const handleDelete = () => {
-  console.log("delete");
-};
 
 
 interface Props {
@@ -16,13 +13,11 @@ interface Props {
 }
 
 
-export default function Web({quants}: Props) {
+const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
 
 
-
 	const createQuant = () => {
-    console.log({quants})
 
       axios.post('/api/quant', {name: input}) 
         .then(
@@ -35,6 +30,24 @@ export default function Web({quants}: Props) {
         );
 
 	}
+
+
+const handleDelete = (quant: IQuant) => {
+  console.log("delete");
+  const removed = true
+  axios.patch(`/api/quant/${quant._id}`, {id: quant._id, removed})
+    .then(
+      (response) => {
+        console.log(response);
+      },
+      (err) => {
+        console.log(err.text);
+      }
+    );
+  
+};
+
+
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
       <h1>Quantmn Web</h1>
@@ -51,17 +64,17 @@ export default function Web({quants}: Props) {
   );
 }
 
+export default Web;
+
 export async function getServerSideProps() {
 
   
 await dbConnect();
-  const data = await Quant.find();
-  console.log({data})
+  const data = await Quant.find({removed: false});
 
   const quants = JSON.parse(JSON.stringify(data));
 
   
-console.log({quants})
 
   return { props: { quants } };
 }
