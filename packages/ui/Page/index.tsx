@@ -4,7 +4,7 @@ import  {Earnings}  from "../Earnings/index";
 import {YourData} from "../YourData";
 
 
-const Page = () => {
+export const Page = () => {
   const [pageContent, setPageContent] = useState("");
 	const [page, setPage ] = useState('')
   
@@ -41,5 +41,3 @@ const Page = () => {
 };
 }
 
-
-export default Page;
