@@ -53,7 +53,7 @@ const handleDelete = (quant: IQuant) => {
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-      <Header>Quantmn Web</Header>
+      <Header/>
 		<button onClick={createQuant}>New item</button>
 		<input value={input} onChange={e => setInput(e.target.value)}/>	
     {map(displayQuants, (quant, key) => {
