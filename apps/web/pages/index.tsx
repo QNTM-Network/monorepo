@@ -1,39 +1,38 @@
 import { useState, useEffect , useMemo} from "react";
 import {map} from "lodash";
 import { DataRecord } from "ui";
+import dbConnect from "../utils/dbConnect";
+import axios from "axios";
+import Quant from "../models/Quant";
 
-const dataRecord = {
-  title: "title",
-  time: "time",
-  url: "url",
-};
 
 const handleDelete = () => {
   console.log("delete");
 };
 
-const quants = [ {
-  title: "title",
-  time: "time",
-  url: "url",
-}]
+
+interface Props {
+  quants: any;
+}
 
 
-
-
-export default function Web() {
+export default function Web({quants}: Props) {
 	const [input , setInput] = useState('');
-  const [quants, setQuants] = useState([{
-  title: "title",
-  time: "time",
-  url: "url",
-}]);
 
 
 
 	const createQuant = () => {
-const     newQuants = [...quants, {title: input, time: input, url: input}]
-    setQuants(newQuants);
+    console.log({quants})
+
+      axios.post('/api/quant', {name: input}) 
+        .then(
+          (response) => {
+            setInput( "");
+          },
+          (err) => {
+            console.log(err.text);
+          }
+        );
 
 	}
   return (
@@ -51,3 +50,19 @@ const     newQuants = [...quants, {title: input, time: input, url: input}]
     </div>
   );
 }
+
+export async function getServerSideProps() {
+
+  
+    await dbConnect();
+  const data = await Quant.find();
+  console.log({data})
+
+  const quants = JSON.parse(JSON.stringify(data));
+
+  
+console.log({quants})
+
+  return { props: { quants } };
+}
+
