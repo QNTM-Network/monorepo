@@ -30,7 +30,7 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               <span className="data-record-checkmark"></span>
                 </label>
               <div className={styles.data__record__title}>
-                <p>{dataRecord.title}</p>
+                <p>{dataRecord.name}</p>
               </div>
               </div>
 
