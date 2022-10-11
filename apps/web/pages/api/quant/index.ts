@@ -21,10 +21,26 @@ export default async function handler(
         console.log({name})
         name = startCase(name)
         const created_at = new Date()
-        const user = await Quant.create({name, created_at});
+        const removed = false
+        const user = await Quant.create({name, created_at, removed});
 
 
         return res.status(200).json({ success: true, message: 'Success' });
+      } catch (error: any) {
+        res.status(400).json({ success: false, message: error.message });
+      }
+      break;
+
+    case 'DELETE':
+      try {
+        console.log('trying')
+        let { _id } = body
+          const deleted = await Quant.deleteOne({ _id });
+          if (!deleted) {
+            return res.status(400).json({ success: false, message: 'Not found' });
+          }
+          return res.status(200).json({ success: true, message: 'Success' });
+
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
       }
@@ -34,4 +50,5 @@ export default async function handler(
       res.status(400).json({ success: false });
       break;
   }
+
 }
