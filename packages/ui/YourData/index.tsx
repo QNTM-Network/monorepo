@@ -1,6 +1,7 @@
 import Data from "../Data";
 
-const YourData = ( {} ) => {
+export const YourData = ( {} ) => {
+
 	return (
 		<div>
 			<p className='page-title'>Your Data</p>
@@ -9,5 +10,5 @@ const YourData = ( {} ) => {
 	);
 };
 
-export default YourData;
+
 

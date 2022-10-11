@@ -1,5 +1,5 @@
-import { useState} from "react";
-import { Button } from "../Button"
+import React, { useState, useEffect } from "react";
+
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
 

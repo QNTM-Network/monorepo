@@ -3,7 +3,8 @@ import { useState , useEffect, useContext} from "react";
 import {format } from 'date-fns'
 
 
-const Earnings = ( {} ) => {
+export const Earnings = ( ) => {
+
 	const [balance, setBalance] = useState(null);
 	const [input , setInput] = useState('');
 
@@ -44,4 +45,3 @@ useEffect(() => {
 	);
 };
 
-export default Earnings;
