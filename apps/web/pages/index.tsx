@@ -1,4 +1,4 @@
-import { useState, useEffect , useMemo} from "react";
+import { useState } from "react";
 import {map} from "lodash";
 import { DataRecord } from "ui";
 import dbConnect from "../utils/dbConnect";
@@ -54,7 +54,7 @@ export default function Web({quants}: Props) {
 export async function getServerSideProps() {
 
   
-    await dbConnect();
+await dbConnect();
   const data = await Quant.find();
   console.log({data})
 
