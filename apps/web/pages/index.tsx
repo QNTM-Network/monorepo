@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {map} from "lodash";
-import { DataRecord } from "ui";
+import { DataRecord , Header} from "ui";
 import dbConnect from "../utils/dbConnect";
 import axios from "axios";
 import Quant from "../models/Quant";
@@ -38,7 +38,7 @@ const handleDelete = (quant: IQuant) => {
   console.log("delete");
   setDisplayQuants(displayQuants.filter((q: IQuant) => q._id !== quant._id));
   const removed = true
-  axios.patch(`/api/quant/${quant._id}`, {id: quant._id, removed})
+  axios.patch(`/api/quant/${quant._id}`, {id: quant._id, name: quant.name, })
     .then(
       (response) => {
         console.log(response);
@@ -53,9 +53,9 @@ const handleDelete = (quant: IQuant) => {
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-      <h1>Quantmn Web</h1>
+      <Header>Quantmn Web</Header>
 		<button onClick={createQuant}>New item</button>
-		<input onChange={e => setInput(e.target.value)}/>	
+		<input value={input} onChange={e => setInput(e.target.value)}/>	
     {map(displayQuants, (quant, key) => {
       return (
         <div key={key}>
