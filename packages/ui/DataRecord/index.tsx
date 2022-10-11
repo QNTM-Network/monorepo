@@ -39,7 +39,7 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               </div>
               {selected && (
 
-              <div  onClick={() => handleDelete(dataRecord)}className={selected ? 'delete-slide__selected' :  'delete-slide'}>
+              <div  onClick={() => handleDelete(dataRecord)}className={selected ? styles.deleteSlide__selected : styles.deleteSlide}>
                   <p className="delete-button">
                     Delete
                   </p>
