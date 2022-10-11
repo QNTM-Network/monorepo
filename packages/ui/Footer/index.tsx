@@ -2,6 +2,7 @@
 import React , { useContext , useState}from 'react';
 
 export const Footer = () => {
+
 	const [page, setPage ] = useState('')
 	
 	return (
