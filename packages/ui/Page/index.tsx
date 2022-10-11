@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import  {Earnings}  from "../Earnings/index";
 import {YourData} from "../YourData";
 
+
 const Page = () => {
   const [pageContent, setPageContent] = useState("");
 	const [page, setPage ] = useState('')
@@ -14,6 +15,7 @@ const Page = () => {
         return <Earnings  />;
       case "my data":
         return <YourData />;
+
     }
   }, [page, pageContent])
 

@@ -28,8 +28,6 @@
     "@maticnetwork/maticjs": "^3.5.0",
     "@maticnetwork/maticjs-ethers": "^1.0.2",
     "@metamask/detect-provider": "^1.2.0",
-    "@mui/icons-material": "^5.10.6",
-    "@mui/material": "^5.10.8",
     "@self.id/framework": "^0.3.3",
     "@types/lodash": "^4.14.185",
     "alchemy-sdk": "^2.1.0",

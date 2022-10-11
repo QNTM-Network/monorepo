@@ -4,6 +4,7 @@ import {format } from 'date-fns'
 
 
 export const Earnings = ( ) => {
+
 	const [balance, setBalance] = useState(null);
 	const [input , setInput] = useState('');
 
