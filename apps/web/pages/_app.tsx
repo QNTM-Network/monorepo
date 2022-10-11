@@ -1,5 +1,8 @@
 // import App from 'next/app'
 //
+
+import '../styles/base/_styles.scss'
+
 interface MyAppProps {
   Component:any,
   pageProps: any
