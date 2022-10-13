@@ -2,6 +2,7 @@
 //
 
 import '../styles/base/_styles.scss'
+import { ChakraProvider } from '@chakra-ui/react'
 
 interface MyAppProps {
   Component:any,
@@ -9,8 +10,12 @@ interface MyAppProps {
 }
 
 function MyApp({ Component, pageProps }: MyAppProps) {
-  return <Component {...pageProps} />
-}
+  return (
+    
+    <ChakraProvider>
+<Component {...pageProps} />
+</ChakraProvider>
+  )}
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
