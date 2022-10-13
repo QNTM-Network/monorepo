@@ -1,6 +1,4 @@
-import { useState} from "react";
-
-// @ts-ignore
+import React, { useState, useEffect } from "react";
 
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
@@ -32,7 +30,7 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               <span className="data-record-checkmark"></span>
                 </label>
               <div className={styles.data__record__title}>
-                <p>{dataRecord.title}</p>
+                <p>{dataRecord.name}</p>
               </div>
               </div>
 
@@ -41,7 +39,7 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               </div>
               {selected && (
 
-              <div  onClick={() => handleDelete(dataRecord)}className={selected ? 'delete-slide__selected' :  'delete-slide'}>
+              <div  onClick={() => handleDelete(dataRecord)}className={selected ? styles.deleteSlide__selected : styles.deleteSlide}>
                   <p className="delete-button">
                     Delete
                   </p>

@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { Header} from 'ui' 
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Page from "../components/Page";
 
 export function App() {
 
   return (
     <>
       <Header />
+      <Page />
+      <Footer />
     </>
   );
 }

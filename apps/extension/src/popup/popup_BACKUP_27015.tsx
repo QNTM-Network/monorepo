@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+<<<<<<< HEAD
+import {Header, Footer, Page } from 'ui';
+=======
 import { Header} from 'ui' 
+>>>>>>> d215d3831dab9f1ea9d55ec00ee761cf4335cf78
 
 export function App() {
 

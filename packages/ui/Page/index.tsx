@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { format } from "date-fns";
 
-import  Earnings  from "../Earnings";
-import YourData from "../YourData";
-import History from "../History";
+import  {Earnings}  from "../Earnings/index";
+import {YourData} from "../YourData";
 
-const Page = () => {
+
+export const Page = () => {
   const [pageContent, setPageContent] = useState("");
 	const [page, setPage ] = useState('')
   
@@ -16,8 +15,7 @@ const Page = () => {
         return <Earnings  />;
       case "my data":
         return <YourData />;
-      case "history":
-        return <History />;
+
     }
   }, [page, pageContent])
 
@@ -43,5 +41,3 @@ const Page = () => {
 };
 }
 
-
-export default Page;
