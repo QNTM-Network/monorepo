@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {map} from "lodash";
+import axios from "axios";
+import {Button, Input} from "@mui/material";
+
 import { DataRecord , Header} from "ui";
 import dbConnect from "../utils/dbConnect";
-import axios from "axios";
 import Quant from "../models/Quant";
 import {IQuant} from "../utils/types/index";
-
-
 
 interface Props {
   quants: any;
@@ -54,8 +54,8 @@ const handleDelete = (quant: IQuant) => {
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
       <Header/>
-		<button onClick={createQuant}>New item</button>
-		<input value={input} onChange={e => setInput(e.target.value)}/>	
+		<Button onClick={createQuant}>New item</Button>
+		<Input value={input} onChange={e => setInput(e.target.value)}/>	
     {map(displayQuants, (quant, key) => {
       return (
         <div key={key}>
