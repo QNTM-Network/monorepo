@@ -9,8 +9,10 @@ interface MyAppProps {
 }
 
 function MyApp({ Component, pageProps }: MyAppProps) {
-  return <Component {...pageProps} />
-}
+  return (
+    
+<Component {...pageProps} />
+  )}
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
