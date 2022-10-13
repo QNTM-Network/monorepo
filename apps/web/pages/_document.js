@@ -11,7 +11,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body style={{background: '#414349'}}>
+      <body >
         <Main />
         <NextScript />
       </body>

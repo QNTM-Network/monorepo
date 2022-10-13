@@ -1,5 +1,5 @@
 // import App from 'next/app'
-//
+import { isMobile } from "react-device-detect";
 
 import '../styles/base/_styles.scss'
 
@@ -11,7 +11,9 @@ interface MyAppProps {
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
     
+  <div className={isMobile ? 'mobile' : 'desktop'}>
 <Component {...pageProps} />
+</div>
   )}
 
 // Only uncomment this method if you have blocking data requirements for

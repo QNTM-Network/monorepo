@@ -1,8 +1,9 @@
 @import '../../../styles/base/variables.scss';
+@import '../../../styles/base/mixins.scss';
 
 .data {
   &__record {
-    background-color: black;
+    background-color: $coal;
     display: flex;
     width: 400px;
     height: 50px;
