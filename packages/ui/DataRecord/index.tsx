@@ -9,7 +9,6 @@ interface Props {
 }
 
 
-import { map } from "lodash";
 
 export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
   const [selected, setSelected] = useState(false);
@@ -34,6 +33,7 @@ export const DataRecord = ( { dataRecord , handleDelete}: Props) => {
               </div>
               </div>
 
+<input id="standard-basic"  />
               <div className="time">
                 <p className={styles.data__record__title}>{dataRecord.time}</p>
               </div>
