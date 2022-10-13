@@ -4,3 +4,24 @@
   justify-content: $justify;
   flex-direction: $direction;
 }
+
+
+@mixin for-size($range) {
+  $mobile: 425px;
+  $tablet: 768px;
+  $desktop: 1400px;
+  @if $range == mobile {
+    @media (min-width: $mobile) {
+      @content;
+    }
+  } @else if $range == tablet {
+    @media (min-width: $tablet) {
+      @content;
+    }
+  } @else if $range == desktop {
+    @media (min-width: $desktop) {
+      @content;
+    }
+  }
+}
+
