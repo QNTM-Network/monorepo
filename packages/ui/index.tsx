@@ -7,5 +7,4 @@ export * from "./History/index";
 export * from "./Earnings/index";
 export * from "./Page/index";
 export * from "./YourData/index";
-export * from "./NewQuant/index";
 
