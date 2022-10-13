@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss'
 
 export const Header = () => {
-  const [initialToggle, setInitialToggle] = useState(null)
+
 
 
 	return (
 		<header className={styles.header}>
 					<div className="left-header">
-      <h1>Quantmn Web</h1>
+      <h1 className={styles.header__title}>Quantmn Web</h1>
 					</div>
 					<div className="right-header">
 					
