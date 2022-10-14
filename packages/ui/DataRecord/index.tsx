@@ -52,34 +52,21 @@ const handleClose = () => {
               </div>
               </div>
 
-              <div className="time">
-                <p className={styles.data__record__title}>{dataRecord.time}</p>
-              </div>
               {selected && (
       <Dialog PaperProps={{
     style: { borderRadius: 15, width: 400 },
   }}
   className={styles.modal} open={selected} onClose={handleClose}>
         <div className={styles.modal__container}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>{dataRecord.name}</DialogTitle>
         <DialogContent className={styles.modal__content}>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            {dataRecord.name}
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={() => handleDelete(dataRecord)}>Delete</Button>
         </DialogActions>
         </div>
       </Dialog>
