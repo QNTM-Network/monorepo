@@ -8,9 +8,10 @@ interface MyAppProps {
   pageProps: any
 }
 
+console.log({isMobile})
+
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    
   <div className={isMobile ? 'mobile' : 'desktop'}>
 <Component {...pageProps} />
 </div>
