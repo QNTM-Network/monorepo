@@ -36,8 +36,8 @@ const Web = ({quants}: Props) => {
 
 const handleDelete = (quant: IQuant) => {
   console.log("delete");
-  setDisplayQuants(displayQuants.filter((q: IQuant) => q._id !== quant._id));
-  const removed = true
+  setDisplayQuants(displayQuants.filter((q: IQuant) => q.name !== quant.name));
+  console.log(quant.name, quant._id);
   axios.patch(`/api/quant/${quant._id}`, {id: quant._id, name: quant.name, })
     .then(
       (response) => {
