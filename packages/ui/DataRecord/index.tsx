@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, Button, Box, Typography, Checkbox, DialogTitle, DialogActions, DialogContent, DialogContentText, TextField  } from "@mui/material";
+import { Dialog, Checkbox} from "@mui/material";
+
+import  QuantModal  from './QuatModal/index'
 
 //@ts-ignore
 import styles from "./DataRecord.module.scss";
@@ -58,16 +60,7 @@ const handleClose = () => {
   }}
   className={styles.modal} open={selected} onClose={handleClose}>
         <div className={styles.modal__container}>
-        <DialogTitle>{dataRecord.name}</DialogTitle>
-        <DialogContent className={styles.modal__content}>
-          <DialogContentText>
-            {dataRecord.name}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => handleDelete(dataRecord)}>Delete</Button>
-        </DialogActions>
+          <QuantModal dataRecord={dataRecord} handleDelete={handleDelete} handleClose={handleClose}/>
         </div>
       </Dialog>
     
