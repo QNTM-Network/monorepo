@@ -8,33 +8,44 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { body, method, headers } = req;
+  const { body, method,  query: {id, name}} = req;
 
   await dbConnect();
 
   switch (method) {
-    case "PATCH":
+    case "DELETE":
       try {
-        console.log("trying");
-        console.log(body);
-        let { name, id } = body;
 
         const foundQuant = await Quant.findById(id);
         if (foundQuant) {
-          console.log({ foundQuant });
           const patchedQuant = await Quant.deleteOne({ _id: id });
-          console.log(patchedQuant);
         } else {
-          console.log(name);
-          const startCaseName = startCase(name);
-          const quantByCreated = await Quant.findOne({ name: startCaseName });
+          const quantByCreated = await Quant.findOne({ name: name});
           const deleted = await Quant.deleteOne(quantByCreated);
-          console.log(deleted);
         }
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
       }
       break;
+    case "PATCH":
+      try {
+
+          const { name, reoccurring } = body;
+        const quant = await Quant.findOneAndUpdate(
+          {name: name, reoccuring: reoccurring},
+        );
+
+        if (!quant) {
+          return res.status(400).json({ success: false });
+        }
+       quant.set(body);
+        const updatedQuant = await quant.save();
+        res.status(200).json({ success: true, data: quant });
+      } catch (error: any) {
+        res.status(400).json({ success: false, message: error.message });
+      }
+      break;
+          
 
     default:
       res.status(400).json({ success: false });

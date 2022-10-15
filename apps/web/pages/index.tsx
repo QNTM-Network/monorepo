@@ -1,12 +1,11 @@
 import { useState } from "react";
-import {map} from "lodash";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
 
-import { DataRecord , Header} from "ui";
+import { QuantList, Header} from "ui";
 import dbConnect from "../utils/dbConnect";
-import Quant from "../models/Quant";
 import {IQuant} from "../utils/types/index";
+import  Quant  from '../models/Quant';
 
 interface Props {
   quants: any;
@@ -20,11 +19,14 @@ const Web = ({quants}: Props) => {
 
 	const createQuant = () => {
 
-    setDisplayQuants([...displayQuants, {name: input}]);
       axios.post('/api/quant', {name: input}) 
         .then(
           (response) => {
             setInput( "");
+            const newQuant = response.data.data;
+            console.log({newQuant});
+            setDisplayQuants([...displayQuants, newQuant]);
+            console.log('response in createQuant', response);
           },
           (err) => {
             console.log(err.text);
@@ -34,21 +36,6 @@ const Web = ({quants}: Props) => {
 	}
 
 
-const handleDelete = (quant: IQuant) => {
-  console.log("delete");
-  setDisplayQuants(displayQuants.filter((q: IQuant) => q.name !== quant.name));
-  console.log(quant.name, quant._id);
-  axios.patch(`/api/quant/${quant._id}`, {id: quant._id, name: quant.name, })
-    .then(
-      (response) => {
-        console.log(response);
-      },
-      (err) => {
-        console.log(err.text);
-      }
-    );
-  
-};
 
 
   return (
@@ -56,13 +43,7 @@ const handleDelete = (quant: IQuant) => {
       <Header/>
 		<Button onClick={createQuant}>New item</Button>
 		<Input value={input} onChange={e => setInput(e.target.value)}/>	
-    {map(displayQuants, (quant, key) => {
-      return (
-        <div key={key}>
-          <DataRecord handleDelete={handleDelete} dataRecord={quant} />
-          </div>
-      );
-    })}
+    <QuantList quants={displayQuants} displayQuants={displayQuants} setDisplayQuants={setDisplayQuants}/>
     </div>
   );
 }
