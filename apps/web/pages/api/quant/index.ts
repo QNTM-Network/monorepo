@@ -21,11 +21,11 @@ export default async function handler(
         console.log({name})
         name = startCase(name)
         const created_at = new Date()
-        const removed = false
-        await Quant.create({name, created_at, removed});
+        const quant = await Quant.create({name, created_at, reoccurring: false});
+        console.log({quant})
 
 
-        return res.status(200).json({ success: true, message: 'Success' });
+        return res.status(200).json({ success: true, message: 'Success', data: quant });
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
       }
