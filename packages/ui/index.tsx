@@ -1,10 +1,6 @@
-import * as React from "react";
-export * from "./DataRecord/index";
-export * from "./Earnings/index";
-export * from "./Footer/index";
-export * from "./Header/index";
-export * from "./History/index";
-export * from "./Earnings/index";
-export * from "./Page/index";
-export * from "./YourData/index";
-
+export * from "./components/Quant/index"
+export * from "./components/Earnings/index";
+export * from "./components/Footer/index";
+export * from "./components/Header/index";
+export * from "./components/Earnings/index";
+export * from "./components/QuantList/index";
