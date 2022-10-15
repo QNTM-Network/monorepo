@@ -3,4 +3,5 @@ export interface IQuant{
   name: string;
   created_at: Date;
   reoccurring: boolean;
+  date: Date;
 }
