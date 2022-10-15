@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import  { useState} from "react";
 import { Dialog, Checkbox} from "@mui/material";
 import axios from "axios";
+
+import { addDays } from 'date-fns'
 
 import  QuantModal  from './QuantModal/index'
 import {IQuant} from "../../utils/types/index";
@@ -30,7 +32,6 @@ const style = {
 
 export const Quant = ( {displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
-  const [reoccurring, setReoccurring] = useState(false);
 
 const handleClose = () => {
   console.log("close");
@@ -39,10 +40,28 @@ const handleClose = () => {
 
 
 const handleDelete = (quant: IQuant) => {
-  console.log("delete");
-  setDisplayQuants(displayQuants.filter((q: IQuant) => q.name !== quant.name));
-  console.log(quant.name, quant._id);
-        setSelectedQuant(null);
+
+  if (quant.reoccurring) {
+
+    const dupeQuant = {name: quant.name, reoccurring: true, date: addDays(new Date(quant.created_at), 1)}
+    console.log({dupeQuant})
+    axios.post('/api/quant', dupeQuant)
+      .then(
+        (response) => {
+          console.log('response in deleteQuant', response);
+          console.log({displayQuants});
+
+          
+        },
+        (err) => {
+          console.log(err.text);
+        }
+      );
+  } else {
+    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
+  }
+  
+  setSelectedQuant(null);
   axios.delete(`/api/quant/${quant._id}`, {data: {name: quant.name}})
     .then(
       (response) => {
@@ -58,6 +77,7 @@ const handleDelete = (quant: IQuant) => {
 
   const updateQuantHandler = () => {
     console.log("update");
+    setSelectedQuant(null);
     axios.patch(`/api/quant/${quant._id}`, selectedQuant)
       .then(
         (response) => {

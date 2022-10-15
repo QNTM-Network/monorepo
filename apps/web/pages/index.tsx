@@ -4,7 +4,6 @@ import {Button, Input} from "@mui/material";
 
 import { QuantList, Header} from "ui";
 import dbConnect from "../utils/dbConnect";
-import {IQuant} from "../utils/types/index";
 import  Quant  from '../models/Quant';
 
 interface Props {
@@ -18,6 +17,8 @@ const Web = ({quants}: Props) => {
 
 
 	const createQuant = () => {
+
+    
 
       axios.post('/api/quant', {name: input}) 
         .then(
@@ -54,7 +55,9 @@ export async function getServerSideProps() {
 
   
 await dbConnect();
-  const data = await Quant.find({removed: false});
+  let cutoff = new Date();
+  cutoff.setDate(cutoff.getDate());
+  const data = await Quant.find({date: {$lte: cutoff}})
 
   const quants = JSON.parse(JSON.stringify(data));
 

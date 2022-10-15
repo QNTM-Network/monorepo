@@ -18,10 +18,11 @@ export default async function handler(
 
         const foundQuant = await Quant.findById(id);
         if (foundQuant) {
-          const patchedQuant = await Quant.deleteOne({ _id: id });
+          await Quant.deleteOne({ _id: id });
         } else {
           const quantByCreated = await Quant.findOne({ name: name});
-          const deleted = await Quant.deleteOne(quantByCreated);
+
+          await Quant.deleteOne(quantByCreated);
         }
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
@@ -29,17 +30,15 @@ export default async function handler(
       break;
     case "PATCH":
       try {
-
-          const { name, reoccurring } = body;
-        const quant = await Quant.findOneAndUpdate(
-          {name: name, reoccuring: reoccurring},
+        const quant = await Quant.findOne(
+          {_id: id},
         );
 
         if (!quant) {
           return res.status(400).json({ success: false });
         }
-       quant.set(body);
-        const updatedQuant = await quant.save();
+        quant.set(body)
+        await quant.save();
         res.status(200).json({ success: true, data: quant });
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
