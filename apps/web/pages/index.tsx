@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
 
-import { QuantList, Header} from "ui";
+import { QuantList} from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
 
@@ -43,7 +43,6 @@ const Web = ({quants}: Props) => {
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-      <Header/>
 		<Button onClick={createQuant}>New item</Button>
 		<Input value={input} onChange={e => setInput(e.target.value)}/>	
     <QuantList quants={displayQuants} displayQuants={displayQuants} setDisplayQuants={setDisplayQuants}/>

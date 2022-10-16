@@ -5,7 +5,6 @@
   &__record {
     background-color: $coal;
     display: flex;
-    width: 400px;
     height: 50px;
     align-self: stretch;
     flex-grow: 0;
@@ -13,6 +12,7 @@
     padding: 3px 15.5px 4px;
     opacity: 0.8;
     border-radius: 8px;
+    margin: 10px;
 
     &__left {
       display: flex;
