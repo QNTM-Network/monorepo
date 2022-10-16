@@ -15,6 +15,8 @@ const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
   const [displayQuants, setDisplayQuants] = useState(quants);
 
+  console.log({displayQuants})
+
 
 	const createQuant = () => {
 
