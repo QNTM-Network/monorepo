@@ -3,7 +3,11 @@ import {Header} from '../Header/index';
 
 import styles from './Layout.module.scss';
 
-export function Layout({ children }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export function Layout({ children }: Props) {
   return (
     <div className={styles.layout}>
 			<Header/>
