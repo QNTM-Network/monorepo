@@ -45,9 +45,10 @@ const handleDelete = (quant: IQuant) => {
 
   if (quant.reoccurring) {
 
-    const dupeQuant = {name: quant.name, reoccurring: true, date: addDays(quant.created_at, 1)}
+    const dupeQuant = {name: quant.name, reoccurring: true, date: format(addDays(new Date(quant.created_at), 1), 'yyyy-MM-dd')}
     console.log({dupeQuant})
     axios.post('/api/quant', dupeQuant)
+
       .then(
         (response) => {
           console.log('response in deleteQuant', response);
@@ -59,9 +60,8 @@ const handleDelete = (quant: IQuant) => {
           console.log(err.text);
         }
       );
-  } else {
-    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   }
+    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   
   setSelectedQuant(null);
   axios.delete(`/api/quant/${quant._id}`, {data: {name: quant.name}})
