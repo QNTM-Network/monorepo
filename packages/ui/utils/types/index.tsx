@@ -4,4 +4,11 @@ export interface IQuant{
   created_at: Date;
   reoccurring: boolean;
   date: Date;
+  tags: string[];
+}
+
+
+export interface IQuantsByTags {
+  tag: string;
+  quants: IQuant[];
 }
