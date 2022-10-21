@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
+import { get, find, map} from "lodash";
 
-import { QuantList} from "ui";
+import { getQuantsByTags } from "../utils/quantsByTags";
+import { QuantList, Tags, IQuant, IQuantsByTags } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
+
 
 interface Props {
   quants: any;
@@ -13,14 +16,49 @@ interface Props {
 
 const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
-  const [displayQuants, setDisplayQuants] = useState(quants);
+  const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
+  const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
+  const [selectedQuants, setSelectedQuants] = useState([]);
+  const [filter, setFilter] = useState("ViewAll");
+  const [tags, setTags] = useState([]);
 
   console.log({displayQuants})
 
+  useEffect(() => {
+    if (quants) {
+      //@ts-ignore
+      setQuantsByTags(getQuantsByTags(quants));
+
+    }
+  }, [quants]);
+
+
+
+  useEffect(() => {
+    if (quantsByTags) {
+      const quants = get(quantsByTags, filter, []);
+      setDisplayQuants(quants);
+    }
+
+      //@ts-ignore
+    const tags = map(quantsByTags, "tag");
+      //@ts-ignore
+    setTags(tags);
+      //@ts-ignore
+    setDisplayQuants((find(quantsByTags, (tag) => tag.tag === "ViewAll")))
+    
+      
+
+  }, [quantsByTags]);
+
+  useEffect(() => {
+    if (filter) {
+      //@ts-ignore
+      setDisplayQuants((quantsByTags?.find((t) => t.tag === filter) || { quants: [] }).quants);
+    }
+  }, [filter, quantsByTags]);
 
 	const createQuant = () => {
-
-    
 
       axios.post('/api/quant', {name: input}) 
         .then(
@@ -40,12 +78,12 @@ const Web = ({quants}: Props) => {
 
 
 
-
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
 		<Button onClick={createQuant}>New item</Button>
 		<Input value={input} onChange={e => setInput(e.target.value)}/>	
-    <QuantList quants={displayQuants} displayQuants={displayQuants} setDisplayQuants={setDisplayQuants}/>
+    <Tags  setFilter={setFilter} tags={tags}/>
+    <QuantList  quants={displayQuants} displayQuants={displayQuants} setDisplayQuants={setDisplayQuants}/>
     </div>
   );
 }
