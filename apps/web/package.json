@@ -24,8 +24,7 @@
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.4",
-    "ui": "*",
-    "wagmi": "^0.7.5"
+    "ui": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
