@@ -1,20 +1,27 @@
-// import App from 'next/app'
+import { WagmiConfig} from 'wagmi'
 
-import { Layout    } from 'ui'
-import '../styles/base/_styles.scss'
+import { store } from '../store';
+import { Layout } from '../components/Layout';
+import { Provider } from 'react-redux';
+import { client  } from '../utils/wagmiConfiguration'
+import "../styles/base/_styles.scss";
 
 interface MyAppProps {
-  Component:any,
-  pageProps: any
+  Component: any;
+  pageProps: any;
 }
-
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    <Layout>
-<Component {...pageProps} />
-  </Layout>
-  )}
+    <WagmiConfig client={client}>
+    <Provider store={store}>
+      <Layout >
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
+    </WagmiConfig>
+  );
+}
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
@@ -28,4 +35,4 @@ function MyApp({ Component, pageProps }: MyAppProps) {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default MyApp;

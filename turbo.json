@@ -11,5 +11,8 @@
     "dev": {
       "cache": false
     }
-  }
+  },
+    "globalEnv": [
+      "JWT_SECRET"
+    ]
 }
