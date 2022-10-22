@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
 import { get, find, map} from "lodash";
-import { useAccount, useConnect, useEnsName } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
 
 import { getQuantsByTags } from "../utils/quantsByTags";
 import { QuantList, Tags, IQuant, IQuantsByTags } from "ui";
@@ -21,7 +19,6 @@ const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
   const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
-  const [selectedQuants, setSelectedQuants] = useState([]);
   const [filter, setFilter] = useState("ViewAll");
   const [tags, setTags] = useState([]);
 

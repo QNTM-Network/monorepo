@@ -1,9 +1,7 @@
-import { WagmiConfig} from 'wagmi'
 
 import { store } from '../store';
 import { Layout } from '../components/Layout';
 import { Provider } from 'react-redux';
-import { client  } from '../utils/wagmiConfiguration'
 import "../styles/base/_styles.scss";
 
 interface MyAppProps {
@@ -13,13 +11,11 @@ interface MyAppProps {
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    <WagmiConfig client={client}>
     <Provider store={store}>
       <Layout >
         <Component {...pageProps} />
       </Layout>
     </Provider>
-    </WagmiConfig>
   );
 }
 

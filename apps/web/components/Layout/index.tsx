@@ -1,7 +1,5 @@
 // components/layout.js
 import {Header} from 'ui' 
-import { useAccount, useConnect, useEnsName , WagmiConfig} from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
 
 import  useWallet from '../../hooks/useWallet';
 
@@ -14,21 +12,13 @@ interface Props {
 export function Layout({ children }: Props) {
 
   const {handleLogin, isLoading} = useWallet();
- const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  })
 
   const login = () => {
-    connect()
-    if (address) {
-      handleLogin(address)
-    }
+      handleLogin('0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0')
   }
   return (
     <div className={styles.layout}>
-			<Header address={address} isConnected={isConnected} login={login}/>
+			<Header address={'0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0'} login={login}/>
       <main>{children}</main>
     </div>
   )
