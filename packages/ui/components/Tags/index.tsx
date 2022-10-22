@@ -9,7 +9,6 @@ import styles from "./QuantsByTags.module.scss";
 
 export const Tags = ({ tags, setFilter}: Props) => {
 
-
   return (
     <div className={styles.tags}>
       {tags?.map((tag) => (
