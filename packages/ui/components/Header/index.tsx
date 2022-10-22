@@ -12,7 +12,7 @@ interface Props {
 	address: string | undefined;
 }
 
-export const Header = ({login, isConnected, address}: Props) => {
+export const Header = ({login, address}: Props) => {
 
 
 
@@ -26,8 +26,7 @@ export const Header = ({login, isConnected, address}: Props) => {
 					</div>
 					<div className={styles.header__right}>
 					
-						{console.log('isConnected', isConnected)}
-	{isConnected ? <div style={{color: 'white'}}>Connected to {address}</div> : <button onClick={() => login()}>Connect Wallet</button>}
+	 <div style={{color: 'white'}}>Connected to {address}</div>
 					</div>
 		</header>
 	);

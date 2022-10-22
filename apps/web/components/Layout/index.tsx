@@ -15,11 +15,10 @@ export function Layout({ children }: Props) {
 
   const login = () => {
       handleLogin('0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0')
-    }
   }
   return (
     <div className={styles.layout}>
-			<Header address={address} isConnected={isConnected} login={login}/>
+			<Header address={'0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0'} login={login}/>
       <main>{children}</main>
     </div>
   )
