@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
 import { get, find, map} from "lodash";
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 import { getQuantsByTags } from "../utils/quantsByTags";
 import { QuantList, Tags, IQuant, IQuantsByTags } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
+import  useWallet from '../hooks/useWallet';
 
 
 interface Props {
@@ -22,7 +25,25 @@ const Web = ({quants}: Props) => {
   const [filter, setFilter] = useState("ViewAll");
   const [tags, setTags] = useState([]);
 
-  console.log({displayQuants})
+	const createQuant = () => {
+
+      axios.post('/api/quant', {name: input}) 
+        .then(
+          (response) => {
+            setInput( "");
+            const newQuant = response.data.data;
+            console.log({newQuant});
+            setDisplayQuants([...displayQuants, newQuant]);
+            console.log('response in createQuant', response);
+          },
+          (err) => {
+            console.log(err.text);
+          }
+        );
+
+	}
+
+
 
   useEffect(() => {
     if (quants) {
@@ -31,7 +52,6 @@ const Web = ({quants}: Props) => {
 
     }
   }, [quants]);
-
 
 
   useEffect(() => {
@@ -57,25 +77,6 @@ const Web = ({quants}: Props) => {
       setDisplayQuants((quantsByTags?.find((t) => t.tag === filter) || { quants: [] }).quants);
     }
   }, [filter, quantsByTags]);
-
-	const createQuant = () => {
-
-      axios.post('/api/quant', {name: input}) 
-        .then(
-          (response) => {
-            setInput( "");
-            const newQuant = response.data.data;
-            console.log({newQuant});
-            setDisplayQuants([...displayQuants, newQuant]);
-            console.log('response in createQuant', response);
-          },
-          (err) => {
-            console.log(err.text);
-          }
-        );
-
-	}
-
 
 
   return (
