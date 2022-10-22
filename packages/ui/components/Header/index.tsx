@@ -2,13 +2,11 @@
 import React , {useEffect,useState , useContext}from 'react';
 import { Link } from 'react-router-dom';
 
-import { ConnectButton } from '../ConnectButton';
 //@ts-ignore
 import styles from './Header.module.scss'
 
 interface Props {
 	login: () => void;
-	isConnected: boolean;
 	address: string | undefined;
 }
 
