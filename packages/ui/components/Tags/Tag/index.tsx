@@ -3,9 +3,11 @@ interface Props {
 	setFilter: (tag: string) => void;
 }
 
+import styles from "./Tag.module.scss";
+
 export const Tag = ({ tag, setFilter}: Props) => {
 	return (
-		<div onClick={() => setFilter(tag)}>
+		<div className={styles.tag}onClick={() => setFilter(tag)}>
 			{tag}
 		</div>
 	);
