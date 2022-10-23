@@ -45,7 +45,8 @@ const QuantModal = ({
     "Spirituality",
     "Culture & Arts",
     "Social",
-    "Workflow"
+    "Workflow",
+    "Quantmn"
   ];
 
   const [tags, setTags] = useState([]);
