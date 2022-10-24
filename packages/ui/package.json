@@ -5,18 +5,24 @@
   "types": "./index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint *.ts*"
+    "lint": "eslint *.ts*",
+    "test": "jest"
   },
   "devDependencies": {
+    "@testing-library/react": "13.3.0",
+    "@testing-library/user-event": "14.2.0",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
+    "jest": "28.1.1",
+    "jest-environment-jsdom": "28.1.1",
     "react": "^18.2.0",
     "tsconfig": "*",
     "typescript": "^4.5.2"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.19.4",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/roboto": "^4.5.8",
