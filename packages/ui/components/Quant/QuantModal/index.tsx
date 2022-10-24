@@ -47,7 +47,7 @@ const QuantModal = ({
     "Social",
     "Workflow",
     "Quantmn",
-    "Accountability""
+    "Accountability"
   ];
 
   const [tags, setTags] = useState([]);

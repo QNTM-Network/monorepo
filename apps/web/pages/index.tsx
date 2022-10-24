@@ -4,7 +4,7 @@ import {Button, Input} from "@mui/material";
 import { get, find, map} from "lodash";
 
 import { getQuantsByTags } from "../utils/quantsByTags";
-import { QuantList, Tags, IQuant, IQuantsByTags } from "ui";
+import { QuantList, Tags, IQuant, IQuantsByTags, NewQuantSection } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
 import  useWallet from '../hooks/useWallet';
@@ -78,8 +78,7 @@ const Web = ({quants}: Props) => {
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-		<Button onClick={createQuant}>New item</Button>
-		<Input value={input} onChange={e => setInput(e.target.value)}/>	
+      <NewQuantSection createQuant={createQuant} input={input} setInput={setInput} />
     <Tags  setFilter={setFilter} tags={tags}/>
     <QuantList  quants={displayQuants} displayQuants={displayQuants} setDisplayQuants={setDisplayQuants}/>
     </div>

@@ -6,5 +6,6 @@ export * from "./components/Earnings/index";
 export * from "./components/QuantList/index";
 export * from "./components/Tags/index";
 export * from "./components/Tags/Tag/index";
+export * from "./components/NewQuantSection/index";
 
 export * from "./utils/types/index";
