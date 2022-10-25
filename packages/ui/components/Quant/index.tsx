@@ -73,6 +73,15 @@ const handleDelete = (quant: IQuant) => {
   const updateQuantHandler = () => {
     console.log("update");
     setSelectedQuant(null);
+    // remove the quant from displayQuants and replace it with selected quant
+    setDisplayQuants(
+      displayQuants.map((q) => {
+        if (q._id === selectedQuant?._id) {
+          return selectedQuant;
+        }
+        return q;
+      })
+    );
     axios.patch(`/api/quant/${quant._id}`, selectedQuant)
       .then(
         (response) => {

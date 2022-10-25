@@ -65,7 +65,12 @@ const QuantModal = ({
 
   return (
     <>
-      <DialogTitle>{quant.name}</DialogTitle>
+      <Input
+        value={selectedQuant.name}
+        onChange={(e) => {
+          setSelectedQuant({ ...selectedQuant, name: e.target.value });
+        }}
+      />
       <DialogContent className={styles.modal__content}>
         <Typography>Repeat</Typography>
        <Box>
