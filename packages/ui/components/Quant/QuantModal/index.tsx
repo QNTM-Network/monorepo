@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo , useEffect} from "react";
 import axios from "axios";
 
 import {
+  Input,
   InputAdornment,
   ListSubheader,
   MenuItem,
@@ -51,40 +52,52 @@ const QuantModal = ({
   ];
 
   const [tags, setTags] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
 
   const containsText = (text: string, searchText: string) =>
     text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-  const [searchText, setSearchText] = useState("");
   const displayedOptions = useMemo(
     () => allOptions.filter((option) => containsText(option, searchText)),
     [searchText]
   );
 
 
-  const handleClose = () => {
-      setSelectedQuant({...selectedQuant, tags: tags})
-    setSearchText("")
-  };
-
   return (
     <>
       <DialogTitle>{quant.name}</DialogTitle>
       <DialogContent className={styles.modal__content}>
-        <DialogContentText>{quant.name}</DialogContentText>
         <Typography>Repeat</Typography>
-        <Checkbox
-          className={styles.modal__content__checkbox}
-          value="check"
-          checked={selectedQuant?.reoccurring}
-          onChange={() =>
-            setSelectedQuant({
-              ...selectedQuant,
-              reoccurring: !selectedQuant.reoccurring,
-            })
-          }
-        />
-        <Select multiple input={<TextField />} sx={{ width: 300 }} />
+       <Box>
+
+         <FormControl>
+        <Select
+         className={styles.modal__content__period}
+          value={selectedQuant.period}
+          onChange={(e) => setSelectedQuant({...selectedQuant, period: e.target.value})}
+       >
+        <MenuItem value={'Daily'}>
+          Daily
+        </MenuItem>
+        
+
+        <MenuItem value={'Two'}>
+         Two Days
+        </MenuItem>
+        
+        <MenuItem value={'Three'}>
+         Three Days 
+        </MenuItem>
+
+        <MenuItem value={'Weekly'}>
+         Weekly
+
+        </MenuItem>
+     </Select>
+
+      </FormControl>
+       </Box>
+       <Input onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
         <Box sx={{ m: 10 }}>
           <FormControl fullWidth>
             <InputLabel id="search-select-label">Tags</InputLabel>
@@ -98,7 +111,6 @@ const QuantModal = ({
               label="Tag"
               // @ts-ignore
               onChange={(e) => setTags(e.target.value)}
-              onClose={handleClose}
               // This prevents rendering empty string in Select's value
               // if search text would exclude currently selected option.
               renderValue={() => tags}
