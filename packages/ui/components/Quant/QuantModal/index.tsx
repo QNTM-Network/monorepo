@@ -70,6 +70,7 @@ const QuantModal = ({
         onChange={(e) => {
           setSelectedQuant({ ...selectedQuant, name: e.target.value });
         }}
+          sx={{ width: 300, display: "flex", alignItems: "center" }}
       />
       <DialogContent className={styles.modal__content}>
         <Typography>Repeat</Typography>
