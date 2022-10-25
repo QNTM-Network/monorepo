@@ -2,8 +2,7 @@ import  { useState} from "react";
 import { Dialog, Checkbox} from "@mui/material";
 import axios from "axios";
 
-import { addDays , format} from 'date-fns'
-
+import { getDateFromPeriod } from '../../utils/dates';
 import  QuantModal  from './QuantModal/index'
 import {IQuant} from "../../utils/types/index";
 
@@ -34,27 +33,21 @@ export const Quant = ( {displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 const handleClose = () => {
-  console.log("close");
   setSelectedQuant(null);
 };
 
-console.log('date format test', format(new Date(), 'yyyy-MM-dd'))
 
 
 const handleDelete = (quant: IQuant) => {
 
-  if (quant.reoccurring) {
+  if (quant.period) {
 
-    const dupeQuant = {name: quant.name, reoccurring: true, date: format(addDays(new Date(quant.created_at), 1), 'yyyy-MM-dd')}
-    console.log({dupeQuant})
+    const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, quant.created_at),period: quant.period}
     axios.post('/api/quant', dupeQuant)
 
       .then(
         (response) => {
           console.log('response in deleteQuant', response);
-          console.log({displayQuants});
-
-          
         },
         (err) => {
           console.log(err.text);

@@ -4,7 +4,8 @@ import { IQuant } from 'ui'
 const QuantSchema = new mongoose.Schema<IQuant>({
   name: { type: String },
   created_at: { type: Date },
-  reoccurring: { type: Boolean },
+  period: { type: String },
+  notes: { type: String },
   date: { type: Date },
   tags: [{ type: String }],
 });
