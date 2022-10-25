@@ -46,7 +46,7 @@ const Web = ({quants}: Props) => {
     if (quants) {
       //@ts-ignore
       setQuantsByTags(getQuantsByTags(quants));
-
+      console.log({quantsByTags});
     }
   }, [quants]);
 
@@ -55,6 +55,7 @@ const Web = ({quants}: Props) => {
     if (quantsByTags) {
       const quants = get(quantsByTags, filter, []);
       setDisplayQuants(quants);
+      console.log({displayQuants});
     }
 
       //@ts-ignore
@@ -75,6 +76,7 @@ const Web = ({quants}: Props) => {
     }
   }, [filter, quantsByTags]);
 
+  console.log({displayQuants, quantsByTags});
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>

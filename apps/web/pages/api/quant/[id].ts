@@ -30,6 +30,8 @@ export default async function handler(
       break;
     case "PATCH":
       try {
+
+        console.log("body", body);
         const quant = await Quant.findOne(
           {_id: id},
         );
@@ -38,7 +40,8 @@ export default async function handler(
           return res.status(400).json({ success: false });
         }
         quant.set(body)
-        await quant.save();
+        const saveQuant = await quant.save();
+        console.log("saveQuant", saveQuant);
         res.status(200).json({ success: true, data: quant });
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
