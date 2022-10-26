@@ -4,14 +4,17 @@ import axios from "axios";
 
 import { getDateFromPeriod } from '../../utils/dates';
 import  QuantModal  from './QuantModal/index'
-import {IQuant} from "../../utils/types/index";
+import {IQuant, IQuantsByTags } from "../../utils/types/index";
 
-import styles from "./Quant.module.scss";
+// @ts-ignore
+import styles from "./QuantItem.module.scss";
 
 interface Props {
   quant: any;
   setDisplayQuants: (quants: IQuant[]) => void;
   displayQuants: IQuant[];
+  setQuantsByTags: (quants: IQuantsByTags) => void;
+  quantsByTags?: IQuantsByTags;
 }
 
 const style = {
@@ -29,7 +32,7 @@ const style = {
 };
 
 
-export const Quant = ( {displayQuants, setDisplayQuants,  quant}: Props) => {
+export const QuantItem = ( {setQuantsByTags, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 const handleClose = () => {
@@ -72,16 +75,19 @@ const handleDelete = (quant: IQuant) => {
 
   const updateQuantHandler = () => {
     console.log("update");
-    setSelectedQuant(null);
     // remove the quant from displayQuants and replace it with selected quant
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === selectedQuant?._id) {
+          console.log("choosing selected quant");
           return selectedQuant;
         }
         return q;
       })
     );
+
+    setSelectedQuant(null);
+    console.log({selectedQuant, displayQuants, quantsByTags});
     axios.patch(`/api/quant/${quant._id}`, selectedQuant)
       .then(
         (response) => {

@@ -48,7 +48,12 @@ const QuantModal = ({
     "Social",
     "Workflow",
     "Quantmn",
-    "Accountability"
+    "Accountability",
+    "Chill",
+    "Health",
+    "Fitness",
+    "Quality of Life",
+    "Interesting"
   ];
 
   const [tags, setTags] = useState([]);
@@ -112,14 +117,13 @@ const QuantModal = ({
               MenuProps={{ autoFocus: false }}
               labelId="search-select-label"
               id="search-select"
-              value={tags}
+              value={selectedQuant.tags}
               multiple
               label="Tag"
               // @ts-ignore
-              onChange={(e) => setTags(e.target.value)}
+              onChange={(e) => setSelectedQuant({...selectedQuant, tags: e.target.value})}
               // This prevents rendering empty string in Select's value
               // if search text would exclude currently selected option.
-              renderValue={() => tags}
             >
               {/* TextField is put into ListSubheader so that it doesn't
               act as a selectable item in the menu
