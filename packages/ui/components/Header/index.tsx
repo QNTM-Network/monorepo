@@ -24,7 +24,6 @@ export const Header = ({login, address}: Props) => {
 					</div>
 					<div className={styles.header__right}>
 					
-	 <div style={{color: 'white'}}>Connected to {address}</div>
 					</div>
 		</header>
 	);
