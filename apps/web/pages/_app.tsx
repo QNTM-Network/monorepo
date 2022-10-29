@@ -3,6 +3,8 @@ import { store } from '../store';
 import { Layout } from '../components/Layout';
 import { Provider } from 'react-redux';
 import "../styles/base/_styles.scss";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 interface MyAppProps {
   Component: any;
@@ -11,11 +13,13 @@ interface MyAppProps {
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <Provider store={store}>
       <Layout >
         <Component {...pageProps} />
       </Layout>
     </Provider>
+    </LocalizationProvider>
   );
 }
 
