@@ -23,8 +23,44 @@ export const getQuantsByTags = (quants: IQuant[]) => {
           });
         }
       });
+
+      // add quant to period tag
+      const existingPeriodTag = find(quantsByTags, {
+        tag: quant.period,
+      });
+      if (existingPeriodTag) {
+        existingPeriodTag.quants.push(quant);
+      } else {
+        if (quant.period) {
+        quantsByTags.push({
+          tag: quant.period,
+          quants: [quant],
+        });
+          
+      }
     }
-  });
+
+      const project = find(quantsByTags, {
+        tag: 'Projects'
+      })
+      if (!project) {
+        const  existingTaskTag = find(quantsByTags, {
+          tag: 'Task'
+        });
+        if (existingTaskTag) {
+          existingTaskTag.quants.push(quant)
+        } else {
+        quantsByTags.push({
+          tag: 'Task',
+          quants: [quant]
+        })
+          
+      }
+        
+  } 
+  }});
+
+  console.log({ quantsByTags });
 
   return quantsByTags;
 };
