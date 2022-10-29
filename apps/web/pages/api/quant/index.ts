@@ -18,13 +18,12 @@ export default async function handler(
     case 'POST':
       try {
         console.log('trying')
-        let { name, reoccurring, date} = body
+        let { name, date, period} = body
         console.log({date})
         name = startCase(name)
         const created_at = new Date()
-        const final_reocurring = reoccurring ? reoccurring : false
         const final_date = date ? date : new Date()
-        const quant = await Quant.create({name, created_at, reoccurring: final_reocurring, date: final_date});
+        const quant = await Quant.create({name, created_at, period, date: final_date});
         console.log({quant})
 
 
