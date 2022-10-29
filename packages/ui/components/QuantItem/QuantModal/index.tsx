@@ -41,6 +41,7 @@ const QuantModal = ({
   selectedQuant,
 }: Props) => {
   const allOptions = [
+    "Projects",
     "AA",
     "Career",
     "Spirituality",
