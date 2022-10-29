@@ -1,7 +1,10 @@
 import { find, forEach } from "lodash";
 import { IQuant } from "ui"
 
-export const getQuantsByTags = (quants: IQuant[]) => {
+export const getQuantsByTags = (allQuants: IQuant[], user: string) => {
+
+  let quants = allQuants.filter((quant) => quant.user === user);
+
   const quantsByTags = [
     {
       tag: "ViewAll",

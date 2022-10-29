@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import {Button, Input} from "@mui/material";
 import { get, find, map} from "lodash";
+import { ethers } from "ethers";
 
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+import { setUser  } from "../store/reducers/userSlice";
 import { getQuantsByTags } from "../utils/quantsByTags";
 import { QuantItem, Tags, IQuant, IQuantsByTags, NewQuantSection } from "ui";
 import dbConnect from "../utils/dbConnect";
@@ -19,12 +22,56 @@ const Web = ({quants}: Props) => {
 	const [input , setInput] = useState('');
   const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
-  const [filter, setFilter] = useState("ViewAll");
+  const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
+  const [userAddress, setUserAddress] = useState("");
+  const dispatch = useAppDispatch();
+
+
+function handleEthereum() {
+  const { ethereum } = window;
+  if (ethereum && ethereum.isMetaMask) {
+    console.log('Ethereum successfully detected!');
+    connectMetaMask(ethereum.selectedAddress)
+    console.log('ethereum', ethereum)
+    setInput(ethereum.selectedAddress)
+    // Access the decentralized web!
+  } else {
+
+    setInput('Please install MetaMask!')
+    console.log('Please install MetaMask!');
+  }
+}
+
+  useEffect(() => {
+
+    if (window.ethereum) {
+    handleEthereum();
+  } else {
+    window.addEventListener('ethereum#initialized', handleEthereum, {
+      once: true,
+    });
+
+    // If the event is not dispatched by the end of the timeout,
+    // the user probably doesn't have MetaMask installed.
+    setTimeout(handleEthereum, 3000); // 3 seconds
+  }
+  }, [quants])
+
+  const connectMetaMask = async (address: string) => {
+    if (address) {
+      dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
+          setUserAddress(address);
+    } else {
+      alert("install metamask extension!!");
+    }
+  };
+
+
 
 	const createQuant = () => {
 
-      axios.post('/api/quant', {name: input}) 
+      axios.post('/api/quant', {name: input, user: userAddress})
         .then(
           (response) => {
             setInput( "");
@@ -45,10 +92,11 @@ const Web = ({quants}: Props) => {
   useEffect(() => {
     if (quants) {
       //@ts-ignore
-      setQuantsByTags(getQuantsByTags(quants));
+
+      setQuantsByTags(getQuantsByTags(quants, userAddress));
       console.log({quantsByTags});
     }
-  }, [quants]);
+  }, [userAddress]);
 
 
   useEffect(() => {

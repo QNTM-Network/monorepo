@@ -6,6 +6,7 @@ export interface IQuant{
   notes: string;
   date?: Date;
   tags: string[];
+  user: string;
 }
 
 export interface IUser{
