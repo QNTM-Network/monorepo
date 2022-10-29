@@ -114,7 +114,7 @@ const QuantModal = ({
           label="Date mobile"
           inputFormat="MM/dd/yyyy"
           value={selectedQuant.date}
-          onChange={(e) => setSelectedQuant({...selectedQuant, date: e})}
+          onChange={(e) => setSelectedQuant({...selectedQuant, date: e ? e : selectedQuant.date} )}
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>

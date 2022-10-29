@@ -4,7 +4,7 @@ export interface IQuant{
   created_at: Date;
   period: string;
   notes: string;
-  date: Date;
+  date?: Date;
   tags: string[];
 }
 
