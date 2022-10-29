@@ -9,17 +9,14 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Dialog,
   Button,
   Box,
   Typography,
-  Checkbox,
-  DialogTitle,
   DialogActions,
   DialogContent,
-  DialogContentText,
   TextField,
 } from "@mui/material";
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
 
 import styles from "./QuantModal.module.scss";
@@ -57,7 +54,6 @@ const QuantModal = ({
     "Interesting"
   ];
 
-  const [tags, setTags] = useState([]);
   const [searchText, setSearchText] = useState("");
 
 
@@ -71,6 +67,9 @@ const QuantModal = ({
 
   return (
     <>
+      <DialogContent className={styles.modal__content}>
+       <Box>
+
       <Input
         value={selectedQuant.name}
         onChange={(e) => {
@@ -78,10 +77,9 @@ const QuantModal = ({
         }}
           sx={{ width: 300, display: "flex", alignItems: "center" }}
       />
-      <DialogContent className={styles.modal__content}>
-        <Typography>Repeat</Typography>
-       <Box>
 
+    <Box>
+        <Typography>Repeat</Typography>
          <FormControl>
         <Select
          className={styles.modal__content__period}
@@ -106,10 +104,20 @@ const QuantModal = ({
 
         </MenuItem>
      </Select>
-
       </FormControl>
+    </Box>
        </Box>
        <Input onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
+       <Box sx={{ m: 10 }}>
+  <MobileDatePicker
+    
+          label="Date mobile"
+          inputFormat="MM/dd/yyyy"
+          value={selectedQuant.date}
+          onChange={(e) => setSelectedQuant({...selectedQuant, date: e})}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </Box>
         <Box sx={{ m: 10 }}>
           <FormControl fullWidth>
             <InputLabel id="search-select-label">Tags</InputLabel>
