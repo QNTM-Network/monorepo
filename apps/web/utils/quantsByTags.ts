@@ -1,4 +1,4 @@
-import { get, find, orderBy, contains, forEach } from "lodash";
+import { find, forEach } from "lodash";
 import { IQuant } from "ui"
 
 export const getQuantsByTags = (quants: IQuant[]) => {
