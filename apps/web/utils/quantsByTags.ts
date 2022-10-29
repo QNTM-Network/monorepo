@@ -1,4 +1,4 @@
-import { get, find, orderBy, forEach } from "lodash";
+import { get, find, orderBy, contains, forEach } from "lodash";
 import { IQuant } from "ui"
 
 export const getQuantsByTags = (quants: IQuant[]) => {
@@ -40,18 +40,18 @@ export const getQuantsByTags = (quants: IQuant[]) => {
       }
     }
 
-      const project = find(quantsByTags, {
-        tag: 'Projects'
-      })
+      const project = quant.tags.indexOf(
+        'Projects'
+      ) > -1
       if (!project) {
         const  existingTaskTag = find(quantsByTags, {
-          tag: 'Task'
+          tag: 'Tasks'
         });
         if (existingTaskTag) {
           existingTaskTag.quants.push(quant)
         } else {
         quantsByTags.push({
-          tag: 'Task',
+          tag: 'Tasks',
           quants: [quant]
         })
           
