@@ -32,6 +32,7 @@ const Web = ({quants}: Props) => {
 
     if (window.ethereum) {
     handleEthereum();
+
   } else {
     window.addEventListener('ethereum#initialized', handleEthereum, {
       once: true,
@@ -43,14 +44,14 @@ const Web = ({quants}: Props) => {
   }
   }, [quants])
 
-function handleEthereum() {
+async function handleEthereum() {
   const { ethereum } = window;
   if (ethereum && ethereum.isMetaMask) {
-    setInput(ethereum.selectedAddress);
+const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    console.log('acc', accounts);
     console.log('Ethereum successfully detected!');
-    connectMetaMask(ethereum.selectedAddress)
+    connectMetaMask(ethereum.selectedAddress, ethereum)
     console.log('ethereum', ethereum)
-    setInput(ethereum.selectedAddress)
     // Access the decentralized web!
   } else {
 
@@ -60,7 +61,8 @@ function handleEthereum() {
 }
 
 
-  const connectMetaMask = async (address: string) => {
+  const connectMetaMask = async (address: string, ethereum: any) => {
+    console.log('ethereum', ethereum)
     setInput(address)
     if (address) {
       dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
