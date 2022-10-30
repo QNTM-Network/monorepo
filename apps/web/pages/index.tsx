@@ -28,21 +28,6 @@ const Web = ({quants}: Props) => {
   const dispatch = useAppDispatch();
 
 
-function handleEthereum() {
-  const { ethereum } = window;
-  if (ethereum && ethereum.isMetaMask) {
-    console.log('Ethereum successfully detected!');
-    connectMetaMask(ethereum.selectedAddress)
-    console.log('ethereum', ethereum)
-    setInput(ethereum.selectedAddress)
-    // Access the decentralized web!
-  } else {
-
-    setInput('Please install MetaMask!')
-    console.log('Please install MetaMask!');
-  }
-}
-
   useEffect(() => {
 
     if (window.ethereum) {
@@ -58,7 +43,25 @@ function handleEthereum() {
   }
   }, [quants])
 
+function handleEthereum() {
+  const { ethereum } = window;
+  if (ethereum && ethereum.isMetaMask) {
+    setInput(ethereum.selectedAddress);
+    console.log('Ethereum successfully detected!');
+    connectMetaMask(ethereum.selectedAddress)
+    console.log('ethereum', ethereum)
+    setInput(ethereum.selectedAddress)
+    // Access the decentralized web!
+  } else {
+
+    setInput('Please install MetaMask!')
+    console.log('Please install MetaMask!');
+  }
+}
+
+
   const connectMetaMask = async (address: string) => {
+    setInput(address)
     if (address) {
       dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
           setUserAddress(address);
