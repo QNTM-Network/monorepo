@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { App } from "./popup/popup";
+import  App  from "../pages/index";
 
 const app = document.getElementById("app");
 const root = createRoot(app);
