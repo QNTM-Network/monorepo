@@ -7,41 +7,9 @@ import styles from './Header.module.scss'
 
 interface Props {
 	login: () => void;
-	address: string | undefined;
 }
 
-export const Header = ({address}: Props) => {
-
-	const login = () => {
-		// @ts-ignore
-		handleEthereum();
-	};
-
-
-async function handleEthereum() {
-  const { ethereum } = window;
-  if (ethereum && ethereum.isMetaMask) {
-    // @ts-ignore
-const accounts = await ethereum?.request({ method: 'eth_requestAccounts' });
-    console.log('acc', accounts);
-    console.log('Ethereum successfully detected!');
-    connectMetaMask(ethereum.selectedAddress, ethereum)
-    console.log('ethereum', ethereum)
-    // Access the decentralized web!
-  } else {
-
-    console.log('Please install MetaMask!');
-  }
-}
-
-
-  const connectMetaMask = async (address: string, ethereum: any) => {
-    console.log('ethereum', ethereum)
-    if (address) {
-    } else {
-      alert("install metamask extension!!");
-    }
-  };
+export const Header = ({login}: Props) => {
 
 
 	return (

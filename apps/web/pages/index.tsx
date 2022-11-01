@@ -1,16 +1,13 @@
 import { useState, useEffect, useContext} from "react";
 import axios from "axios";
-import {Button, Input} from "@mui/material";
 import { get, find, map} from "lodash";
-import { ethers } from "ethers";
 
-import { useAppDispatch, useAppSelector } from '../hooks/store';
-import { setUser  } from "../store/reducers/userSlice";
+import { useAppSelector } from '../hooks/store';
 import { getQuantsByTags } from "../utils/quantsByTags";
 import { QuantItem, Tags, IQuant, IQuantsByTags, NewQuantSection } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
-import  useWallet from '../hooks/useWallet';
+import type { RootState } from '../configureStore';
 
 
 interface Props {
@@ -24,15 +21,14 @@ const Web = ({quants}: Props) => {
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
-  const [userAddress, setUserAddress] = useState("");
-  const dispatch = useAppDispatch();
 
 
+  const user = useAppSelector((state: RootState) => state.user);
 
 
 	const createQuant = () => {
 
-      axios.post('/api/quant', {name: input, user: userAddress})
+      axios.post('/api/quant', {name: input, user: user.address})
         .then(
           (response) => {
             setInput( "");
@@ -54,10 +50,10 @@ const Web = ({quants}: Props) => {
     if (quants) {
       //@ts-ignore
 
-      setQuantsByTags(getQuantsByTags(quants, userAddress));
+      setQuantsByTags(getQuantsByTags(quants, user.address));
       console.log({quantsByTags});
     }
-  }, [userAddress]);
+  }, [user]);
 
 
   useEffect(() => {

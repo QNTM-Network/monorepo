@@ -1,8 +1,9 @@
 // components/layout.js
 import {Header} from 'ui' 
 
-import  useWallet from '../../hooks/useWallet';
 
+import { setUser  } from "../../store/reducers/userSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/store"
 import styles from './Layout.module.scss';
 
 interface Props {
@@ -11,14 +12,46 @@ interface Props {
 
 export function Layout({ children }: Props) {
 
-  const {handleLogin, isLoading} = useWallet();
 
-  const login = () => {
-      handleLogin('0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0')
+  const dispatch = useAppDispatch();
+
+	const login = () => {
+		// @ts-ignore
+		handleEthereum();
+	};
+
+
+async function handleEthereum() {
+
+  const { ethereum } = window;
+  if (ethereum && ethereum.isMetaMask) {
+    // @ts-ignore
+const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    console.log('acc', accounts);
+    console.log('Ethereum successfully detected!');
+    connectMetaMask(ethereum.selectedAddress, ethereum)
+    console.log('ethereum', ethereum)
+    // Access the decentralized web!
+  } else {
+
+    console.log('Please install MetaMask!');
   }
+}
+
+
+  const connectMetaMask = async (address: string, ethereum: any) => {
+    console.log('ethereum', ethereum)
+    if (address) {
+      dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
+    } else {
+      alert("install metamask extension!!");
+    }
+  };
+
+
   return (
     <div className={styles.layout}>
-			<Header address={'0x9F09de58B6EC16F8Eaf339e854BBE19672180cD0'} login={login}/>
+      <Header login={login}></Header>
       <main>{children}</main>
     </div>
   )
