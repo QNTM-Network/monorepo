@@ -90,7 +90,7 @@ const QuantModal = ({
        >
 
         <MenuItem value={'None'}>
-          Daily
+          None
         </MenuItem>
         <MenuItem value={'Daily'}>
           Daily
