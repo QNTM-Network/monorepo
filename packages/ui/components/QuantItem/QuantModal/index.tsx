@@ -86,6 +86,10 @@ const QuantModal = ({
           value={selectedQuant.period}
           onChange={(e) => setSelectedQuant({...selectedQuant, period: e.target.value})}
        >
+
+        <MenuItem value={'None'}>
+          Daily
+        </MenuItem>
         <MenuItem value={'Daily'}>
           Daily
         </MenuItem>
