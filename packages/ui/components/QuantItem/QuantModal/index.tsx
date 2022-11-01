@@ -52,6 +52,8 @@ const QuantModal = ({
     "Fitness",
     "Quality of Life",
     "Interesting"
+    "Ideas",
+    "Goals"
   ];
 
   const [searchText, setSearchText] = useState("");
@@ -88,7 +90,7 @@ const QuantModal = ({
        >
 
         <MenuItem value={'None'}>
-          Daily
+          None
         </MenuItem>
         <MenuItem value={'Daily'}>
           Daily
