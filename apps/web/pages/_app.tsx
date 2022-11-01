@@ -1,5 +1,5 @@
 
-import { store } from '../store';
+import { store } from '../configureStore';
 import { Layout } from '../components/Layout';
 import { Provider } from 'react-redux';
 import "../styles/base/_styles.scss";
