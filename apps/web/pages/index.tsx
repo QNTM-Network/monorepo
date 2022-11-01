@@ -28,50 +28,6 @@ const Web = ({quants}: Props) => {
   const dispatch = useAppDispatch();
 
 
-  useEffect(() => {
-
-    if (window.ethereum) {
-    handleEthereum();
-
-  } else {
-    window.addEventListener('ethereum#initialized', handleEthereum, {
-      once: true,
-    });
-
-    // If the event is not dispatched by the end of the timeout,
-    // the user probably doesn't have MetaMask installed.
-    setTimeout(handleEthereum, 3000); // 3 seconds
-  }
-  }, [quants])
-
-async function handleEthereum() {
-  const { ethereum } = window;
-  if (ethereum && ethereum.isMetaMask) {
-const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    console.log('acc', accounts);
-    console.log('Ethereum successfully detected!');
-    connectMetaMask(ethereum.selectedAddress, ethereum)
-    console.log('ethereum', ethereum)
-    // Access the decentralized web!
-  } else {
-
-    setInput('Please install MetaMask!')
-    console.log('Please install MetaMask!');
-  }
-}
-
-
-  const connectMetaMask = async (address: string, ethereum: any) => {
-    console.log('ethereum', ethereum)
-    setInput(address)
-    if (address) {
-      dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
-          setUserAddress(address);
-    } else {
-      alert("install metamask extension!!");
-    }
-  };
-
 
 
 	const createQuant = () => {
