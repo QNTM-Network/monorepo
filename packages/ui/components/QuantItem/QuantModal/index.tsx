@@ -52,6 +52,8 @@ const QuantModal = ({
     "Fitness",
     "Quality of Life",
     "Interesting"
+    "Ideas",
+    "Goals"
   ];
 
   const [searchText, setSearchText] = useState("");
