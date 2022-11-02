@@ -43,10 +43,17 @@ export const getQuantsByTags = (allQuants: IQuant[], user: string) => {
       }
     }
 
-      const project = quant.tags.indexOf(
-        'Projects'
-      ) > -1
-      if (!project) {
+
+      const nonTasks = [
+      'Projects',
+      'Ideas',
+      'Goals'
+      ]
+
+      // variable that returns true if quant.tags does not include any of the nonTasks
+      const isTask = nonTasks.some((nonTask) => quant.tags.includes(nonTask));
+
+      if (!isTask) {
         const  existingTaskTag = find(quantsByTags, {
           tag: 'Tasks'
         });
