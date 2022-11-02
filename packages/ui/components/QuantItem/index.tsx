@@ -43,7 +43,7 @@ const handleClose = () => {
 
 const handleDelete = (quant: IQuant) => {
 
-  if (quant.period) {
+  if (quant.period && quant.period !== 'None') {
 
     const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user}
     console.log('dupeQuant', dupeQuant)
