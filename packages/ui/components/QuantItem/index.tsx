@@ -2,7 +2,7 @@ import  { useState} from "react";
 import { Dialog, Checkbox} from "@mui/material";
 import axios from "axios";
 
-import { getDateFromPeriod } from '../../utils/dates';
+import { getDateFromPeriod, getMostRecentDateFromDateOrToday } from '../../utils/dates';
 import  QuantModal  from './QuantModal/index'
 import {IQuant, IQuantsByTags } from "../../utils/types/index";
 
@@ -45,8 +45,7 @@ const handleDelete = (quant: IQuant) => {
 
   if (quant.period) {
 
-
-    const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, quant.created_at),period: quant.period, user: quant.user}
+    const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user}
     console.log('dupeQuant', dupeQuant)
     axios.post('/api/quant', dupeQuant)
       .then(
