@@ -1,4 +1,4 @@
-import { addDays , format} from 'date-fns'
+import { addDays , format, isBefore } from 'date-fns'
 
 export const getDateFromPeriod = (period: string, date: Date) => {
 	console.log({period, date});
@@ -20,3 +20,11 @@ export const getDateFromPeriod = (period: string, date: Date) => {
 	}
 }
 
+export const getMostRecentDateFromDateOrToday = (date: Date) => {
+	const today = new Date()
+	console.log({today, date});
+	if (isBefore(new Date(date), today)) {
+		return today;
+	}
+	return date;
+}
