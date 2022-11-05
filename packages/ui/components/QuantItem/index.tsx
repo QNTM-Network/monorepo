@@ -32,7 +32,7 @@ const style = {
 };
 
 
-export const QuantItem = ( {setQuantsByTags, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
+export const QuantItem = ( {quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 const handleClose = () => {
@@ -45,7 +45,7 @@ const handleDelete = (quant: IQuant) => {
 
   if (quant.period && quant.period !== 'None') {
 
-    const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user}
+    const dupeQuant = {name: quant.name, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user}
     console.log('dupeQuant', dupeQuant)
     axios.post('/api/quant', dupeQuant)
       .then(
@@ -70,6 +70,7 @@ const handleDelete = (quant: IQuant) => {
       }
     );
   
+  axios.post('/api/user/quant', {address:quant.user, quant: quant._id})
 };
 
 
@@ -101,7 +102,10 @@ const handleDelete = (quant: IQuant) => {
 
 
   return (
-    <div className={styles.data}>
+    <div 
+      className={styles.data}
+      onClick={() => setSelectedQuant(quant)}
+    >
             <div className={styles.data__record}>
               <div className={styles.data__record__left}>
                 <label className="data-record-checkbox-container">
