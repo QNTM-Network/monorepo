@@ -104,7 +104,6 @@ const handleDelete = (quant: IQuant) => {
   return (
     <div 
       className={styles.data}
-      onClick={() => setSelectedQuant(quant)}
     >
             <div className={styles.data__record}>
               <div className={styles.data__record__left}>
