@@ -3,7 +3,7 @@ import {Header} from 'ui'
 
 
 import { setUser  } from "../../store/reducers/userSlice";
-import { useAppDispatch, useAppSelector } from "../../hooks/store"
+import { useAppDispatch} from "../../hooks/store"
 import styles from './Layout.module.scss';
 
 interface Props {
@@ -27,8 +27,6 @@ async function handleEthereum() {
   if (ethereum && ethereum.isMetaMask) {
     // @ts-ignore
 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    console.log('acc', accounts);
-    console.log('Ethereum successfully detected!');
     connectMetaMask(ethereum.selectedAddress, ethereum)
     console.log('ethereum', ethereum)
     // Access the decentralized web!
