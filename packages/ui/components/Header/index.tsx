@@ -1,5 +1,4 @@
 // header component
-import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 
 //@ts-ignore
@@ -15,7 +14,6 @@ export const Header = ({login}: Props) => {
 	return (
 		<header className={styles.header}>
 					<div className={styles.header__left}>
-						<p style={{color: 'white'}}>metrics</p>
 					</div>
 					<div className={styles.header__center}>
       <h1 className={styles.header__title}>Quantmn Web</h1>
