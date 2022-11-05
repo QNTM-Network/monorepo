@@ -45,7 +45,7 @@ const handleDelete = (quant: IQuant) => {
 
   if (quant.period && quant.period !== 'None') {
 
-    const dupeQuant = {name: quant.name, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user}
+    const dupeQuant = {name: quant.name, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user, notes: quant.notes}
     console.log('dupeQuant', dupeQuant)
     axios.post('/api/quant', dupeQuant)
       .then(
