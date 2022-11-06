@@ -70,7 +70,5 @@ export const getQuantsByTags = (allQuants: IQuant[], user: string) => {
   } 
   }});
 
-  console.log({ quantsByTags });
-
   return quantsByTags;
 };

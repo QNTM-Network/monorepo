@@ -53,7 +53,9 @@ const QuantModal = ({
     "Quality of Life",
     "Interesting",
     "Ideas",
-    "Goals"
+    "Goals",
+    "Vibe",
+    "Partner"
   ];
 
   const [searchText, setSearchText] = useState("");
@@ -113,7 +115,9 @@ const QuantModal = ({
       </FormControl>
     </Box>
        </Box>
-       <Input onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
+       <TextField
+         size="medium"
+         onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
        <Box sx={{ m: 10 }}>
   <MobileDatePicker
     
