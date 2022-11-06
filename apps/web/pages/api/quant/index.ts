@@ -18,11 +18,15 @@ export default async function handler(
     case 'POST':
       try {
         console.log('trying')
-        let { name } = body;
+        let { name, date, user} = body
+        console.log({date})
         name = startCase(name)
+        const created_at = new Date()
+        const final_date = date ? date : new Date()
         const quant = await Quant.create({
           ...body,
           name,
+          date: final_date,
         });
         console.log({quant})
 
