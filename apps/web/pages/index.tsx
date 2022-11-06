@@ -34,9 +34,7 @@ const Web = ({quants}: Props) => {
           (response) => {
             setInput( "");
             const newQuant = response.data.data;
-            console.log({newQuant});
             setDisplayQuants([...displayQuants, newQuant]);
-            console.log('response in createQuant', response);
           },
           (err) => {
             console.log(err.text);
@@ -50,9 +48,7 @@ const Web = ({quants}: Props) => {
   useEffect(() => {
     if (quants) {
       //@ts-ignore
-
       setQuantsByTags(getQuantsByTags(quants, user.address));
-      console.log({quantsByTags});
     }
   }, [user]);
 
@@ -61,10 +57,8 @@ const Web = ({quants}: Props) => {
     if (quantsByTags) {
       const quants = get(quantsByTags, filter, []);
       setDisplayQuants(quants);
-      console.log({displayQuants});
     }
 
-      //@ts-ignore
     const tags = map(quantsByTags, "tag");
       //@ts-ignore
     setTags(tags);
@@ -78,11 +72,10 @@ const Web = ({quants}: Props) => {
   useEffect(() => {
     if (filter) {
       //@ts-ignore
-      setDisplayQuants((quantsByTags?.find((t) => t.tag === filter) || { quants: [] }).quants);
+      setDisplayQuants((quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || { quants: [] }).quants);
     }
   }, [filter, quantsByTags]);
 
-  console.log({displayQuants, quantsByTags});
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>

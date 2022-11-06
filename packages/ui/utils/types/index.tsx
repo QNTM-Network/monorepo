@@ -44,6 +44,5 @@ export interface IDailyCount{
 
 
 export interface IQuantsByTags {
-  tag: string;
-  quants: IQuant[];
+  [key: string]: IQuant[];
 }
