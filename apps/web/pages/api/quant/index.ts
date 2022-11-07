@@ -21,11 +21,11 @@ export default async function handler(
         let { name, date, user} = body
         console.log({date})
         name = startCase(name)
-        const created_at = new Date()
         const final_date = date ? date : new Date()
         const quant = await Quant.create({
           ...body,
           name,
+          status: 1,
           date: final_date,
         });
         console.log({quant})

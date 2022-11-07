@@ -102,7 +102,8 @@ export async function getServerSideProps() {
 await dbConnect();
   let cutoff = new Date();
   cutoff.setDate(cutoff.getDate());
-  const data = await Quant.find({date: {$lte: cutoff}})
+  // find quants that are not completed and are due before today and don't have status of 0
+  const data = await Quant.find({status: {$ne: 0}, date: {$lte: cutoff}}).sort({date: 1}).lean();
 
   const quants = JSON.parse(JSON.stringify(data));
 

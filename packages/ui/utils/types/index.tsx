@@ -7,6 +7,7 @@ export interface IQuant{
   date?: Date;
   tags: string[];
   user: string;
+  status: number;
 }
 
 export interface IUser{
