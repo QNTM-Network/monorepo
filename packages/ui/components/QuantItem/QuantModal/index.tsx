@@ -55,7 +55,8 @@ const QuantModal = ({
     "Ideas",
     "Goals",
     "Vibe",
-    "Partner"
+    "Partner",
+    "Dev Craft"
   ];
 
   const [searchText, setSearchText] = useState("");
