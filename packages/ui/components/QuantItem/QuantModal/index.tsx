@@ -182,7 +182,7 @@ const QuantModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={updateQuantHandler}>Update</Button>
-        <Button onClick={() => handleDelete(quant)}>Delete</Button>
+        <Button onClick={() => handleDelete(quant)}>Complete</Button>
       </DialogActions>
     </>
   );

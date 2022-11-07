@@ -60,7 +60,7 @@ const handleDelete = (quant: IQuant) => {
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   
   setSelectedQuant(null);
-  axios.delete(`/api/quant/${quant._id}`, {data: {name: quant.name}})
+  axios.patch(`/api/quant/${quant._id}`, {...quant, status: 0})
     .then(
       (response) => {
         console.log(response);
