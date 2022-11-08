@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import dbConnect from "../../../utils/dbConnect";
 import User from "../../../models/User";
+import { updateCount } from "../../../utils/quants";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,29 +28,10 @@ export default async function handler(
             ],
           });
           await newUser.save();
-          return res.status(200).json({ success: true, message: "Success" });
+
         } else {
           // update user
-          const lastCount = user.daily_count[user.daily_count.length - 1];
-          const today = new Date();
-          if (lastCount) {
-            if (lastCount.date.getDate() === today.getDate()) {
-              // update count
-              user.daily_count[user.daily_count.length - 1].count += 1;
-            } else {
-              // create new count
-              user.daily_count.push({
-                date: today,
-                count: 1,
-              });
-            }
-          } else {
-            // create new count
-            user.daily_count.push({
-              date: today,
-              count: 1,
-            });
-          }
+          const updatedUser = updateCount(user, body.tags);
 
           await user.save();
           return res.status(200).json({ success: true, message: "Success" });
