@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import dbConnect from "../../../utils/dbConnect";
 import Quant from "../../../models/Quant";
+import { getDateFromPeriod, getMostRecentDateFromDateOrToday } from "../../../utils/dates";
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,17 +32,28 @@ export default async function handler(
     case "PATCH":
       try {
 
-        console.log("body", body);
+        
         const quant = await Quant.findOne(
           {_id: id},
         );
 
+
         if (!quant) {
           return res.status(400).json({ success: false });
         }
+        
+        if (quant.period && quant.period !== "none") {
+          quant.set({
+            ...body,
+            date: getDateFromPeriod(body.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at))
+          })
+
+        } else {
         quant.set(body)
+      }
+
         const saveQuant = await quant.save();
-        console.log("saveQuant", saveQuant);
+
         res.status(200).json({ success: true, data: quant });
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });

@@ -9,7 +9,11 @@ const UserSchema = new mongoose.Schema<IUser>({
 	created_at: { type: Date },
 	daily_count: [{ 
 		date: { type: Date },
-		count: { type: Number }
+		count: { type: Number },
+		tags: [{
+			name: { type: String },
+			count: { type: Number }
+		}]
 	}],
 });
 

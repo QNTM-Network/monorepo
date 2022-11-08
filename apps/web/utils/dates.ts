@@ -23,6 +23,7 @@ export const getDateFromPeriod = (period: string, date: Date) => {
 
 export const getMostRecentDateFromDateOrToday = (date: Date) => {
 	const today = new Date()
+	console.log({today, date});
 	if (isBefore(new Date(date), today)) {
 		return today;
 	}
