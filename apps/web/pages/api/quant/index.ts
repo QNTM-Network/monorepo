@@ -14,6 +14,19 @@ export default async function handler(
   await dbConnect();
   
   switch (method) {
+    case 'DELETE':
+      try {
+        console.log('delete');
+        const quant = await Quant.deleteOne({ _id: body.id });
+        console.log({ quant });
+        if (!quant) {
+          return res.status(400).json({ success: false });
+        }
+        res.status(200).json({ success: true, data: quant });
+      } catch (error: any) {
+        res.status(400).json({ success: false, message: error.message });
+      }
+      break;
 
     case 'POST':
       try {
@@ -26,6 +39,7 @@ export default async function handler(
           ...body,
           name,
           status: 1,
+          created_at: new Date(),
           date: final_date,
         });
         console.log({quant})

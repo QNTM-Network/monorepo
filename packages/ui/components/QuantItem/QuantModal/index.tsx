@@ -24,6 +24,7 @@ import styles from "./QuantModal.module.scss";
 interface Props {
   quant: any;
   handleClose: () => void;
+  handleComplete: (quant: IQuant) => void;
   handleDelete: (quant: IQuant) => void;
   updateQuantHandler: () => void;
   setSelectedQuant: (quant: IQuant) => void;
@@ -33,6 +34,7 @@ interface Props {
 const QuantModal = ({
   updateQuantHandler,
   handleDelete,
+  handleComplete,
   quant,
   setSelectedQuant,
   selectedQuant,
@@ -40,6 +42,7 @@ const QuantModal = ({
   const allOptions = [
     "Projects",
     "AA",
+    "Work",
     "Career",
     "Spirituality",
     "Culture & Arts",
@@ -110,7 +113,10 @@ const QuantModal = ({
 
         <MenuItem value={'Weekly'}>
          Weekly
+        </MenuItem>
 
+        <MenuItem value={'Fortnightly'}>
+          Fortnightly
         </MenuItem>
      </Select>
       </FormControl>
@@ -182,7 +188,8 @@ const QuantModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={updateQuantHandler}>Update</Button>
-        <Button onClick={() => handleDelete(quant)}>Complete</Button>
+        <Button onClick={() => handleComplete(quant)}>Complete</Button>
+        <Button onClick={() => handleDelete(quant)}>Delete</Button>
       </DialogActions>
     </>
   );
