@@ -49,8 +49,9 @@ export default async function handler(
           })
 
         } else {
-        quant.set(body)
+        quant.set({...body, status: 0});
       }
+         console.log({quant})
 
         const saveQuant = await quant.save();
 
