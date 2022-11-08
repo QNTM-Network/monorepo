@@ -61,19 +61,6 @@ const handleDelete = (quant: IQuant) => {
 
 const handleComplete = (quant: IQuant) => {
 
-  if (quant.period && quant.period !== 'None') {
-
-    const dupeQuant = {name: quant.name, date: getDateFromPeriod(quant.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),period: quant.period, user: quant.user, notes: quant.notes}
-    axios.post('/api/quant', dupeQuant)
-      .then(
-        (response) => {
-          console.log('response in deleteQuant', response);
-        },
-        (err) => {
-          console.log(err.text);
-        }
-      );
-  }
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   
   setSelectedQuant(null);
