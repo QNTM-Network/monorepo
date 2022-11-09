@@ -30,7 +30,6 @@ export default async function handler(
           await newUser.save();
 
         } else {
-          // update user
           const updatedUser = updateCount(user, body.tags);
 
           await user.save();

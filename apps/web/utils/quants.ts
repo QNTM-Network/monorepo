@@ -12,6 +12,7 @@ export const updateCount = async (userToUpdate: any, tags: any) => {
   if (lastCount) {
     if (lastCount.date.getDate() === today.getDate()) {
       // update count count per tag
+        lastCount.count = lastCount.count + 1;
       console.log("update count count per tag");
       if (lastCount.tags) {
         const tagIndex = findTagIndex(lastCount.tags, tags);
@@ -57,7 +58,6 @@ export const updateCount = async (userToUpdate: any, tags: any) => {
       });
     }
   } else {
-    // create new count
     user.daily_count.push({
       date: today,
       count: 1,
