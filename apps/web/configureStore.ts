@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import { getDefaultUserState } from './store/reducers/userSlice';
+import { rootReducer } from './store/reducers/rootReducer';
 
-import {userReducer }from './store/reducers/userSlice'
 
+const getDefaultStates = () => ({
+  user: getDefaultUserState(),
+});
 
 const initializeStore = (preloadedState?: any) =>
   configureStore({
     reducer: {
-      user: userReducer,
+      reducer: rootReducer,
+      preloadedState: preloadedState || getDefaultStates(),
     },
   });
 

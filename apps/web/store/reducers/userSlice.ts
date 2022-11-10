@@ -2,18 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   IUserLogin,
+  IDailyCount,
 } from 'ui'
 
 interface IUserSlice extends IUserLogin {
   isAuth?: boolean;
   loggedIn?: boolean;
+  count: IDailyCount[];
 }
 
 export const getDefaultUserState = () => ({
   email: '',
   name: '',
   address: '',
-  _id: '',
+  count: '',
   loggedIn: false
 });
 
@@ -24,7 +26,9 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<IUserLogin>) => {
       state.email = action.payload.email;
       state.address = action.payload.address;
-      state.name= action.payload.name;
+      state.name = action.payload.name;
+      // @ts-ignore
+      state.count = action.payload.count;
       state.loggedIn = true;
 
     },
@@ -34,7 +38,6 @@ export const userSlice = createSlice({
       state.address = '';
       state.loggedIn = false;
       state.name = '';
-      state._id = '';
     },
   },
 });

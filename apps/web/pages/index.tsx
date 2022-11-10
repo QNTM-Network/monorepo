@@ -22,9 +22,9 @@ const Web = ({quants}: Props) => {
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
   
+ console.log({quants});
 
-
-  const user = useAppSelector((state: RootState) => state.user);
+  const user = useAppSelector((state: RootState) => state.reducer.user);
 
 
 	const createQuant = () => {
@@ -56,6 +56,7 @@ const Web = ({quants}: Props) => {
   useEffect(() => {
     if (quantsByTags) {
       const quants = get(quantsByTags, filter, []);
+      console.log({quantsByTags, filter, quants});
       setDisplayQuants(quants);
     }
 
