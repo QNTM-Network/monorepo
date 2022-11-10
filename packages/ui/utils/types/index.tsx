@@ -22,10 +22,10 @@ export interface IUser{
 
 
 export interface IUserLogin{
-  _id: string;
   name: string;
   email: string;
   address: string;
+  count: IDailyCount[];
 }
 
 export interface IAdmin{

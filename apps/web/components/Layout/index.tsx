@@ -1,7 +1,7 @@
+import axios  from 'axios';
+
 // components/layout.js
 import {Header} from 'ui' 
-
-
 import { setUser  } from "../../store/reducers/userSlice";
 import { useAppDispatch} from "../../hooks/store"
 import styles from './Layout.module.scss';
@@ -40,7 +40,12 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
   const connectMetaMask = async (address: string, ethereum: any) => {
     console.log('ethereum', ethereum)
     if (address) {
-      dispatch(setUser({address, name: 'Luke', email: 'luke@quantmn.com', _id: '123'}))
+      console.log('address', address)
+      const data = await axios.post('/api/user/check', {field: 'address', value: address, address: 'test'});
+      console.log('data', data)
+      const user = data.data;
+      console.log('user', user)
+      dispatch(setUser({address: user.address, name: user.name, email: 'luke@quantmn', count: user.daily_count}));
     } else {
       alert("install metamask extension!!");
     }

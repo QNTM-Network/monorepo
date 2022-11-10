@@ -49,7 +49,7 @@ export default async function handler(
           })
 
         } else {
-        quant.set({...body, status: 0});
+        quant.set({...body});
       }
          console.log({quant})
 

@@ -64,7 +64,7 @@ const handleComplete = (quant: IQuant) => {
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   
   setSelectedQuant(null);
-  axios.patch(`/api/quant/${quant._id}`, quant)
+  axios.patch(`/api/quant/${quant._id}`, {...quant, status: 0})
     .then(
       (response) => {
         console.log(response);
