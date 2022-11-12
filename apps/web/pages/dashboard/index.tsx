@@ -59,20 +59,3 @@ const Dashboard = () => {
 export default Dashboard
 
 
-export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
-
-      const { user } = store.getState();
-      console.log('user', user)
-      const userData = query.user ? JSON.parse(query.user as string) : user;
-  
-  console.log({userData})
-
-  console.log({query});
-
-      return {
-        props: {
-          user
-        },
-      };
-    }
-);
