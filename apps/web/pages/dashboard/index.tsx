@@ -31,7 +31,6 @@ const Dashboard = () => {
   }, []);
 
 
-
   return (
     <div>
       <h1>Dashboard</h1>
@@ -40,13 +39,10 @@ const Dashboard = () => {
     <div style={{display:'flex'}}>
 
     { map(countPerDay, (day) => {
-      {console.log({day})}
-      return (
       <div style={{display:'flex', flexDirection:'column'}}>
         <h2 style={{padding: '10px'}}>{day.date}</h2>
         <h2 style={{padding: '10px'}}>{day.count}</h2>
       </div>
-      )
       })}
       <div>
 
@@ -59,3 +55,19 @@ const Dashboard = () => {
 export default Dashboard
 
 
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
+
+      const userData = query.user || 'holding user'
+  
+  
+  console.log({userData})
+
+  console.log({query});
+
+      return {
+        props: {
+          user: userData
+        },
+      };
+    }
+);
