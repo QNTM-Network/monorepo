@@ -1,9 +1,7 @@
-import {configureStore, ThunkAction} from '@reduxjs/toolkit';
+import {configureStore, createSlice, ThunkAction, AnyAction, combineReducers} from '@reduxjs/toolkit';
 import {Action} from 'redux';
-import {createWrapper} from 'next-redux-wrapper';
+import {createWrapper, HYDRATE} from 'next-redux-wrapper';
 import { userReducer } from './store/reducers/userSlice';
-
-
 
 
 const makeStore = () => configureStore({
@@ -13,6 +11,9 @@ const makeStore = () => configureStore({
   devTools: true
 });
 
+
+
+type Store = ReturnType<typeof makeStore>;
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppState = ReturnType<AppStore['getState']>;

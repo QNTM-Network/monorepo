@@ -1,6 +1,7 @@
 import { Layout } from '../components/Layout';
 import "../styles/base/_styles.scss";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Provider } from "react-redux";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {wrapper} from '../store';
 
@@ -23,13 +24,17 @@ interface MyAppProps {
   pageProps: any;
 }
 
-function MyApp({ Component, pageProps }: MyAppProps) {
+function MyApp({ Component, ...rest }: MyAppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  const {  pageProps } = props;
   return (
+    <Provider store={store}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Layout >
         <Component {...pageProps} />
       </Layout>
     </LocalizationProvider>
+    </Provider>
   );
 }
 
@@ -45,5 +50,5 @@ function MyApp({ Component, pageProps }: MyAppProps) {
 //   return { ...appProps }
 // }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
 
