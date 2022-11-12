@@ -1,9 +1,8 @@
 import axios  from 'axios';
+import router from 'next/router';
 
 // components/layout.js
 import {Header} from 'ui' 
-import { setUser  } from "../../store/reducers/userSlice";
-import { useAppDispatch} from "../../hooks/store"
 import styles from './Layout.module.scss';
 
 interface Props {
@@ -11,10 +10,6 @@ interface Props {
 }
 
 export function Layout({ children }: Props) {
-
-
-  const dispatch = useAppDispatch();
-
 	const login = () => {
 		// @ts-ignore
 		handleEthereum();
@@ -28,7 +23,6 @@ async function handleEthereum() {
     // @ts-ignore
 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     connectMetaMask(ethereum.selectedAddress, ethereum)
-    console.log('ethereum', ethereum)
     // Access the decentralized web!
   } else {
 
@@ -38,14 +32,10 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
 
   const connectMetaMask = async (address: string, ethereum: any) => {
-    console.log('ethereum', ethereum)
     if (address) {
-      console.log('address', address)
       const data = await axios.post('/api/user/check', {field: 'address', value: address, address: 'test'});
-      console.log('data', data)
       const user = data.data;
-      console.log('user', user)
-      dispatch(setUser({address: user.address, name: user.name, email: 'luke@quantmn', count: user.daily_count}));
+      router.push('/home');
     } else {
       alert("install metamask extension!!");
     }

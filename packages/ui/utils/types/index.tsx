@@ -11,27 +11,21 @@ export interface IQuant{
 }
 
 export interface IUser{
-  _id: string;
-  name: string;
-  email: string;
   address: string;
-  password: string;
-  created_at: Date;
   daily_count: IDailyCount[];
+  created_at: Date;
 }
 
 
 export interface IUserLogin{
-  name: string;
-  email: string;
   address: string;
-  count: IDailyCount[];
+  loggedIn: boolean;
+  dailyCount: IDailyCount[];
 }
 
 export interface IAdmin{
   _id: string;
   name: string;
-  email: string;
   address: string;
   password: string;
   created_at: Date;
