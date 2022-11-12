@@ -45,7 +45,8 @@ export default async function handler(
         if (quant.period && quant.period !== "none") {
           quant.set({
             ...body,
-            date: getDateFromPeriod(body.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at))
+            date: getDateFromPeriod(body.period, getMostRecentDateFromDateOrToday(quant.date || quant.created_at)),
+            status: 1,
           })
 
         } else {
