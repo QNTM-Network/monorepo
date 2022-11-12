@@ -1,7 +1,6 @@
 import { find, get, map } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { wrapper } from '../../store';
 
 import { IDailyCount, IUser} from 'ui';
 import { getTodayCount, getCountPerDay } from '../../utils/getTodayCount';
