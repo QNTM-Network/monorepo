@@ -1,10 +1,8 @@
 import { find, forEach } from "lodash";
-import { IQuant } from "ui"
+import { IQuant } from "ui";
+import { isBefore, isAfter, isSameDay } from "date-fns";
 
-export const getQuantsByTags = (allQuants: IQuant[], user: string) => {
-
-  let quants = allQuants.filter((quant) => quant.user === user);
-
+export const getQuantsByTags = (quants: IQuant[]) => {
   const quantsByTags = [
     {
       tag: "ViewAll",
@@ -35,40 +33,51 @@ export const getQuantsByTags = (allQuants: IQuant[], user: string) => {
         existingPeriodTag.quants.push(quant);
       } else {
         if (quant.period) {
-        quantsByTags.push({
-          tag: quant.period,
-          quants: [quant],
-        });
-          
+          quantsByTags.push({
+            tag: quant.period,
+            quants: [quant],
+          });
+        }
       }
-    }
 
-
-      const nonTasks = [
-      'Projects',
-      'Ideas',
-      'Goals'
-      ]
+      const nonTasks = ["Projects", "Ideas", "Goals"];
 
       // variable that returns true if quant.tags does not include any of the nonTasks
-      const isTask = nonTasks.some((nonTask) => quant.tags.includes(nonTask));
+      const isNotTask = nonTasks.some((nonTask) =>
+        quant.tags.includes(nonTask)
+      );
+      // check if tasks date is now available on or after today
+      const isAvailable =
+        isBefore(new Date(quant.date || new Date()), new Date()) ||
+        isSameDay(new Date(quant.date || new Date()), new Date());
 
-      if (!isTask) {
-        const  existingTaskTag = find(quantsByTags, {
-          tag: 'Tasks'
+      if (!isNotTask && isAvailable) {
+        const existingTaskTag = find(quantsByTags, {
+          tag: "Tasks",
         });
         if (existingTaskTag) {
-          existingTaskTag.quants.push(quant)
+          existingTaskTag.quants.push(quant);
         } else {
-        quantsByTags.push({
-          tag: 'Tasks',
-          quants: [quant]
-        })
-          
+          quantsByTags.push({
+            tag: "Tasks",
+            quants: [quant],
+          });
+        }
+      } else if (!isAvailable) {
+        const existingFutureTag = find(quantsByTags, {
+          tag: "Upcoming",
+        });
+        if (existingFutureTag) {
+          existingFutureTag.quants.push(quant);
+        } else {
+          quantsByTags.push({
+            tag: "Upcoming",
+            quants: [quant],
+          });
+        }
       }
-        
-  } 
-  }});
+    }
+  });
 
   return quantsByTags;
 };
