@@ -9,16 +9,30 @@ const Dashboard = () => {
   const [todaysCount, setTodaysCount] = useState<number>(0);
   const [countPerDay, setCountPerDay] = useState<IDailyCount[]>()
 
+  // get all tags
+
+
   const user = useAppSelector((state: RootState) => state.reducer.user);
+  console.log({user});
 
   useEffect(() => {
     if (user.address) {
       console.log({ user });
 
+
   const today = user.count[user.count.length - 1]
       const todayCount = get(today, 'count', 0);
       setTodaysCount(todayCount);
-    }}, [user]);
+
+      const countPerDay = map(user.count, (day) => {
+        const count = get(day, 'count', 0);
+        const date = get(day, 'date', '');
+        return { count, date };
+      });
+      console.log({ countPerDay });
+    }
+  }, []);
+
 
   console.log({user});
 
@@ -37,6 +51,9 @@ const Dashboard = () => {
     { countPerDay?.map((c) => (
         <h2 style={{padding: '10px'}}>{c}</h2>
       ))}
+      <div>
+
+      </div>
     </div>
     </div>
   )

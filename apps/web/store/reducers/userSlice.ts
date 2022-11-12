@@ -15,7 +15,7 @@ export const getDefaultUserState = () => ({
   email: '',
   name: '',
   address: '',
-  count: '',
+  count: [],
   loggedIn: false
 });
 

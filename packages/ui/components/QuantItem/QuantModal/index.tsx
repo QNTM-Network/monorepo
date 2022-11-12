@@ -26,13 +26,13 @@ interface Props {
   handleClose: () => void;
   handleComplete: (quant: IQuant) => void;
   handleDelete: (quant: IQuant) => void;
-  updateQuantHandler: () => void;
+  handleUpdate: () => void;
   setSelectedQuant: (quant: IQuant) => void;
   selectedQuant: IQuant;
 }
 
 const QuantModal = ({
-  updateQuantHandler,
+  handleUpdate,
   handleDelete,
   handleComplete,
   quant,
@@ -187,7 +187,7 @@ const QuantModal = ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={updateQuantHandler}>Update</Button>
+        <Button onClick={handleUpdate}>Update</Button>
         <Button onClick={() => handleComplete(quant)}>Complete</Button>
         <Button onClick={() => handleDelete(quant)}>Delete</Button>
       </DialogActions>

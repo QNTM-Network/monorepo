@@ -59,26 +59,26 @@ const handleDelete = (quant: IQuant) => {
 };
 
 
-const handleComplete = (quant: IQuant) => {
+  const handleComplete = (quant: IQuant) => {
 
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
-  
-  setSelectedQuant(null);
-  axios.patch(`/api/quant/${quant._id}`, {...quant, status: 0})
-    .then(
-      (response) => {
-        console.log(response);
-      },
-      (err) => {
-        console.log(err.text);
-      }
-    );
-  
-  axios.post('/api/user/quant', {address:quant.user, quant: quant._id, tags: quant.tags})
-};
+
+    setSelectedQuant(null);
+    axios.patch(`/api/quant/${quant._id}`, {...quant, status: 0})
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (err) => {
+          console.log(err.text);
+        }
+      );
+
+    axios.post('/api/user/quant', {address: quant.user, quant: quant._id, tags: quant.tags})
+  };
 
 
-  const updateQuantHandler = () => {
+  const handleUpdate = () => {
     // remove the quant from displayQuants and replace it with selected quant
     setDisplayQuants(
       displayQuants.map((q) => {
@@ -129,7 +129,7 @@ const handleComplete = (quant: IQuant) => {
   }}
   className={styles.modal} open={selectedQuant._id === quant._id} onClose={handleClose}>
         <div className={styles.modal__container}>
-          <QuantModal selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} updateQuantHandler={updateQuantHandler} quant={quant} handleDelete={handleDelete} handleComplete={handleComplete} handleClose={handleClose}/>
+          <QuantModal selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} handleUpdate={handleUpdate} quant={quant} handleDelete={handleDelete} handleComplete={handleComplete} handleClose={handleClose}/>
         </div>
       </Dialog>
     
