@@ -3,7 +3,6 @@ import { get, isEmpty } from 'lodash';
 import axios from 'axios';
 
 import { setUser, unsetUser } from '../store/reducers/userSlice';
-import { useAppDispatch } from '../hooks/store';
 
 interface CheckUser {
 	field: string;
@@ -13,7 +12,6 @@ interface CheckUser {
 
 const useWallet = () => {
 	const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useAppDispatch();
 
 	const checkUser = useCallback(async (body: CheckUser) => {
 		try {
@@ -40,7 +38,6 @@ const useWallet = () => {
 		const data = get(result, 'data');
 		console.log({data});
 		if (!isEmpty(data)) {
-        dispatch(setUser({ ...data}));
 			} 
 
 		setIsLoading(false);

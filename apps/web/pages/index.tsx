@@ -1,13 +1,9 @@
 import { useState, useEffect, useContext} from "react";
-import axios from "axios";
 import { get, find, map} from "lodash";
 
-import { useAppSelector } from '../hooks/store';
-import { getQuantsByTags } from "../utils/quantsByTags";
 import { QuantItem, Tags, IQuant, IQuantsByTags, NewQuantSection } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
-import type { RootState } from '../configureStore';
 
 
 interface Props {
@@ -24,63 +20,9 @@ const Web = ({quants}: Props) => {
   
  console.log({quants});
 
-  const user = useAppSelector((state: RootState) => state.reducer.user);
-
-
-	const createQuant = () => {
-
-      axios.post('/api/quant', {name: input, user: user.address})
-        .then(
-          (response) => {
-            setInput( "");
-            const newQuant = response.data.data;
-            setDisplayQuants([...displayQuants, newQuant]);
-          },
-          (err) => {
-            console.log(err.text);
-          }
-        );
-
-	}
-
-
-
-  useEffect(() => {
-    if (quants) {
-      //@ts-ignore
-      setQuantsByTags(getQuantsByTags(quants, user.address));
-    }
-  }, [user]);
-
-
-  useEffect(() => {
-    if (quantsByTags) {
-      const quants = get(quantsByTags, filter, []);
-      console.log({quantsByTags, filter, quants});
-      setDisplayQuants(quants);
-    }
-
-    const tags = map(quantsByTags, "tag");
-      //@ts-ignore
-    setTags(tags);
-      //@ts-ignore
-    setDisplayQuants((find(quantsByTags, (tag) => tag.tag === "ViewAll")))
-    
-      
-
-  }, [quantsByTags]);
-
-  useEffect(() => {
-    if (filter) {
-      //@ts-ignore
-      setDisplayQuants((quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || { quants: [] }).quants);
-    }
-  }, [filter, quantsByTags]);
-
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-      <NewQuantSection createQuant={createQuant} input={input} setInput={setInput} />
     <Tags  setFilter={setFilter} tags={tags}/>
     <div>
 			{map(displayQuants, (quant: IQuant, key: number) => {
@@ -97,8 +39,10 @@ const Web = ({quants}: Props) => {
 
 export default Web;
 
+
 export async function getServerSideProps() {
 
+  
   
 await dbConnect();
   let cutoff = new Date();

@@ -1,35 +1,30 @@
 import { find, get, map } from 'lodash';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { wrapper } from '../../store';
 
-import { useAppSelector } from '../../hooks/store';
-import type { RootState } from '../../configureStore';
-import { IDailyCount  } from 'ui';
+import { IDailyCount, IUser} from 'ui';
+import { getTodayCount } from '../../utils/getTodayCount';
+import { selectUser } from '../../store/reducers/userSlice';
+
+interface Props {
+  user: IUser;
+}
 
 const Dashboard = () => {
-  const [todaysCount, setTodaysCount] = useState<number>(0);
+  const [todayCount, setTodayCount] = useState<number>(0);
   const [countPerDay, setCountPerDay] = useState<IDailyCount[]>()
 
-  // get all tags
+  const user = useSelector(selectUser);
+  console.log({ user });
 
-
-  const user = useAppSelector((state: RootState) => state.reducer.user);
-  console.log({user});
 
   useEffect(() => {
     if (user.address) {
       console.log({ user });
 
+      setTodayCount(getTodayCount(user))
 
-  const today = user.count[user.count.length - 1]
-      const todayCount = get(today, 'count', 0);
-      setTodaysCount(todayCount);
-
-      const countPerDay = map(user.count, (day) => {
-        const count = get(day, 'count', 0);
-        const date = get(day, 'date', '');
-        return { count, date };
-      });
-      console.log({ countPerDay });
     }
   }, []);
 
@@ -39,13 +34,8 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <h2>{user.name}</h2>
-      <h2>{user.email}</h2>
       <h2>{user.address}</h2>
-    {user.count && user.count.length > 0 && (
-      <h2>{todaysCount}</h2>
-      // display each count per day
-    )}
+    {todayCount && <h2>{todayCount}</h2>}
     <div style={{display:'flex'}}>
 
     { countPerDay?.map((c) => (
@@ -60,3 +50,22 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
+
+      const { user } = store.getState();
+      console.log('user', user)
+      const userData = query.user ? JSON.parse(query.user as string) : user;
+  
+  console.log({userData})
+
+  console.log({query});
+
+      return {
+        props: {
+          user
+        },
+      };
+    }
+);
