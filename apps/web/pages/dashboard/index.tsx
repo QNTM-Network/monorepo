@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { wrapper } from '../../store';
 
 import { IDailyCount, IUser} from 'ui';
-import { getTodayCount } from '../../utils/getTodayCount';
+import { getTodayCount, getCountPerDay } from '../../utils/getTodayCount';
 import { selectUser } from '../../store/reducers/userSlice';
 
 interface Props {
@@ -25,11 +25,12 @@ const Dashboard = () => {
 
       setTodayCount(getTodayCount(user))
 
+      setCountPerDay(getCountPerDay(user) as IDailyCount[])
+
     }
   }, []);
 
 
-  console.log({user});
 
   return (
     <div>
@@ -38,9 +39,15 @@ const Dashboard = () => {
     {todayCount && <h2>{todayCount}</h2>}
     <div style={{display:'flex'}}>
 
-    { countPerDay?.map((c) => (
-        <h2 style={{padding: '10px'}}>{c}</h2>
-      ))}
+    { map(countPerDay, (day) => {
+      {console.log({day})}
+      return (
+      <div style={{display:'flex', flexDirection:'column'}}>
+        <h2 style={{padding: '10px'}}>{day.date}</h2>
+        <h2 style={{padding: '10px'}}>{day.count}</h2>
+      </div>
+      )
+      })}
       <div>
 
       </div>
