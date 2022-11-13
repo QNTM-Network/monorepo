@@ -39,10 +39,12 @@ const Dashboard = () => {
     <div style={{display:'flex'}}>
 
     { map(countPerDay, (day) => {
+      return (
       <div style={{display:'flex', flexDirection:'column'}}>
         <h2 style={{padding: '10px'}}>{day.date}</h2>
         <h2 style={{padding: '10px'}}>{day.count}</h2>
       </div>
+      )
       })}
       <div>
 
