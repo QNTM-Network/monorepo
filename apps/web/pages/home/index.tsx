@@ -64,7 +64,6 @@ const Web = ({ quants, user }: Props) => {
 
   useEffect(() => {
     if (filter) {
-      //@ts-ignore
       setDisplayQuants(
         (
           //@ts-ignore
@@ -96,6 +95,7 @@ const Web = ({ quants, user }: Props) => {
                 quantsByTags={quantsByTags}
                 setDisplayQuants={setDisplayQuants}
                 quant={quant}
+                quants={quants}
               />
             </div>
           );
@@ -118,7 +118,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(setUser(user));
 
       await dbConnect();
-      const result = await Quant.find({ user: user.address, status: "1" });
+      // return results with status = 0
+
+      const result = await Quant.find({ status: { $not : { $eq: 0 } } });
       const quants = JSON.parse(JSON.stringify(result));
 
 

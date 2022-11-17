@@ -8,6 +8,8 @@ export interface IQuant{
   tags: string[];
   user: string;
   status: number;
+  children: string[],
+  parents: string[]
 }
 
 export interface IUser{

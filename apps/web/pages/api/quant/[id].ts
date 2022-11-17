@@ -1,4 +1,3 @@
-import { startCase} from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import dbConnect from "../../../utils/dbConnect";
@@ -32,10 +31,35 @@ export default async function handler(
     case "PATCH":
       try {
 
+
+        console.log("body", body);
         
         const quant = await Quant.findOne(
           {_id: id},
         );
+
+        // find quants with ids from the children
+        const children = await Quant.find({
+          _id: {
+            $in: body.children,
+          },
+        });
+        const childrenIds = children.map((child) => child._id.toString());
+
+        console.log("children", children, 'childrenIds', childrenIds);
+        // update many quants with ids from the children
+        const updated = await Quant.updateMany(
+          {
+            _id: childrenIds,
+          },
+          {
+            $push: {
+                parents: quant._id,
+            }});
+
+
+        console.log("children", children);
+        console.log("updated", updated);
 
 
         if (!quant) {

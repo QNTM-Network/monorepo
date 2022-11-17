@@ -1,7 +1,3 @@
-import { useState, useEffect, useContext} from "react";
-import { get, find, map} from "lodash";
-
-import { QuantItem, Tags, IQuant, IQuantsByTags, NewQuantSection } from "ui";
 import dbConnect from "../utils/dbConnect";
 import  Quant  from '../models/Quant';
 
@@ -12,27 +8,9 @@ interface Props {
 
 
 const Web = ({quants}: Props) => {
-	const [input , setInput] = useState('');
-  const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
-  const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
-  const [filter, setFilter] = useState("Tasks");
-  const [tags, setTags] = useState([]);
-  
- console.log({quants});
-
 
   return (
     <div style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
-    <Tags  setFilter={setFilter} tags={tags}/>
-    <div>
-			{map(displayQuants, (quant: IQuant, key: number) => {
-				return (
-					<div key={key}>
-						<QuantItem setQuantsByTags={setQuantsByTags} displayQuants={displayQuants} quantsByTags={quantsByTags} setDisplayQuants={setDisplayQuants} quant={quant} />
-					</div>
-				);
-			})}
-    </div>
     </div>
   );
 }

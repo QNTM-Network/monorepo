@@ -4,6 +4,8 @@ const findTagIndex = (tags: any, tag: any) => {
   return tags.findIndex((t: any) => t.name === tag);
 };
 
+
+
 export const updateCount = async (userToUpdate: any, tags: any) => {
   const user = userToUpdate;
   let lastCount = user.daily_count[user.daily_count.length - 1];
