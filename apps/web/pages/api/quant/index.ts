@@ -40,7 +40,7 @@ export default async function handler(
           name,
           status: 1,
           created_at: new Date(),
-          date: final_date,
+          date: final_date.setHours(3, 0, 0, 0),
         });
         console.log({quant})
 
