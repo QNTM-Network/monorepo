@@ -15,6 +15,7 @@ interface Props {
   displayQuants: IQuant[];
   setQuantsByTags: (quants: IQuantsByTags) => void;
   quantsByTags?: IQuantsByTags;
+  quants: IQuant[];
 }
 
 const style = {
@@ -32,7 +33,7 @@ const style = {
 };
 
 
-export const QuantItem = ( {quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
+export const QuantItem = ( {quants, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 const handleClose = () => {
@@ -129,7 +130,7 @@ const handleDelete = (quant: IQuant) => {
   }}
   className={styles.modal} open={selectedQuant._id === quant._id} onClose={handleClose}>
         <div className={styles.modal__container}>
-          <QuantModal selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} handleUpdate={handleUpdate} quant={quant} handleDelete={handleDelete} handleComplete={handleComplete} handleClose={handleClose}/>
+          <QuantModal displayQuants={displayQuants} quants={quants} selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} handleUpdate={handleUpdate} quant={quant} handleDelete={handleDelete} handleComplete={handleComplete} handleClose={handleClose}/>
         </div>
       </Dialog>
     
