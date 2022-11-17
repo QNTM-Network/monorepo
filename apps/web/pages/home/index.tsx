@@ -123,6 +123,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       const result = await Quant.find({ status: {$ne: 0 }, date: {$lte: cutoff}}).sort({date: 1}).lean();
       const quants = JSON.parse(JSON.stringify(result));
+      console.log({cutoff, quants})
 
 
       return {

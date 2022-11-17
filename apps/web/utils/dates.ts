@@ -5,18 +5,18 @@ export const getDateFromPeriod = (period: string, date: Date) => {
 	
 	switch (period) {
 		case 'Daily':
-			return format(addDays(new Date(date), 1), 'yyyy-MM-dd');
+			return format(addDays(new Date(date.setHours(3,0,0,0)), 1), 'yyyy-MM-dd hh:mm:ss');
 			break;
 		case 'Two':
-			return format(addDays(new Date(date), 2), 'yyyy-MM-dd');
+			return format(addDays(new Date(date.setHours(3,0,0,0)), 2), 'yyyy-MM-dd hh:mm:ss');
 			break;
 		case 'Three':
-			return format(addDays(new Date(date), 3), 'yyyy-MM-dd');
+			return format(addDays(new Date(date.setHours(3,0,0,0)), 3), 'yyyy-MM-dd hh:mm:ss');
 			break;
 		case 'Weekly':
-			return format(addDays(new Date(date), 7), 'yyyy-MM-dd');
+			return format(addDays(new Date(date.setHours(3,0,0,0)), 7), 'yyyy-MM-dd hh:mm:ss');
 		case 'Fortnightly':
-			return format(addDays(new Date(date), 14), 'yyyy-MM-dd');
+			return format(addDays(new Date(date.setHours(3,0,0,0)), 14), 'yyyy-MM-dd hh:mm:ss');
 			break;
 	}
 }
