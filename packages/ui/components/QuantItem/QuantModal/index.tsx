@@ -20,6 +20,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
 
 const findQuantsFromIds = (quants: any, ids: any) => {
+  if (!ids) return [];
   const matches = quants.filter((q: any) => ids.includes(q._id));
   // map through each 
   const names = matches.map((q: any) => q.name);

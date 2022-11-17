@@ -119,8 +119,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       await dbConnect();
       // return results with status = 0
+      const cutoff = new Date();
 
-      const result = await Quant.find({ status: { $not : { $eq: 0 } } });
+      const result = await Quant.find({ status: {$ne: 0 }, date: {$lte: cutoff}}).sort({date: 1}).lean();
       const quants = JSON.parse(JSON.stringify(result));
 
 

@@ -39,6 +39,7 @@ export default async function handler(
         );
 
         // find quants with ids from the children
+        if (body.children) {
         const children = await Quant.find({
           _id: {
             $in: body.children,
@@ -60,6 +61,7 @@ export default async function handler(
 
         console.log("children", children);
         console.log("updated", updated);
+        }
 
 
         if (!quant) {
