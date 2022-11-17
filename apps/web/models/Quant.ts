@@ -10,6 +10,8 @@ const QuantSchema = new mongoose.Schema<IQuant>({
   date: { type: Date },
   tags: [{ type: String }],
   status: { type: Number },
+  children: [ { type: String } ],
+  parents: [ { type: String } ]
 });
 
 export default mongoose.models.Quant|| mongoose.model('Quant', QuantSchema);

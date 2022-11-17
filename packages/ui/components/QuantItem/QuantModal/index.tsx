@@ -19,6 +19,21 @@ import {
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
 
+const findQuantsFromIds = (quants: any, ids: any) => {
+  const matches = quants.filter((q: any) => ids.includes(q._id));
+  // map through each 
+  const names = matches.map((q: any) => q.name);
+  return names;
+};
+
+const findIdsFromQuants = (quants: any, names: any) => {
+  const matches = quants.filter((q: any) => names.includes(q.name));
+  // map through each
+  const ids = matches.map((q: any) => q._id);
+  return ids;
+};
+  
+
 import styles from "./QuantModal.module.scss";
 
 interface Props {
@@ -29,15 +44,20 @@ interface Props {
   handleUpdate: () => void;
   setSelectedQuant: (quant: IQuant) => void;
   selectedQuant: IQuant;
+  quants: IQuant[];
+  displayQuants: IQuant[];
 }
 
+
 const QuantModal = ({
+  quants,
   handleUpdate,
   handleDelete,
   handleComplete,
   quant,
   setSelectedQuant,
   selectedQuant,
+  displayQuants,
 }: Props) => {
   const allOptions = [
     "Projects",
@@ -59,10 +79,13 @@ const QuantModal = ({
     "Goals",
     "Vibe",
     "Partner",
-    "Dev Craft"
+    "Dev Craft",
+    "Values",
   ];
 
   const [searchText, setSearchText] = useState("");
+  const [selectedQuantWithNames, setSelectedQuantWithNames] = useState<any>([]);
+  const [quantsNames, setQuantsNames] = useState<any>([]);
 
 
   const containsText = (text: string, searchText: string) =>
@@ -71,6 +94,26 @@ const QuantModal = ({
     () => allOptions.filter((option) => containsText(option, searchText)),
     [searchText]
   );
+
+
+  useEffect(() => {
+    const updatedWithName = {...selectedQuant, children: findQuantsFromIds(displayQuants, selectedQuant.children)
+
+  }
+    setQuantsNames(quants.map((q: any) => q.name));
+    setSelectedQuantWithNames(updatedWithName);
+
+      console.log({updatedWithName, selectedQuant})
+  }, [])
+
+  useEffect(() => {
+    console.log({selectedQuantWithNames})
+    if (selectedQuantWithNames.children) {
+      const updatedIds = findIdsFromQuants(displayQuants, selectedQuantWithNames.children)
+      console.log({updatedIds})
+      setSelectedQuant({...selectedQuantWithNames, children: updatedIds})
+    }
+  }, [selectedQuantWithNames])
 
 
   return (
@@ -185,6 +228,61 @@ const QuantModal = ({
             </Select>
           </FormControl>
         </Box>
+        {selectedQuantWithNames.children && selectedQuantWithNames.children.length > 0 && (
+        <Box sx={{ m: 10 }}>
+          <FormControl fullWidth>
+            <InputLabel id="search-select-label">Children</InputLabel>
+            {console.log({selectedQuantWithNames})}
+            <Select
+              // Disables auto focus on MenuItems and allows TextField to be in focus
+              MenuProps={{ autoFocus: false }}
+              labelId="search-select-label"
+              id="search-select"
+              value={selectedQuantWithNames.children}
+              multiple
+              label="Tag"
+              // @ts-ignore
+              onChange={(e) => setSelectedQuantWithNames({...selectedQuantWithNames, children: e.target.value})}
+              // This prevents rendering empty string in Select's value
+              // if search text would exclude currently selected option.
+            >
+              {console.log({selectedQuantWithNames})}
+              {/* TextField is put into ListSubheader so that it doesn't
+              act as a selectable item in the menu
+              i.e. we can click the TextField without triggering any selection.*/}
+              <ListSubheader>
+                <TextField
+                  size="small"
+                  // Autofocus on textfield
+                  autoFocus
+                  placeholder="Type to search..."
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                      </InputAdornment>
+                    ),
+                  }}
+                  // @ts-ignore
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Escape") {
+                      // Prevents autoselecting item while typing (default Select behaviour)
+                      e.stopPropagation();
+                    }
+                  }}
+                />
+              </ListSubheader>
+              {quantsNames.map((quantName: string, i: number) => (
+                <MenuItem key={i} value={quantName}>
+                  {quantName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        )}
+
       </DialogContent>
       <DialogActions>
         <Button onClick={handleUpdate}>Update</Button>
