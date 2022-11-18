@@ -22,7 +22,7 @@ interface Props {
   user: IUser;
 }
 
-const Web = ({ quants, user }: Props) => {
+const Web = ({ quants, user}: Props) => {
   const [input, setInput] = useState("");
   const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
@@ -44,10 +44,12 @@ const Web = ({ quants, user }: Props) => {
 
   useEffect(() => {
     if (quants) {
+      
+      console.log("quants", quants);
       //@ts-ignore
       setQuantsByTags(getQuantsByTags(quants));
     }
-  }, []);
+  }, [quants]);
 
   useEffect(() => {
     if (quantsByTags) {
@@ -59,7 +61,7 @@ const Web = ({ quants, user }: Props) => {
     //@ts-ignore
     setTags(tags);
     //@ts-ignore
-    setDisplayQuants(find(quantsByTags, (tag) => tag.tag === "ViewAll"));
+    setDisplayQuants(find(quantsByTags, (tags) => tags.tag === "ViewAll"));
   }, [quantsByTags]);
 
   useEffect(() => {
@@ -118,13 +120,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(setUser(user));
 
       await dbConnect();
-      // return results with status = 0
       const cutoff = new Date();
-
       const result = await Quant.find({ status: {$ne: 0 }, date: {$lte: cutoff}}).sort({date: 1}).lean();
       const quants = JSON.parse(JSON.stringify(result));
       console.log({cutoff, quants})
-
 
       return {
         props: {

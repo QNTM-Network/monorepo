@@ -3,18 +3,38 @@ import { IQuant } from "ui";
 import { isBefore, isAfter, isSameDay } from "date-fns";
 
 export const getQuantsByTags = (quants: IQuant[]) => {
+
+  console.log({ quants });
+
+const findQuantsFromIds = (quants: any, ids: any) => {
+  if (!ids) return [];
+  const matches = quants.filter((q: any) => ids.includes(q._id));
+  // map through each 
+  const names = matches.map((q: any) => q.name);
+  return names;
+};
+
+const quantsWithParentsNames  = quants.map((q) => {
+  q.parents = findQuantsFromIds(quants, q.parents);
+  return q;
+});
+
   const quantsByTags = [
+    
     {
       tag: "ViewAll",
       quants: quants,
     },
   ];
 
+  console.log({quantsWithParentsNames});
+
+
   forEach(quants, (quant) => {
     if (quant) {
       // map through each quant and add to the quantsByTags array
       forEach(quant.tags, (tag) => {
-        const existingTag = find(quantsByTags, { tag });
+        const existingTag = find(quantsByTags, { tag});
         if (existingTag) {
           existingTag.quants.push(quant);
         } else {
@@ -78,6 +98,8 @@ export const getQuantsByTags = (quants: IQuant[]) => {
       }
     }
   });
+
+  console.log("quantsByTags", quantsByTags);
 
   return quantsByTags;
 };
