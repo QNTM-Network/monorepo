@@ -98,23 +98,9 @@ const QuantModal = ({
 
 
   useEffect(() => {
-    const updatedWithName = {...selectedQuant, children: findQuantsFromIds(displayQuants, selectedQuant.children)
-
-  }
     setQuantsNames(quants.map((q: any) => q.name));
-    setSelectedQuantWithNames(updatedWithName);
 
-      console.log({updatedWithName, selectedQuant})
   }, [])
-
-  useEffect(() => {
-    console.log({selectedQuantWithNames})
-    if (selectedQuantWithNames.children) {
-      const updatedIds = findIdsFromQuants(displayQuants, selectedQuantWithNames.children)
-      console.log({updatedIds})
-      setSelectedQuant({...selectedQuantWithNames, children: updatedIds})
-    }
-  }, [selectedQuantWithNames])
 
 
   return (
@@ -179,9 +165,10 @@ const QuantModal = ({
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
+        {selectedQuant.tags&& (
         <Box sx={{ m: 10 }}>
           <FormControl fullWidth>
-            <InputLabel id="search-select-label">Tags</InputLabel>
+            <InputLabel id="search-select-label">Parents</InputLabel>
             <Select
               // Disables auto focus on MenuItems and allows TextField to be in focus
               MenuProps={{ autoFocus: false }}
@@ -221,15 +208,16 @@ const QuantModal = ({
                   }}
                 />
               </ListSubheader>
-              {displayedOptions.map((tags, i) => (
-                <MenuItem key={i} value={tags}>
-                  {tags}
+              {quantsNames.map((names: string, i: number) => (
+                <MenuItem key={i} value={names}>
+                  {names}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </Box>
-        {selectedQuantWithNames.children && selectedQuantWithNames.children.length > 0 && (
+      )}
+        {selectedQuant.children && (
         <Box sx={{ m: 10 }}>
           <FormControl fullWidth>
             <InputLabel id="search-select-label">Children</InputLabel>
@@ -239,11 +227,11 @@ const QuantModal = ({
               MenuProps={{ autoFocus: false }}
               labelId="search-select-label"
               id="search-select"
-              value={selectedQuantWithNames.children}
+              value={selectedQuant.children}
               multiple
               label="Tag"
               // @ts-ignore
-              onChange={(e) => setSelectedQuantWithNames({...selectedQuantWithNames, children: e.target.value})}
+              onChange={(e) => setSelectedQuant({...selectedQuant, children: e.target.value})}
               // This prevents rendering empty string in Select's value
               // if search text would exclude currently selected option.
             >
