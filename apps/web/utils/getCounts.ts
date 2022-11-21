@@ -51,24 +51,16 @@ export const getCounts = (quants: IQuantWithCount[]) => {
             break;
         }
       } else if (isAvailable) {
-        console.log("availble quant", quant);
         quantWithCount.count = 1;
       }
 
-      console.log({ quantWithCount });
       return quantWithCount;
     }
   });
 
-  // map through the array removing undefined values
   const filteredQuants = compact(relevantQuants);
-  console.log({ filteredQuants });
 
-
-  // sum the counts from each quant
   const count = sum(map(filteredQuants, "count"));
 
-
-  console.log("count", count);
   return count;
 };
