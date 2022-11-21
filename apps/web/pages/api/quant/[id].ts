@@ -85,7 +85,7 @@ export default async function handler(
           return res.status(400).json({ success: false });
         }
 
-        if (quant.period && quant.period !== "none") {
+        if (quant.period && quant.period !== "none" && body.status === 0) {
           quant.set({
             ...body,
             date: getDateFromPeriod(

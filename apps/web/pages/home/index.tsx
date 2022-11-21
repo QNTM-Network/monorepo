@@ -110,10 +110,12 @@ const Web = ({ quants, user}: Props) => {
 
 export default Web;
 
+
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query, req }) => {
       const userId = get(req, "cookies._id");
+      console.log("userId", userId);
 
       const userResult = await findExistingUser("_id", userId);
       const user = JSON.parse(JSON.stringify(userResult));
@@ -121,9 +123,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       await dbConnect();
       const cutoff = new Date();
-      const result = await Quant.find({ status: {$ne: 0 }, date: {$lte: cutoff}}).sort({date: 1}).lean();
+      console.log('user address', user.address)
+      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
-      console.log({cutoff, quants})
 
       return {
         props: {

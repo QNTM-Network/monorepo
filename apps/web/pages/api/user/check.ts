@@ -30,6 +30,7 @@ export default async function handler(
             encrypt: true,
           });
 
+
           console.log({existingUser});
 
           const accountTypeCookie = createCookie(
@@ -47,6 +48,7 @@ export default async function handler(
           res.setHeader('Set-Cookie', [jwtCookie, accountTypeCookie, idCookie]);
           return res.status(200).json(existingUser);
         }
+
 
         const newUser = await User.create({
           created_at: Date.now(),
