@@ -59,7 +59,6 @@ const handleDelete = (quant: IQuant) => {
   
 };
 
-console.log('displayQuants', displayQuants, 'quantsByTags', quantsByTags, 'quant', quant)
 
 
   const handleComplete = (quant: IQuant) => {

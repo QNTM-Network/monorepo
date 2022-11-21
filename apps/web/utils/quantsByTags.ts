@@ -2,6 +2,7 @@ import { find, forEach } from "lodash";
 import { IQuant } from "ui";
 import { isBefore, isAfter, isSameDay } from "date-fns";
 
+import { nonTasks } from "./constants";
 export const getQuantsByTags = (quants: IQuant[]) => {
 
   console.log({ quants });
@@ -60,7 +61,6 @@ const quantsWithParentsNames  = quants.map((q) => {
         }
       }
 
-      const nonTasks = ["Projects", "Ideas", "Goals"];
 
       // variable that returns true if quant.tags does not include any of the nonTasks
       const isNotTask = nonTasks.some((nonTask) =>

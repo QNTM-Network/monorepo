@@ -33,7 +33,7 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
   const connectMetaMask = async (address: string, ethereum: any) => {
     if (address) {
-      const data = await axios.post('/api/user/check', {field: 'address', value: address, address: 'test'});
+      const data = await axios.post('/api/user/check', {field: 'address', value: address, address: address});
       const user = data.data;
       router.push('/home');
     } else {
