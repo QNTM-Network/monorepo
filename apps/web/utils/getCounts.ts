@@ -1,5 +1,6 @@
 import {
   filter,
+  compact,
   map,
   sum,
 } from "lodash";
@@ -59,15 +60,14 @@ export const getCounts = (quants: IQuantWithCount[]) => {
     }
   });
 
-  // filter out undefined values
-  const filteredQuants = filter(relevantQuants, (quant) => quant);
+  // map through the array removing undefined values
+  const filteredQuants = compact(relevantQuants);
+  console.log({ filteredQuants });
 
-  // remove non takss
-  console.log("relevantQuants", filteredQuants);
 
-  // sum the counts
-  const count = sum(map(filteredQuants
-    , (quant) => quant!.count));
+  // sum the counts from each quant
+  const count = sum(map(filteredQuants, "count"));
+
 
   console.log("count", count);
   return count;
