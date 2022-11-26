@@ -2,6 +2,9 @@ import axios  from 'axios';
 import router from 'next/router';
 
 // components/layout.js
+//
+import { useAppDispatch} from "../../hooks/store";
+import { setUser } from "../../store/reducers/userSlice";
 import {Header} from 'ui' 
 import styles from './Layout.module.scss';
 
@@ -14,6 +17,8 @@ export function Layout({ children }: Props) {
 		// @ts-ignore
 		handleEthereum();
 	};
+
+  const dispatch = useAppDispatch();
 
 
 async function handleEthereum() {
@@ -35,6 +40,7 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     if (address) {
       const data = await axios.post('/api/user/check', {field: 'address', value: address, address: address});
       const user = data.data;
+      dispatch(setUser(user));
       router.push('/home');
     } else {
       alert("install metamask extension!!");

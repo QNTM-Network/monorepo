@@ -111,12 +111,9 @@ const Web = ({ quants, user}: Props) => {
 export default Web;
 
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ query, req }) => {
-      const userId = get(req, "cookies._id");
+export async function getServerSideProps(context: any) {
+      const userId = get(context, "req.cookies._id");
       console.log("userId", userId);
-      // testing pro
 
       const userResult = await findExistingUser("_id", userId);
       const user = JSON.parse(JSON.stringify(userResult));
@@ -132,4 +129,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
         },
       };
     }
-);
