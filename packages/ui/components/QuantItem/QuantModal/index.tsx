@@ -119,6 +119,10 @@ const QuantModal = ({
         <MenuItem value={'Fortnightly'}>
           Fortnightly
         </MenuItem>
+
+        <MenuItem value={'Monthly'}>
+         Monthly 
+        </MenuItem>
      </Select>
       </FormControl>
     </Box>
