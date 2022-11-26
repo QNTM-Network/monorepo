@@ -94,7 +94,7 @@ export async function getServerSideProps(context: any) {
       const user = JSON.parse(JSON.stringify(userResult));
 
       console.log('user address', user.address)
-      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 }).limit(10)
       const quants = JSON.parse(JSON.stringify(result));
   
       return {
