@@ -114,11 +114,13 @@ export default Web;
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query, req }) => {
+      const userId = get(req, "cookies._id");
+      console.log("userId", userId);
 
-      const test = 'test'
+
       return {
         props: {
-          test
+          userId
         },
       };
     }
