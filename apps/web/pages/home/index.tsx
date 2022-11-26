@@ -116,6 +116,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     async ({ query, req }) => {
       const userId = get(req, "cookies._id");
       console.log("userId", userId);
+      // testing pro
 
       const userResult = await findExistingUser("_id", userId);
       const user = JSON.parse(JSON.stringify(userResult));
