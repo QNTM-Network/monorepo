@@ -31,21 +31,12 @@ export default async function handler(
           });
 
 
-          console.log({existingUser});
-
-          const accountTypeCookie = createCookie(
-            'account_type',
-            existingUser.account_type,
-            { encrypt: false }
-          );
-
-
           const idCookie = createCookie('_id', existingUser._id, {
             encrypt: false,
             httpOnly: false,
           });
 
-          res.setHeader('Set-Cookie', [jwtCookie, accountTypeCookie, idCookie]);
+          res.setHeader('Set-Cookie', [jwtCookie, idCookie]);
           return res.status(200).json(existingUser);
         }
 

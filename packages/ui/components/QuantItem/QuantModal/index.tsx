@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
+import { SearchWithFilter } from "./SearchWithFilter";
 
 const findQuantsFromIds = (quants: any, ids: any) => {
   if (!ids) return [];
@@ -58,50 +59,21 @@ const QuantModal = ({
   quant,
   setSelectedQuant,
   selectedQuant,
-  displayQuants,
 }: Props) => {
-  const allOptions = [
-    "Projects",
-    "AA",
-    "Work",
-    "Career",
-    "Spirituality",
-    "Culture & Arts",
-    "Social",
-    "Workflow",
-    "Quantmn",
-    "Accountability",
-    "Chill",
-    "Health",
-    "Fitness",
-    "Quality of Life",
-    "Interesting",
-    "Ideas",
-    "Goals",
-    "Vibe",
-    "Partner",
-    "Dev Craft",
-    "Values",
-  ];
 
   const [searchText, setSearchText] = useState("");
-  const [selectedQuantWithNames, setSelectedQuantWithNames] = useState<any>([]);
   const [quantsNames, setQuantsNames] = useState<any>([]);
 
+  useEffect(() => {
+    setQuantsNames(quants.map((q: any) => q.name));
+  }, [])
 
   const containsText = (text: string, searchText: string) =>
     text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
   const displayedOptions = useMemo(
-    () => allOptions.filter((option) => containsText(option, searchText)),
-    [searchText]
+    () => quantsNames.filter((option: string) => containsText(option, searchText)),
+    [quantsNames, searchText]
   );
-
-
-  useEffect(() => {
-    setQuantsNames(quants.map((q: any) => q.name));
-
-  }, [])
-
 
   return (
     <>
@@ -124,7 +96,6 @@ const QuantModal = ({
           value={selectedQuant.period}
           onChange={(e) => setSelectedQuant({...selectedQuant, period: e.target.value})}
        >
-
         <MenuItem value={'None'}>
           None
         </MenuItem>
@@ -165,113 +136,24 @@ const QuantModal = ({
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
-        {selectedQuant.tags&& (
-        <Box sx={{ m: 10 }}>
-          <FormControl fullWidth>
-            <InputLabel id="search-select-label">Parents</InputLabel>
-            <Select
-              // Disables auto focus on MenuItems and allows TextField to be in focus
-              MenuProps={{ autoFocus: false }}
-              labelId="search-select-label"
-              id="search-select"
-              value={selectedQuant.tags}
-              multiple
-              label="Tag"
-              // @ts-ignore
-              onChange={(e) => setSelectedQuant({...selectedQuant, tags: e.target.value})}
-              // This prevents rendering empty string in Select's value
-              // if search text would exclude currently selected option.
-            >
-              {/* TextField is put into ListSubheader so that it doesn't
-              act as a selectable item in the menu
-              i.e. we can click the TextField without triggering any selection.*/}
-              <ListSubheader>
-                <TextField
-                  size="small"
-                  // Autofocus on textfield
-                  autoFocus
-                  placeholder="Type to search..."
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                      </InputAdornment>
-                    ),
-                  }}
-                  // @ts-ignore
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Escape") {
-                      // Prevents autoselecting item while typing (default Select behaviour)
-                      e.stopPropagation();
-                    }
-                  }}
-                />
-              </ListSubheader>
-              {quantsNames.map((names: string, i: number) => (
-                <MenuItem key={i} value={names}>
-                  {names}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+        {selectedQuant.tags && (
+          <SearchWithFilter
+            setSearchText={setSearchText}
+            displayedOptions={displayedOptions}
+            quant={selectedQuant}
+            setSelectedQuant={setSelectedQuant}
+            relationship="parents"
+          />
       )}
         {selectedQuant.children && (
-        <Box sx={{ m: 10 }}>
-          <FormControl fullWidth>
-            <InputLabel id="search-select-label">Children</InputLabel>
-            {console.log({selectedQuantWithNames})}
-            <Select
-              // Disables auto focus on MenuItems and allows TextField to be in focus
-              MenuProps={{ autoFocus: false }}
-              labelId="search-select-label"
-              id="search-select"
-              value={selectedQuant.children}
-              multiple
-              label="Tag"
-              // @ts-ignore
-              onChange={(e) => setSelectedQuant({...selectedQuant, children: e.target.value})}
-              // This prevents rendering empty string in Select's value
-              // if search text would exclude currently selected option.
-            >
-              {console.log({selectedQuantWithNames})}
-              {/* TextField is put into ListSubheader so that it doesn't
-              act as a selectable item in the menu
-              i.e. we can click the TextField without triggering any selection.*/}
-              <ListSubheader>
-                <TextField
-                  size="small"
-                  // Autofocus on textfield
-                  autoFocus
-                  placeholder="Type to search..."
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                      </InputAdornment>
-                    ),
-                  }}
-                  // @ts-ignore
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Escape") {
-                      // Prevents autoselecting item while typing (default Select behaviour)
-                      e.stopPropagation();
-                    }
-                  }}
-                />
-              </ListSubheader>
-              {quantsNames.map((quantName: string, i: number) => (
-                <MenuItem key={i} value={quantName}>
-                  {quantName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+          <SearchWithFilter
+            setSearchText={setSearchText}
+            displayedOptions={displayedOptions}
+            quant={selectedQuant}
+            setSelectedQuant={setSelectedQuant}
+            relationship="children"
+          />
         )}
-
       </DialogContent>
       <DialogActions>
         <Button onClick={handleUpdate}>Update</Button>
