@@ -82,6 +82,7 @@ const handleDelete = (quant: IQuant) => {
 
   const handleUpdate = () => {
     // remove the quant from displayQuants and replace it with selected quant
+    console.log('handleUpdate', selectedQuant);
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === selectedQuant?._id) {
