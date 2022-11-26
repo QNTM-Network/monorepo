@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, find, map } from "lodash";
 
-import { setUser } from "../../store/reducers/userSlice";
 import { getQuantsByTags } from "../../utils/quantsByTags";
 import {
   IUser,
@@ -13,9 +12,7 @@ import {
   NewQuantSection,
 } from "ui";
 import findExistingUser from "../../utils/findExistingUser";
-import dbConnect from "../../utils/dbConnect";
 import Quant from "../../models/Quant";
-import { wrapper } from "../../store";
 
 interface Props {
   quants: IQuant[];

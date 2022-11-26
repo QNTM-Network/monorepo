@@ -40,6 +40,7 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     if (address) {
       const data = await axios.post('/api/user/check', {field: 'address', value: address, address: address});
       const user = data.data;
+      console.log("user", user);
       dispatch(setUser(user));
       router.push('/home');
     } else {

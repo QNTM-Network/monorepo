@@ -10,6 +10,7 @@ interface IUserSlice extends IUserLogin {
 
 export const getDefaultUserState = () => ({
   address: '',
+  dailyCount: [],
   loggedIn: false
 });
 
@@ -19,6 +20,8 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<IUserLogin>) => {
       state.address = action.payload.address;
+      // @ts-ignore
+      state.dailyCount = action.payload.daily_count;
       state.loggedIn = true;
     },
 
