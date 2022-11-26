@@ -119,7 +119,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       const userResult = await findExistingUser("_id", userId);
       const user = JSON.parse(JSON.stringify(userResult));
-      store.dispatch(setUser(user));
 
       await dbConnect();
       console.log('user address', user.address)
