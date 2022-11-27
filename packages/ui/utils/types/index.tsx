@@ -7,30 +7,27 @@ export interface IQuant{
   date?: Date;
   tags: string[];
   user: string;
+  status: number;
+  children: string[],
+  parents: string[]
 }
 
 export interface IUser{
-  _id: string;
-  name: string;
-  email: string;
   address: string;
-  password: string;
-  created_at: Date;
   daily_count: IDailyCount[];
+  created_at: Date;
 }
 
 
 export interface IUserLogin{
-  _id: string;
-  name: string;
-  email: string;
   address: string;
+  loggedIn: boolean;
+  dailyCount: IDailyCount[];
 }
 
 export interface IAdmin{
   _id: string;
   name: string;
-  email: string;
   address: string;
   password: string;
   created_at: Date;
@@ -44,6 +41,5 @@ export interface IDailyCount{
 
 
 export interface IQuantsByTags {
-  tag: string;
-  quants: IQuant[];
+  [key: string]: IQuant[];
 }

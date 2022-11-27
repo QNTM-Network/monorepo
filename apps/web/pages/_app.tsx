@@ -1,9 +1,8 @@
-
-import { store } from '../configureStore';
+import { store } from '../store';
 import { Layout } from '../components/Layout';
-import { Provider } from 'react-redux';
 import "../styles/base/_styles.scss";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Provider } from "react-redux";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 /// <reference types="react-scripts" />
@@ -12,6 +11,7 @@ import { ExternalProvider } from "@ethersproject/providers";
 interface Ethereum extends ExternalProvider {
   selectedAddress: string;
 }
+
 
 declare global {
   interface Window {

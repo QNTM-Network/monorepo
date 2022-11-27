@@ -1,4 +1,4 @@
-import { addDays , format} from 'date-fns'
+import { addDays , format, isBefore } from 'date-fns'
 
 export const getDateFromPeriod = (period: string, date: Date) => {
 	console.log({period, date});
@@ -15,8 +15,16 @@ export const getDateFromPeriod = (period: string, date: Date) => {
 			break;
 		case 'Weekly':
 			return format(addDays(new Date(date), 7), 'yyyy-MM-dd');
-
+		case 'Fortnightly':
+			return format(addDays(new Date(date), 14), 'yyyy-MM-dd');
 			break;
 	}
 }
 
+export const getMostRecentDateFromDateOrToday = (date: Date) => {
+	const today = new Date()
+	if (isBefore(new Date(date), today)) {
+		return today;
+	}
+	return date;
+}

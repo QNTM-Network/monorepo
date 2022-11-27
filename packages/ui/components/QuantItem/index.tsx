@@ -2,7 +2,7 @@ import  { useState} from "react";
 import { Dialog, Checkbox} from "@mui/material";
 import axios from "axios";
 
-import { getDateFromPeriod } from '../../utils/dates';
+import { getDateFromPeriod, getMostRecentDateFromDateOrToday } from '../../utils/dates';
 import  QuantModal  from './QuantModal/index'
 import {IQuant, IQuantsByTags } from "../../utils/types/index";
 
@@ -15,6 +15,7 @@ interface Props {
   displayQuants: IQuant[];
   setQuantsByTags: (quants: IQuantsByTags) => void;
   quantsByTags?: IQuantsByTags;
+  quants: IQuant[];
 }
 
 const style = {
@@ -32,7 +33,7 @@ const style = {
 };
 
 
-export const QuantItem = ( {setQuantsByTags, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
+export const QuantItem = ( {quants, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 const handleClose = () => {
@@ -43,25 +44,10 @@ const handleClose = () => {
 
 const handleDelete = (quant: IQuant) => {
 
-  if (quant.period) {
-
-
-    const dupeQuant = {name: quant.name, reoccurring: true, date: getDateFromPeriod(quant.period, quant.created_at),period: quant.period, user: quant.user}
-    console.log('dupeQuant', dupeQuant)
-    axios.post('/api/quant', dupeQuant)
-      .then(
-        (response) => {
-          console.log('response in deleteQuant', response);
-        },
-        (err) => {
-          console.log(err.text);
-        }
-      );
-  }
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
   
   setSelectedQuant(null);
-  axios.delete(`/api/quant/${quant._id}`, {data: {name: quant.name}})
+  axios.delete(`/api/quant/${quant._id}`)
     .then(
       (response) => {
         console.log(response);
@@ -74,13 +60,32 @@ const handleDelete = (quant: IQuant) => {
 };
 
 
-  const updateQuantHandler = () => {
-    console.log("update");
+
+  const handleComplete = (quant: IQuant) => {
+
+    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
+
+    setSelectedQuant(null);
+    axios.patch(`/api/quant/${quant._id}`, {...quant, status: 0})
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (err) => {
+          console.log(err.text);
+        }
+      );
+
+    axios.post('/api/user/quant', {address: quant.user, quant: quant._id, tags: quant.tags})
+  };
+
+
+  const handleUpdate = () => {
     // remove the quant from displayQuants and replace it with selected quant
+    console.log('handleUpdate', selectedQuant);
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === selectedQuant?._id) {
-          console.log("choosing selected quant");
           return selectedQuant;
         }
         return q;
@@ -88,7 +93,6 @@ const handleDelete = (quant: IQuant) => {
     );
 
     setSelectedQuant(null);
-    console.log({selectedQuant, displayQuants, quantsByTags});
     axios.patch(`/api/quant/${quant._id}`, selectedQuant)
       .then(
         (response) => {
@@ -102,7 +106,9 @@ const handleDelete = (quant: IQuant) => {
 
 
   return (
-    <div className={styles.data}>
+    <div 
+      className={styles.data}
+    >
             <div className={styles.data__record}>
               <div className={styles.data__record__left}>
                 <label className="data-record-checkbox-container">
@@ -126,7 +132,7 @@ const handleDelete = (quant: IQuant) => {
   }}
   className={styles.modal} open={selectedQuant._id === quant._id} onClose={handleClose}>
         <div className={styles.modal__container}>
-          <QuantModal selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} updateQuantHandler={updateQuantHandler} quant={quant} handleDelete={handleDelete} handleClose={handleClose}/>
+          <QuantModal displayQuants={displayQuants} quants={quants} selectedQuant={selectedQuant} setSelectedQuant={setSelectedQuant} handleUpdate={handleUpdate} quant={quant} handleDelete={handleDelete} handleComplete={handleComplete} handleClose={handleClose}/>
         </div>
       </Dialog>
     

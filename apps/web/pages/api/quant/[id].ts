@@ -1,26 +1,32 @@
-import { startCase} from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import dbConnect from "../../../utils/dbConnect";
 import Quant from "../../../models/Quant";
+import {
+  getDateFromPeriod,
+  getMostRecentDateFromDateOrToday,
+} from "../../../utils/dates";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { body, method,  query: {id, name}} = req;
+  const {
+    body,
+    method,
+    query: { id, name },
+  } = req;
 
   await dbConnect();
 
   switch (method) {
     case "DELETE":
       try {
-
         const foundQuant = await Quant.findById(id);
         if (foundQuant) {
           await Quant.deleteOne({ _id: id });
         } else {
-          const quantByCreated = await Quant.findOne({ name: name});
+          const quantByCreated = await Quant.findOne({ name: name });
 
           await Quant.deleteOne(quantByCreated);
         }
@@ -30,24 +36,75 @@ export default async function handler(
       break;
     case "PATCH":
       try {
+        const quant = await Quant.findOne({ _id: id });
 
-        console.log("body", body);
-        const quant = await Quant.findOne(
-          {_id: id},
-        );
+        // find quants with ids from the children
+        if (body.children) {
+          const children = await Quant.find({
+            name: {
+              $in: body.children,
+            },
+          });
+          const childrenIds = children.map((child) => child._id.toString());
+
+          // update many quants with ids from the children
+          const updated = await Quant.updateMany(
+            {
+              _id: childrenIds,
+            },
+            {
+              $push: {
+                tags: quant.name,
+              },
+            }
+          );
+        }
+
+        if (body.tags) {
+          const parents = await Quant.find({
+            name: {
+              $in: body.tags,
+            },
+          });
+          const parentsIds = parents.map((parents) => parents._id.toString());
+
+          // update many quants with ids from the children
+          const updated = await Quant.updateMany(
+            {
+              _id: parentsIds,
+            },
+            {
+              $push: {
+                children: quant.name,
+              },
+            }
+          );
+        }
 
         if (!quant) {
           return res.status(400).json({ success: false });
         }
-        quant.set(body)
+
+        if (quant.period && quant.period !== "none" && body.status === 0) {
+          quant.set({
+            ...body,
+            date: getDateFromPeriod(
+              body.period,
+              getMostRecentDateFromDateOrToday(quant.date || quant.created_at)
+            ),
+            status: 1,
+          });
+        } else {
+          quant.set({ ...body });
+        }
+
         const saveQuant = await quant.save();
-        console.log("saveQuant", saveQuant);
+
         res.status(200).json({ success: true, data: quant });
       } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
       }
       break;
-          
 
     default:
       res.status(400).json({ success: false });

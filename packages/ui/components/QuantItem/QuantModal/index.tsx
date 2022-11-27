@@ -18,21 +18,44 @@ import {
 } from "@mui/material";
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
+import { SearchWithFilter } from "./SearchWithFilter";
+
+const findQuantsFromIds = (quants: any, ids: any) => {
+  if (!ids) return [];
+  const matches = quants.filter((q: any) => ids.includes(q._id));
+  // map through each 
+  const names = matches.map((q: any) => q.name);
+  return names;
+};
+
+const findIdsFromQuants = (quants: any, names: any) => {
+  const matches = quants.filter((q: any) => names.includes(q.name));
+  // map through each
+  const ids = matches.map((q: any) => q._id);
+  return ids;
+};
+  
 
 import styles from "./QuantModal.module.scss";
 
 interface Props {
   quant: any;
   handleClose: () => void;
+  handleComplete: (quant: IQuant) => void;
   handleDelete: (quant: IQuant) => void;
-  updateQuantHandler: () => void;
+  handleUpdate: () => void;
   setSelectedQuant: (quant: IQuant) => void;
   selectedQuant: IQuant;
+  quants: IQuant[];
+  displayQuants: IQuant[];
 }
 
+
 const QuantModal = ({
-  updateQuantHandler,
+  quants,
+  handleUpdate,
   handleDelete,
+  handleComplete,
   quant,
   setSelectedQuant,
   selectedQuant,
@@ -57,15 +80,18 @@ const QuantModal = ({
   ];
 
   const [searchText, setSearchText] = useState("");
+  const [quantsNames, setQuantsNames] = useState<any>([]);
 
+  useEffect(() => {
+    setQuantsNames(quants.map((q: any) => q.name));
+  }, [])
 
   const containsText = (text: string, searchText: string) =>
     text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
   const displayedOptions = useMemo(
-    () => allOptions.filter((option) => containsText(option, searchText)),
-    [searchText]
+    () => quantsNames.filter((option: string) => containsText(option, searchText)),
+    [quantsNames, searchText]
   );
-
 
   return (
     <>
@@ -88,9 +114,8 @@ const QuantModal = ({
           value={selectedQuant.period}
           onChange={(e) => setSelectedQuant({...selectedQuant, period: e.target.value})}
        >
-
         <MenuItem value={'None'}>
-          Daily
+          None
         </MenuItem>
         <MenuItem value={'Daily'}>
           Daily
@@ -107,13 +132,22 @@ const QuantModal = ({
 
         <MenuItem value={'Weekly'}>
          Weekly
+        </MenuItem>
 
+        <MenuItem value={'Fortnightly'}>
+          Fortnightly
+        </MenuItem>
+
+        <MenuItem value={'Monthly'}>
+         Monthly 
         </MenuItem>
      </Select>
       </FormControl>
     </Box>
        </Box>
-       <Input onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
+       <TextField
+         size="medium"
+         onChange={(e) => setSelectedQuant({...selectedQuant, notes: e.target.value})} value={selectedQuant.notes}sx={{ width: 300 }} />
        <Box sx={{ m: 10 }}>
   <MobileDatePicker
     
@@ -124,59 +158,28 @@ const QuantModal = ({
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
-        <Box sx={{ m: 10 }}>
-          <FormControl fullWidth>
-            <InputLabel id="search-select-label">Tags</InputLabel>
-            <Select
-              // Disables auto focus on MenuItems and allows TextField to be in focus
-              MenuProps={{ autoFocus: false }}
-              labelId="search-select-label"
-              id="search-select"
-              value={selectedQuant.tags}
-              multiple
-              label="Tag"
-              // @ts-ignore
-              onChange={(e) => setSelectedQuant({...selectedQuant, tags: e.target.value})}
-              // This prevents rendering empty string in Select's value
-              // if search text would exclude currently selected option.
-            >
-              {/* TextField is put into ListSubheader so that it doesn't
-              act as a selectable item in the menu
-              i.e. we can click the TextField without triggering any selection.*/}
-              <ListSubheader>
-                <TextField
-                  size="small"
-                  // Autofocus on textfield
-                  autoFocus
-                  placeholder="Type to search..."
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                      </InputAdornment>
-                    ),
-                  }}
-                  // @ts-ignore
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Escape") {
-                      // Prevents autoselecting item while typing (default Select behaviour)
-                      e.stopPropagation();
-                    }
-                  }}
-                />
-              </ListSubheader>
-              {displayedOptions.map((tags, i) => (
-                <MenuItem key={i} value={tags}>
-                  {tags}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+        {selectedQuant.tags && (
+          <SearchWithFilter
+            setSearchText={setSearchText}
+            displayedOptions={displayedOptions}
+            quant={selectedQuant}
+            setSelectedQuant={setSelectedQuant}
+            relationship="parents"
+          />
+      )}
+        {selectedQuant.children && (
+          <SearchWithFilter
+            setSearchText={setSearchText}
+            displayedOptions={displayedOptions}
+            quant={selectedQuant}
+            setSelectedQuant={setSelectedQuant}
+            relationship="children"
+          />
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={updateQuantHandler}>Update</Button>
+        <Button onClick={handleUpdate}>Update</Button>
+        <Button onClick={() => handleComplete(quant)}>Complete</Button>
         <Button onClick={() => handleDelete(quant)}>Delete</Button>
       </DialogActions>
     </>

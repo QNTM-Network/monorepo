@@ -6,14 +6,11 @@ import {
 
 interface IUserSlice extends IUserLogin {
   isAuth?: boolean;
-  loggedIn?: boolean;
 }
 
 export const getDefaultUserState = () => ({
-  email: '',
-  name: '',
   address: '',
-  _id: '',
+  dailyCount: [],
   loggedIn: false
 });
 
@@ -22,19 +19,15 @@ export const userSlice = createSlice({
   initialState: getDefaultUserState(),
   reducers: {
     setUser: (state, action: PayloadAction<IUserLogin>) => {
-      state.email = action.payload.email;
       state.address = action.payload.address;
-      state.name= action.payload.name;
+      // @ts-ignore
+      state.dailyCount = action.payload.daily_count;
       state.loggedIn = true;
-
     },
 
     unsetUser: (state) => {
-      state.email = '';
       state.address = '';
       state.loggedIn = false;
-      state.name = '';
-      state._id = '';
     },
   },
 });

@@ -9,6 +9,8 @@ const QuantSchema = new mongoose.Schema<IQuant>({
   notes: { type: String },
   date: { type: Date },
   tags: [{ type: String }],
+  status: { type: Number },
+  children: [ { type: String } ]
 });
 
 export default mongoose.models.Quant|| mongoose.model('Quant', QuantSchema);

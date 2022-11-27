@@ -2,8 +2,6 @@ import mongoose from 'mongoose';
 import { IAdmin } from 'ui';
 
 const AdminSchema = new mongoose.Schema<IAdmin>({
-  name: { type: String },
-  email: { type: String },
   password: { type: String },
   created_at: { type: Date },
   daily_count: [{
