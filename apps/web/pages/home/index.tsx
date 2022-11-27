@@ -112,7 +112,7 @@ export async function getServerSideProps(context: any) {
 
        const fetchUsersAndquants = async () => {
 
-      const result = await Quant.find({  status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const result = await Quant.find({  status: {$ne: 0 }}).sort({ createdAt: -1 }).lean()
       const quants = JSON.parse(JSON.stringify(result));
 
       return { quants };
