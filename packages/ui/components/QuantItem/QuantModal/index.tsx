@@ -51,7 +51,7 @@ const QuantModal = ({
     "Health",
     "Fitness",
     "Quality of Life",
-    "Interesting"
+    "Interesting",
     "Ideas",
     "Goals"
   ];
