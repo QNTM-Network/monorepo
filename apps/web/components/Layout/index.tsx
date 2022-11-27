@@ -1,4 +1,5 @@
-import axios  from 'axios';
+import { useCallback} from 'react';
+import { get, isEmpty } from 'lodash';
 import router from 'next/router';
 
 // components/layout.js
@@ -38,15 +39,34 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
   const connectMetaMask = async (address: string, ethereum: any) => {
     if (address) {
-      const data = await axios.post('/api/user/check', {field: 'address', value: address, address: address});
-      const user = data.data;
-      console.log("user", user);
-      dispatch(setUser(user));
+      // const data = await axios.post('/api/user/check', {field: 'address', value: address, address: address});
+      // const user = data.data;
+      // console.log("user", user);
+      // dispatch(setUser(user));
       router.push('/home');
     } else {
       alert("install metamask extension!!");
     }
   };
+
+
+  // const handleLogin = useCallback(
+  //   async (address: string) => {
+  //     if (!address) return;
+
+  //     setIsLoading(true);
+  //     const result = await checkUser({ field: 'address', value: address });
+  //     const errorStatus = get(result, 'error.status');
+
+  //     const data = get(result, 'data');
+  //     if (!isEmpty(data)) {
+  //       dispatch(setUser({ ...data, usdcBalance: prevBalanceRef.current }));
+  //     }
+
+  //     setIsLoading(false);
+  //   },
+  //   [checkUser, dispatch]
+  // );
 
 
   return (
