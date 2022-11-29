@@ -109,28 +109,12 @@ const Web = ({ quants, user}: Props) => {
 export default Web;
 
 
-const timeout = (ms: any, message: any) => {
-    return new Promise((_, reject) => {
-        setTimeout(() => {
-            reject(new Error(message));
-        }, ms);
-    });
-};
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ query, req }) => {
+      await dbConnect();
 
-export async function getServerSideProps(context: any) {
-  await dbConnect();
-
-  let quants
-  let user  
-
-
-    console.log("Running");
-    try {
-        await Promise.race([
-            timeout(5000, 'timeout'), // 3000 = the maximum time to wait
-            (async () => {
-                // ...do the real work, modelled here as `wait`...
-      const userId = get(context, "req.cookies._id");
+      const userId = get(req, "cookies._id");
       console.log("userId", userId);
 
       const userResult = await findExistingUser("_id", userId);

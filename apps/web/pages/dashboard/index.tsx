@@ -86,6 +86,13 @@ export default Dashboard
 
 export async function getServerSideProps(context: any) {
 
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, query }) => {
+
+  await dbConnect();
+
+      const userData = query.user || 'holding user'
+
+      const userId = get(req, "cookies._id");
       await dbConnect();
 
       const userId = get(context, "req.cookies._id");
