@@ -34,6 +34,7 @@ const useWallet = () => {
 		const result = await checkUser({ field: 'address', value: address,  address: address });
 		console.log({result});
 
+
 		const data = get(result, 'data');
 		console.log({data});
 		if (!isEmpty(data)) {
