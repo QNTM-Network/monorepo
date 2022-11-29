@@ -108,17 +108,27 @@ const Web = ({ quants, user}: Props) => {
 export default Web;
 
 
-function timeout(ms: any) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+const timeout = (ms: any, message: any) => {
+    return new Promise((_, reject) => {
+        setTimeout(() => {
+            reject(new Error(message));
+        }, ms);
+    });
+};
 
 export async function getServerSideProps(context: any) {
 
 
   let quants
   let user  
-  try {
- await timeout(3000);
+
+
+    console.log("Running");
+    try {
+        await Promise.race([
+            timeout(3000, 'timeout'), // 3000 = the maximum time to wait
+            (async () => {
+                // ...do the real work, modelled here as `wait`...
       const userId = get(context, "req.cookies._id");
       console.log("userId", userId);
 
@@ -128,9 +138,15 @@ export async function getServerSideProps(context: any) {
       console.log('user address', user.address)
       const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
       quants = JSON.parse(JSON.stringify(result));
-  } catch (error) {
-    console.log(error)
-  }
+            })()
+        ]);
+        console.log("task complete")
+    } catch (error) {
+        console.log("catch error", error);
+    } finally {
+        console.log("task finally")
+    }
+  
       
       return {
         props: {
