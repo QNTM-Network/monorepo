@@ -126,7 +126,7 @@ export async function getServerSideProps(context: any) {
     console.log("Running");
     try {
         await Promise.race([
-            timeout(3000, 'timeout'), // 3000 = the maximum time to wait
+            timeout(10000, 'timeout'), // 3000 = the maximum time to wait
             (async () => {
                 // ...do the real work, modelled here as `wait`...
       const userId = get(context, "req.cookies._id");
