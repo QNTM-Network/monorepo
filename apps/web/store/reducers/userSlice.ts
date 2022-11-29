@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
-import { AppState} from '../../store';
 
 import {
   IUserLogin,
-  IDailyCount,
 } from 'ui'
 
+interface IUserSlice extends IUserLogin {
+  isAuth?: boolean;
+}
 
 export const getDefaultUserState = () => ({
   address: '',
@@ -15,7 +15,7 @@ export const getDefaultUserState = () => ({
 });
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'profile',
   initialState: getDefaultUserState(),
   reducers: {
     setUser: (state, action: PayloadAction<IUserLogin>) => {
@@ -23,7 +23,6 @@ export const userSlice = createSlice({
       // @ts-ignore
       state.dailyCount = action.payload.daily_count;
       state.loggedIn = true;
-
     },
 
     unsetUser: (state) => {
@@ -31,23 +30,7 @@ export const userSlice = createSlice({
       state.loggedIn = false;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      if (!action.payload.user.address) {
-        return state;
-      }
-      state.address = action.payload.user.address;
-      state.dailyCount = action.payload.user.dailyCount;
-      state.loggedIn = action.payload.user.loggedIn;
-    },
-
-  },
-
-
 });
-
-export const selectUser = (state: AppState) => state.user;
-
 
 export const userReducer = userSlice.reducer;
 export const {
