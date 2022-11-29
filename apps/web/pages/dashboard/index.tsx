@@ -2,10 +2,11 @@ import { find, get, map, reverse } from 'lodash';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { wrapper } from '../../store';
 
 import { IDailyCount, IUser, IQuant} from 'ui';
 import { getTodayCount, getCountPerDay } from '../../utils/getTodayCount';
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { selectUser } from '../../store/reducers/userSlice';
 import { getCounts } from '../../utils/getCounts';
 import Quant from "../../models/Quant";
 import dbConnect from "../../utils/dbConnect";
@@ -25,9 +26,10 @@ const Dashboard = ({quants }:Props)  => {
   const [countPerDay, setCountPerDay] = useState<IDailyCount[]>()
   const [dayCount, setDayCount] = useState<number>(0);
 
-  const user = useAppSelector((state) => state.user);
+  const user = useSelector(selectUser);
+  console.log({ user });
+  console.log({ quants });
 
-  console.log("user", user);
 
   useEffect(() => {
     if (user.address) {
@@ -84,23 +86,30 @@ const Dashboard = ({quants }:Props)  => {
 
 export default Dashboard
 
-export async function getServerSideProps(context: any) {
 
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, query }) => {
+
+  await dbConnect();
+
+      const userData = query.user || 'holding user'
+
+      const userId = get(req, "cookies._id");
       await dbConnect();
-
-      const userId = get(context, "req.cookies._id");
-      console.log("userId", userId);
-
-      const userResult = await findExistingUser("_id", userId);
-      const user = JSON.parse(JSON.stringify(userResult));
-
-      console.log('user address', user.address)
-      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const cutoff = new Date();
+      const result = await Quant.find({ status: {$ne: 0 }}).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
+      console.log({cutoff, quants})
   
+  
+  console.log({userData})
+
+  console.log({query});
+
       return {
         props: {
+          user: userData,
           quants
         },
       };
     }
+);

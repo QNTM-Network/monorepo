@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, find, map } from "lodash";
 
+import { setUser } from "../../store/reducers/userSlice";
 import { getQuantsByTags } from "../../utils/quantsByTags";
 import {
   IUser,
@@ -11,9 +12,10 @@ import {
   IQuantsByTags,
   NewQuantSection,
 } from "ui";
-import dbConnect  from "../../utils/dbConnect";
 import findExistingUser from "../../utils/findExistingUser";
+import dbConnect from "../../utils/dbConnect";
 import Quant from "../../models/Quant";
+import { wrapper } from "../../store";
 
 interface Props {
   quants: IQuant[];
@@ -112,31 +114,27 @@ export default Web;
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query, req }) => {
+
+      await dbConnect();
+
       const userId = get(req, "cookies._id");
+      console.log("userId", userId);
 
 
       const userResult = await findExistingUser("_id", userId);
-              if (userResult) {
-                user = JSON.parse(JSON.stringify(userResult));
+      const user = JSON.parse(JSON.stringify(userResult));
+      store.dispatch(setUser(user));
 
+      await dbConnect();
+      console.log('user address', user.address)
       const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
-                quants = JSON.parse(JSON.stringify(result));
-              }
+      const quants = JSON.parse(JSON.stringify(result));
 
-            })()
-        ]);
-        console.log("task complete")
-    } catch (error) {
-        console.log("catch error", error);
-    } finally {
-        console.log("task finally")
-    }
-  
-      
       return {
         props: {
           quants,
           user,
         },
       };
-}
+    }
+);

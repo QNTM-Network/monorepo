@@ -1,9 +1,9 @@
-import { store } from '../store';
 import { Layout } from '../components/Layout';
 import "../styles/base/_styles.scss";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Provider } from "react-redux";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import {wrapper} from '../store';
 
 /// <reference types="react-scripts" />
 import { ExternalProvider } from "@ethersproject/providers";
@@ -24,15 +24,17 @@ interface MyAppProps {
   pageProps: any;
 }
 
-function MyApp({ Component, pageProps }: MyAppProps) {
+function MyApp({ Component, ...rest }: MyAppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  const {  pageProps } = props;
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <Provider store={store}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Layout >
         <Component {...pageProps} />
       </Layout>
-    </Provider>
     </LocalizationProvider>
+    </Provider>
   );
 }
 
@@ -49,3 +51,4 @@ function MyApp({ Component, pageProps }: MyAppProps) {
 // }
 
 export default MyApp;
+
