@@ -129,8 +129,6 @@ export async function getServerSideProps(context: any) {
             timeout(5000, 'timeout'), // 3000 = the maximum time to wait
             (async () => {
 
-      const result = await Quant.find({  status: {$ne: 0 }}).sort({ createdAt: -1 });
-                quants = JSON.parse(JSON.stringify(result));
 
             })()
         ]);
@@ -144,7 +142,6 @@ export async function getServerSideProps(context: any) {
       
       return {
         props: {
-          quants,
         },
       };
 }
