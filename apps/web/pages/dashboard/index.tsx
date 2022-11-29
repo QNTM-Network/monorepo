@@ -89,6 +89,7 @@ export default Dashboard
 
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, query }) => {
 
+  await dbConnect();
 
       const userData = query.user || 'holding user'
 

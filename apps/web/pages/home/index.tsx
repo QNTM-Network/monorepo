@@ -114,6 +114,8 @@ export default Web;
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query, req }) => {
+      await dbConnect();
+
       const userId = get(req, "cookies._id");
       console.log("userId", userId);
 
