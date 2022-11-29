@@ -86,6 +86,7 @@ export default Dashboard
 
 export async function getServerSideProps(context: any) {
 
+      await dbConnect();
 
       const userId = get(context, "req.cookies._id");
       console.log("userId", userId);
