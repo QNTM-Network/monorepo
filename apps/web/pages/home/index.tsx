@@ -126,18 +126,20 @@ export async function getServerSideProps(context: any) {
     console.log("Running");
     try {
         await Promise.race([
-            timeout(10000, 'timeout'), // 3000 = the maximum time to wait
+            timeout(5000, 'timeout'), // 3000 = the maximum time to wait
             (async () => {
                 // ...do the real work, modelled here as `wait`...
       const userId = get(context, "req.cookies._id");
       console.log("userId", userId);
 
       const userResult = await findExistingUser("_id", userId);
-      user = JSON.parse(JSON.stringify(userResult));
+              if (userResult) {
+                user = JSON.parse(JSON.stringify(userResult));
 
-      console.log('user address', user.address)
       const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
-      quants = JSON.parse(JSON.stringify(result));
+                quants = JSON.parse(JSON.stringify(result));
+              }
+
             })()
         ]);
         console.log("task complete")

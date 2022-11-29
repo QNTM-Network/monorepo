@@ -8,7 +8,7 @@ const findByField = async (field: string, value: string) => {
   models.push(User);
   models.push(Admin);
 
-  return Promise.all(models.map((model) => model.find({ [field]: value })));
+  return Promise.all(models.map((model) => model.find({ [field]: value }).lean()));
 
   // return Promise.all(
   //   models.map((model) =>
