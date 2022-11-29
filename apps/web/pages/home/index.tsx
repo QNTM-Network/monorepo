@@ -128,17 +128,9 @@ export async function getServerSideProps(context: any) {
         await Promise.race([
             timeout(5000, 'timeout'), // 3000 = the maximum time to wait
             (async () => {
-                // ...do the real work, modelled here as `wait`...
-      const userId = get(context, "req.cookies._id");
-      console.log("userId", userId);
 
-      const userResult = await findExistingUser("_id", userId);
-              if (userResult) {
-                user = JSON.parse(JSON.stringify(userResult));
-
-      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const result = await Quant.find({  status: {$ne: 0 }}).sort({ createdAt: -1 });
                 quants = JSON.parse(JSON.stringify(result));
-              }
 
             })()
         ]);
@@ -153,7 +145,6 @@ export async function getServerSideProps(context: any) {
       return {
         props: {
           quants,
-          user,
         },
       };
 }
