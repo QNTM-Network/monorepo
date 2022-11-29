@@ -108,12 +108,17 @@ const Web = ({ quants, user}: Props) => {
 export default Web;
 
 
+function timeout(ms: any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export async function getServerSideProps(context: any) {
+
 
   let quants
   let user  
   try {
+ await timeout(3000);
       const userId = get(context, "req.cookies._id");
       console.log("userId", userId);
 
