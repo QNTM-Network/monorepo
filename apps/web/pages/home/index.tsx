@@ -11,6 +11,7 @@ import {
   IQuantsByTags,
   NewQuantSection,
 } from "ui";
+import dbConnect  from "../../utils/dbConnect";
 import findExistingUser from "../../utils/findExistingUser";
 import Quant from "../../models/Quant";
 
@@ -108,21 +109,34 @@ const Web = ({ quants, user}: Props) => {
 export default Web;
 
 
-export async function getServerSideProps(context: any) {
-      const userId = get(context, "req.cookies._id");
-      console.log("userId", userId);
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ query, req }) => {
+      const userId = get(req, "cookies._id");
+
 
       const userResult = await findExistingUser("_id", userId);
-      const user = JSON.parse(JSON.stringify(userResult));
+              if (userResult) {
+                user = JSON.parse(JSON.stringify(userResult));
 
-      console.log('user address', user.address)
       const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
-      const quants = JSON.parse(JSON.stringify(result));
+                quants = JSON.parse(JSON.stringify(result));
+              }
 
+            })()
+        ]);
+        console.log("task complete")
+    } catch (error) {
+        console.log("catch error", error);
+    } finally {
+        console.log("task finally")
+    }
+  
+      
       return {
         props: {
           quants,
           user,
         },
       };
-    }
+}
