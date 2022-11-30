@@ -118,15 +118,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
       await dbConnect();
 
       const userId = get(req, "cookies._id");
-      console.log("userId", userId);
 
 
       const userResult = await findExistingUser("_id", userId);
       const user = JSON.parse(JSON.stringify(userResult));
-      store.dispatch(setUser(user));
+      await store.dispatch(setUser(user));
 
-      await dbConnect();
-      console.log('user address', user.address)
       const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
 
