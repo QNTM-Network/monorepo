@@ -27,13 +27,9 @@ const Dashboard = ({quants }:Props)  => {
   const [dayCount, setDayCount] = useState<number>(0);
 
   const user = useSelector(selectUser);
-  console.log({ user });
-  console.log({ quants });
-
 
   useEffect(() => {
     if (user.address) {
-      console.log({ user });
       console.log('day count', getCounts(quants as IQuantWithCount[]));
 
       setDayCount(getCounts(quants as IQuantWithCount[]));
@@ -50,11 +46,7 @@ const Dashboard = ({quants }:Props)  => {
     <div>
       <h1>Dashboard</h1>
     <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', paddingBottom: '20px'}}>
-    <div style={{display:'flex', flexDirection:'column'}}>
-      <h2>User</h2>
-      <h2>{user.address}</h2>
-    </div>
-    <div style={{display:'flex', flexDirection:'column'}}>
+    <div style={{display:'flex', padding: '10px', flexDirection:'column'}}>
       <h2>Today Expectation</h2>
   <h2>{dayCount}</h2>
 </div>
@@ -87,28 +79,23 @@ const Dashboard = ({quants }:Props)  => {
 export default Dashboard
 
 
-export const getServerSideProps = wrapper.getServerSideProps(store => async ({ req, query }) => {
-
-  await dbConnect();
-
-      const userData = query.user || 'holding user'
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ query, req }) => {
+      await dbConnect();
 
       const userId = get(req, "cookies._id");
-      await dbConnect();
-      const cutoff = new Date();
-      const result = await Quant.find({ status: {$ne: 0 }}).sort({ createdAt: -1 });
-      const quants = JSON.parse(JSON.stringify(result));
-      console.log({cutoff, quants})
-  
-  
-  console.log({userData})
 
-  console.log({query});
+      const userResult = await findExistingUser("_id", userId);
+      const user = JSON.parse(JSON.stringify(userResult));
+
+      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const quants = JSON.parse(JSON.stringify(result));
 
       return {
         props: {
-          user: userData,
-          quants
+          quants,
+          user,
         },
       };
     }
