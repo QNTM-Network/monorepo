@@ -11,8 +11,7 @@ export const NewQuantSection = ( { createQuant, input, setInput }: Props ) => {
 	
 		return (
 			<>
-		<Button data-testid="sendButton" onClick={createQuant}>New item</Button>
-		<Input data-testid="quantText" value={input} onChange={e => setInput(e.target.value)}/>	
+		<Button variant="contained" data-testid="sendButton" onClick={createQuant}>New item</Button>
 		</>
 		)
 	}
