@@ -16,6 +16,8 @@ interface Props {
   setQuantsByTags: (quants: IQuantsByTags) => void;
   quantsByTags?: IQuantsByTags;
   quants: IQuant[];
+  setSelectedQuant: (quant: IQuant) => void;
+  selectedQuant?: IQuant | null;
 }
 
 const style = {
@@ -33,8 +35,7 @@ const style = {
 };
 
 
-export const QuantItem = ( {quants, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
- const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
+export const QuantItem = ( {selectedQuant, setSelectedQuant, quants, quantsByTags, displayQuants, setDisplayQuants,  quant}: Props) => {
 
 const handleClose = () => {
   setSelectedQuant(null);
