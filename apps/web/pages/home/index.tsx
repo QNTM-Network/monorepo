@@ -28,12 +28,14 @@ const Web = ({ quants, user}: Props) => {
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
+ const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
   const createQuant = () => {
     axios.post("/api/quant", { name: input, user: user.address }).then(
       (response) => {
         setInput("");
         const newQuant = response.data.data;
+        setSelectedQuant(newQuant);
         setDisplayQuants([...displayQuants, newQuant]);
       },
       (err) => {
@@ -98,6 +100,8 @@ const Web = ({ quants, user}: Props) => {
                 setDisplayQuants={setDisplayQuants}
                 quant={quant}
                 quants={quants}
+                setSelectedQuant={setSelectedQuant}
+                selectedQuant={selectedQuant}
               />
             </div>
           );
