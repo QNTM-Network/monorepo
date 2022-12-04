@@ -13,8 +13,10 @@ export const getTodayCount = (user: IUserLogin) => {
 export const getCountPerDay = (user: IUserLogin ) => {
       const countPerDay = map(user.dailyCount, (day) => {
         const count = get(day, 'count', 0);
+        const percentage = get(day, 'percentage', 0);
+        const expected = get(day, 'expected', 0);
         const date = get(day, 'date', '');
-        return { count, date };
+        return { count, date, percentage, expected };
       });
   return countPerDay;
     }

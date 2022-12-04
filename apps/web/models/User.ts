@@ -7,6 +7,8 @@ const UserSchema = new mongoose.Schema<IUser>({
 	daily_count: [{ 
 		date: { type: Date },
 		count: { type: Number },
+		expected: { type: Number },
+		percentage: { type: Number },
 		tags: [{
 			name: { type: String },
 			count: { type: Number }
