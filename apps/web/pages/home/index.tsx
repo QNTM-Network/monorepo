@@ -96,7 +96,6 @@ const Web = ({ quants, user}: Props) => {
               <QuantItem
                 setQuantsByTags={setQuantsByTags}
                 displayQuants={displayQuants}
-                quantsByTags={quantsByTags}
                 setDisplayQuants={setDisplayQuants}
                 quant={quant}
                 quants={quants}
