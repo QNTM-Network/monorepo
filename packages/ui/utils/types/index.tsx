@@ -37,6 +37,8 @@ export interface IAdmin{
 export interface IDailyCount{
   date: Date;
   count: number;
+  expected: number;
+  percentage: number;
 }
 
 

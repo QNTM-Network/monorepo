@@ -8,18 +8,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { body, method } = req;
+  const { 
+    body: { tags, address, expected},
+    method } = req;
 
   await dbConnect();
 
   switch (method) {
     case "POST":
       try {
-        const user = await User.findOne({ address: body.address });
+        const user = await User.findOne({ address });
         if (!user) {
           // create user
           const newUser = new User({
-            address: body.address,
+            address,
             daily_count: [
               {
                 date: new Date(),
@@ -30,7 +32,7 @@ export default async function handler(
           await newUser.save();
 
         } else {
-          const updatedUser = updateCount(user, body.tags);
+          const updatedUser = updateCount(user, tags, expected);
 
           await user.save();
           return res.status(200).json({ success: true, message: "Success" });
