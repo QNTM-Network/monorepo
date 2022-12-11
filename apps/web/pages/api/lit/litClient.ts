@@ -12,7 +12,7 @@ const accessControlConditions = [
     parameters: [":userAddress", "latest"],
     returnValueTest: {
       comparator: ">=",
-      value: "1000000000000", // 0.000001 ETH
+      value: "0000000000000", 
     },
   },
 ];
