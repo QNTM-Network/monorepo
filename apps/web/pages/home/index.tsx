@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, find, map } from "lodash";
+import Lit from '../api/lit/litClient'
+
+
 
 import { setUser } from "../../store/reducers/userSlice";
 import { getQuantsByTags } from "../../utils/quantsByTags";
@@ -29,6 +32,26 @@ const Web = ({ quants, user}: Props) => {
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
+
+
+
+  const connectToLit = async () => {
+
+  const connect =  await Lit.connect()
+    console.log({connect})
+
+    const encrypt = await Lit.encrypt("Hi DArinz")
+    console.log({encrypt})
+
+    const decrypt = await Lit.decrypt(encrypt.encryptedString, encrypt.encryptedSymmetricKey)
+    console.log({decrypt})
+
+  }
+
+
+
+  connectToLit()
+
 
   const createQuant = () => {
     axios.post("/api/quant", { name: input, user: user.address }).then(
