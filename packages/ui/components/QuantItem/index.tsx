@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { Dialog, Checkbox } from "@mui/material";
 import axios from "axios";
 
 import { getExpectation } from '../../utils/getExpected';
 import QuantModal from "./QuantModal/index";
 import { IQuant, IQuantsByTags } from "../../utils/types/index";
+import { useState } from "react";
+
 
 // @ts-ignore
 import styles from "./QuantItem.module.scss";
@@ -109,17 +110,10 @@ export const QuantItem = ({
   };
 
   return (
-    <div className={styles.data}>
+    <div className={styles.data} onClick={() => setSelectedQuant(quant)}>
       <div className={styles.data__record}>
         <div className={styles.data__record__left}>
           <label className="data-record-checkbox-container">
-            <Checkbox
-              className={styles.data__record__left__checkbox}
-              value="check"
-              checked={selectedQuant?._id === quant._id}
-              onChange={() => setSelectedQuant(quant)}
-            />
-
             <span className="data-record-checkmark"></span>
           </label>
           <div className={styles.data__record__title}>
