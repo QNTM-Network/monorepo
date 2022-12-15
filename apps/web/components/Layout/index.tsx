@@ -1,5 +1,7 @@
 import axios  from 'axios';
 import router from 'next/router';
+import Head from 'next/head';
+import Link from 'next/link';
 
 // components/layout.js
 import {Header} from 'ui' 
@@ -44,6 +46,9 @@ const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
   return (
     <div className={styles.layout}>
+      <Head>
+        <title>Quantmn</title>
+      </Head>
       <Header login={login}></Header>
       <main>{children}</main>
     </div>
