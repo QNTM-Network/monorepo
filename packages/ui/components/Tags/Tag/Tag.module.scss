@@ -2,13 +2,12 @@
 
 .tag {
 		padding: 8px;
-		border-radius: 4px;
-		background-color: $coal;
-		color: white;
+		background-color: white;
+		color: black;
 		font-size: 1.5rem;
 		font-weight: 500;
 		margin-top: 8px;
-
+		cursor: pointer;
 		font-family: Roboto, sans-serif;
 		
 		&:not(:last-child) {

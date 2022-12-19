@@ -50,6 +50,21 @@ const Web = ({ quants, user}: Props) => {
 
   connectToLit()
 
+  // set the selected quant to none by clicking outside the modal
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (event.target.className === "modal") {
+        setSelectedQuant(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+    
+
 
   const createQuant = () => {
     axios.post("/api/quant", { name: input, user: user.address }).then(
