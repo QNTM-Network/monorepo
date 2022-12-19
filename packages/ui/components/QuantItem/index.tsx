@@ -104,7 +104,7 @@ export const QuantItem = ({
     });
   };
 
-  const handleUpdate = (quant) => {
+  const handleUpdate = () => {
     console.log("handleUpdate", selectedQuant);
     setDisplayQuants(
       displayQuants.map((q) => {
@@ -116,7 +116,6 @@ export const QuantItem = ({
       })
     );
 
-    setSelectedQuant(null);
     axios.patch(`/api/quant/${quant._id}`, selectedQuant).then(
       (response) => {
         console.log(response);
@@ -130,7 +129,30 @@ export const QuantItem = ({
 
   const handleUpdateDate = (quant: any) => {
     console.log("handleUpdate", quant);
-    setSelectedQuant(quant);
+    // convert date to string
+    setDisplayQuants(
+      displayQuants.map((q) => {
+        if (q._id === quant._id) {
+          return quant;
+        }
+        return q;
+      })
+    );
+    console.log("handleUpdate", selectedQuant);
+  };
+
+  const handleUpdatePeriod = (quant: any) => {
+    console.log("handleUpdate", quant);
+    setSelectedQuant(quants.find((q) => q._id === quant._id));
+    setDisplayQuants(
+      displayQuants.map((q) => {
+        if (q._id === quant._id) {
+          return { ...q, period: quant.period };
+        }
+        return q;
+      })
+    );
+    console.log("handleUpdate", selectedQuant);
   };
 
 
@@ -165,9 +187,8 @@ export const QuantItem = ({
             <FormControl>
               <Select
                 className={styles.modal__content__period}
-                value={selectedQuant.period}
-                onChange={(e) => setSelectedQuant({ ...selectedQuant, period: e.target.value as string })
-                }
+                value={selectedQuant?.period}
+onChange={(e) => handleUpdatePeriod({ ...selectedQuant, period: e.target.value })}
               >
                 <MenuItem value={"None"}>None</MenuItem>
                 <MenuItem value={"Daily"}>Daily</MenuItem>
@@ -178,6 +199,13 @@ export const QuantItem = ({
                 <MenuItem value={"Monthly"}>Monthly</MenuItem>
               </Select>
             </FormControl>
+            <MobileDatePicker
+          label="Date mobile"
+          inputFormat="MM/dd/yyyy"
+          value={selectedQuant.date}
+          onChange={(e) => handleUpdateDate({...selectedQuant, date: e ? e : selectedQuant.date} )}
+          renderInput={(params) => <TextField {...params} />}
+        />
         <Button onClick={handleUpdate}>Update</Button>
         <Button onClick={() => handleComplete(quant)}>Complete</Button>
         <Button onClick={() => handleDelete(quant)}>Delete</Button>

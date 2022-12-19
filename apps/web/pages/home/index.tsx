@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, find, map } from "lodash";
-import Lit from '../api/lit/litClient'
 
 import { setUser } from "../../store/reducers/userSlice";
 import { getQuantsByTags } from "../../utils/quantsByTags";
@@ -32,23 +31,6 @@ const Web = ({ quants, user}: Props) => {
  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
 
-
-  const connectToLit = async () => {
-
-  const connect =  await Lit.connect()
-    console.log({connect})
-
-    const encrypt = await Lit.encrypt("Hi DArinz")
-    console.log({encrypt})
-
-    const decrypt = await Lit.decrypt(encrypt.encryptedString, encrypt.encryptedSymmetricKey)
-    console.log({decrypt})
-
-  }
-
-
-
-  connectToLit()
 
   // set the selected quant to none by clicking outside the modal
   useEffect(() => {
