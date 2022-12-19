@@ -15,6 +15,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "2.8.2",
     "eslint-config-custom": "*",
     "prettier": "latest",
     "turbo": "latest"

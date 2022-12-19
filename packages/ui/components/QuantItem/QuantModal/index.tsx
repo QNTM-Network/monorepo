@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { IQuant } from "../../../utils/types/index";
-import { SearchWithFilter } from "./SearchWithFilter";
 
 const findQuantsFromIds = (quants: any, ids: any) => {
   if (!ids) return [];
@@ -140,24 +139,6 @@ const QuantModal = ({
           renderInput={(params) => <TextField {...params} />}
         />
       </Box>
-        {selectedQuant.tags && (
-          <SearchWithFilter
-            setSearchText={setSearchText}
-            displayedOptions={displayedOptions}
-            quant={selectedQuant}
-            setSelectedQuant={setSelectedQuant}
-            relationship="parents"
-          />
-      )}
-        {selectedQuant.children && (
-          <SearchWithFilter
-            setSearchText={setSearchText}
-            displayedOptions={displayedOptions}
-            quant={selectedQuant}
-            setSelectedQuant={setSelectedQuant}
-            relationship="children"
-          />
-        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleUpdate}>Update</Button>

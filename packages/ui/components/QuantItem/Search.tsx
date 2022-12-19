@@ -17,7 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { IQuant } from "../../../utils/types/index";
+import { IQuant } from "../../utils/types/index";
 import { SearchWithFilter } from "./SearchWithFilter";
 
 const findQuantsFromIds = (quants: any, ids: any) => {

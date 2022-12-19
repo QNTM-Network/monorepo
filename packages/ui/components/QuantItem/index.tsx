@@ -143,7 +143,6 @@ export const QuantItem = ({
 
   const handleUpdatePeriod = (quant: any) => {
     console.log("handleUpdate", quant);
-    setSelectedQuant(quants.find((q) => q._id === quant._id));
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === quant._id) {

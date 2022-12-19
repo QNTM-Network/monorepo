@@ -1,0 +1,9 @@
+(() => {
+console.log("content script working");
+// console.log on clicking somewhere on the page
+document.addEventListener("click", (e)=>{
+    console.log("clicked", e.target);
+});
+
+})();
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJtYXBwaW5ncyI6IjtBQUFBLFFBQVEsR0FBRyxDQUFDO0FBRVosZ0RBQWdEO0FBQ2hELFNBQVMsZ0JBQWdCLENBQUMsU0FBUyxDQUFDLElBQU07SUFDeEMsUUFBUSxHQUFHLENBQUMsV0FBVyxFQUFFLE1BQU07QUFDakMiLCJzb3VyY2VzIjpbImFwcHMvZXh0ZW5zaW9uL3NyYy9jb250ZW50LXNjcmlwdC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJjb25zb2xlLmxvZygnY29udGVudCBzY3JpcHQgd29ya2luZycpXG5cbi8vIGNvbnNvbGUubG9nIG9uIGNsaWNraW5nIHNvbWV3aGVyZSBvbiB0aGUgcGFnZVxuZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoZSkgPT4ge1xuICBjb25zb2xlLmxvZygnY2xpY2tlZCcsIGUudGFyZ2V0KVxufVxuKVxuIl0sIm5hbWVzIjpbXSwidmVyc2lvbiI6MywiZmlsZSI6ImNvbnRlbnQtc2NyaXB0LkhBU0hfUkVGXzExODRhOGVmZjUzNzdhMWYuanMubWFwIn0=
