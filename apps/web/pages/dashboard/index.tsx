@@ -95,7 +95,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       const userId = get(req, "cookies._id");
 
-      const userResult = await findExistingUser("_id", userId);
+      const userResult = await findExistingUser("_id", userId!);
       const user = JSON.parse(JSON.stringify(userResult));
 
       const result = await Quant.find({

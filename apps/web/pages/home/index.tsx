@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, find, map } from "lodash";
-import Lit from '../api/lit/litClient'
 
 import { setUser } from "../../store/reducers/userSlice";
 import { getQuantsByTags } from "../../utils/quantsByTags";
@@ -33,22 +32,20 @@ const Web = ({ quants, user}: Props) => {
 
 
 
-  const connectToLit = async () => {
+  // set the selected quant to none by clicking outside the modal
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (event.target.className === "modal") {
+        setSelectedQuant(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-  const connect =  await Lit.connect()
-    console.log({connect})
-
-    const encrypt = await Lit.encrypt("Hi DArinz")
-    console.log({encrypt})
-
-    const decrypt = await Lit.decrypt(encrypt.encryptedString, encrypt.encryptedSymmetricKey)
-    console.log({decrypt})
-
-  }
-
-
-
-  connectToLit()
+    
 
 
   const createQuant = () => {
@@ -144,7 +141,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const userId = get(req, "cookies._id");
 
 
-      const userResult = await findExistingUser("_id", userId);
+      const userResult = await findExistingUser("_id", userId!);
       const user = JSON.parse(JSON.stringify(userResult));
       store.dispatch(setUser(user));
 
