@@ -63,10 +63,21 @@
   overflow: hidden;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  width: 80%;
-  display: block;
+  width: 90%;
+  display: flex;
   text-decoration: none;
   position: relative;
+}
+
+.data__record {
+  display: block;
+}
+
+@include for-size('mobile') {
+  .data__record,
+  .dataSelected {
+    dislay: block;
+  }
 }
 
 .data__record::after,
@@ -86,7 +97,7 @@
 .data__record:hover::after,
 .dataSelected::after{
 
-  height: calc(200px + 8px)
+  height: calc(500px + 8px)
   
 }
 

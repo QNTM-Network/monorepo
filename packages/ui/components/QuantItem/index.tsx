@@ -205,9 +205,11 @@ onChange={(e) => handleUpdatePeriod({ ...selectedQuant, period: e.target.value }
           onChange={(e) => handleUpdateDate({...selectedQuant, date: e ? e : selectedQuant.date} )}
           renderInput={(params) => <TextField {...params} />}
         />
-        <Button onClick={handleUpdate}>Update</Button>
-        <Button onClick={() => handleComplete(quant)}>Complete</Button>
-        <Button onClick={() => handleDelete(quant)}>Delete</Button>
+        <div className={styles.modal__content__buttons}>
+          <Button onClick={handleUpdate}>Update</Button>
+          <Button onClick={() => handleComplete(quant)}>Complete</Button>
+          <Button onClick={() => handleDelete(quant)}>Delete</Button>
+        </div>
       </>
     ) : (
             <p>{quant.name}</p>
