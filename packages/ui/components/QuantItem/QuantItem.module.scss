@@ -35,17 +35,37 @@
     }
   }
 
-.dataSelected {
+.dataSelected,
+.data__record:hover {
   border: 1px solid white;
   transition: transform 0.8s ease-in-out;
-  height: 200px;
     color: white;
   }
+
+  .dataSelected__content:hover,
+  .dataSelected__content {
+    transform: rotate(-45deg)
+  } 
 
 .data__record:h2,
 .dataSelected:h2{
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
+}
+
+.dataSelected {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  transition: transform 0.5s ease-in-out;
+  transform: rotate(45deg); 
+  height: calc(500px + 8px);
+  transition: transform 0.8s out;
+
+  &__content {
+    transform: rotate(-45deg);
+  }
 }
 
 .data__record p,
@@ -68,6 +88,7 @@
   text-decoration: none;
   position: relative;
 }
+
 
 .data__record {
   display: block;
@@ -94,12 +115,16 @@
   transition: all .3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
-.data__record:hover::after,
 .dataSelected::after{
-
-  height: calc(500px + 8px)
+  height: calc(500px + 18px)
   
 }
+
+.data__record:hover::after{
+  height: calc(100% + 8px)
+  
+}
+
 
 // hover style
 .data:hover {

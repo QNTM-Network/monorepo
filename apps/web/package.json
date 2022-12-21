@@ -12,6 +12,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@3id/connect": "^0.4.1",
+    "@lit-protocol/sdk-browser": "^1.1.241",
     "@mui/x-date-pickers": "^5.0.6",
     "@reduxjs/toolkit": "^1.8.6",
     "@types/cookie": "^0.5.1",
@@ -23,6 +25,7 @@
     "ethers": "^5.7.2",
     "global": "^4.4.0",
     "jsonwebtoken": "^8.5.1",
+    "lit-ceramic-sdk": "^1.1.13",
     "moment": "^2.29.4",
     "mongoose": "^6.6.5",
     "next": "12.3.1",
@@ -30,10 +33,13 @@
     "react": "18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
+    "react-markdown": "^8.0.4",
     "react-player": "^2.11.0",
     "react-redux": "^8.0.4",
     "redux-persist": "^6.0.0",
-    "ui": "*"
+    "ui": "*",
+    "uuid": "^9.0.0",
+    "warp-contracts": "^1.2.35"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
