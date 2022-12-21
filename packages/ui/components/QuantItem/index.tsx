@@ -1,4 +1,4 @@
-import { useState , useEffect, useMemo} from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Input,
   InputAdornment,
@@ -17,11 +17,10 @@ import {
 import axios from "axios";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
-import { getExpectation } from '../../utils/getExpected';
+import { getExpectation } from "../../utils/getExpected";
 import QuantModal from "./QuantModal/index";
 import { IQuant, IQuantsByTags } from "../../utils/types/index";
-import Search  from './Search';
-
+import Search from "./Search";
 
 // @ts-ignore
 import styles from "./QuantItem.module.scss";
@@ -84,7 +83,7 @@ export const QuantItem = ({
 
   const handleComplete = (quant: IQuant) => {
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
-    const expected = getExpectation(quants as IQuantWithExpectation[])
+    const expected = getExpectation(quants as IQuantWithExpectation[]);
 
     setSelectedQuant(null);
     axios.patch(`/api/quant/${quant._id}`, { ...quant, status: 0 }).then(
@@ -108,7 +107,7 @@ export const QuantItem = ({
     console.log("handleUpdate", selectedQuant);
     setDisplayQuants(
       displayQuants.map((q) => {
-        console.log('found')
+        console.log("found");
         if (q._id === selectedQuant?._id) {
           return selectedQuant;
         }
@@ -125,7 +124,6 @@ export const QuantItem = ({
       }
     );
   };
-
 
   const handleUpdateDate = (quant: any) => {
     console.log("handleUpdate", quant);
@@ -154,7 +152,6 @@ export const QuantItem = ({
     console.log("handleUpdate", selectedQuant);
   };
 
-
   useEffect(() => {
     setQuantsNames(quants.map((q: any) => q.name));
   }, []);
@@ -171,52 +168,87 @@ export const QuantItem = ({
     console.log("selectedQuant", selectedQuant);
   }, [selectedQuant]);
 
-
   return (
-    <div className={selectedQuant?._id === quant._id ? styles.dataSelected: styles.data__record} onClick={() => setSelectedQuant(quant)}>
+    <div
+      className={
+        selectedQuant?._id === quant._id
+          ? styles.dataSelected
+          : styles.data__record
+      }
+      onClick={() => setSelectedQuant(quant)}
+    >
+      <div
+        className={
+          selectedQuant?._id === quant._id
+            ? styles.dataSelected__content
+            : styles.data__record__content
+        }
+      >
         <div className={styles.data__record__left}>
           <label className="data-record-checkbox-container">
             <span className="data-record-checkmark"></span>
           </label>
           <div className={styles.data__record__title}>
-    {selectedQuant && selectedQuant?._id === quant._id ? (
-      <>
-        <Input value={selectedQuant?.name} onChange={(e) => setSelectedQuant({ ...selectedQuant, name: e.target.value })} />
-            <Typography>Repeat</Typography>
-            <FormControl>
-              <Select
-                className={styles.modal__content__period}
-                value={selectedQuant?.period}
-onChange={(e) => handleUpdatePeriod({ ...selectedQuant, period: e.target.value })}
-              >
-                <MenuItem value={"None"}>None</MenuItem>
-                <MenuItem value={"Daily"}>Daily</MenuItem>
-                <MenuItem value={"Two"}>Two Days</MenuItem>
-                <MenuItem value={"Three"}>Three Days</MenuItem>
-                <MenuItem value={"Weekly"}>Weekly</MenuItem>
-                <MenuItem value={"Fortnightly"}>Fortnightly</MenuItem>
-                <MenuItem value={"Monthly"}>Monthly</MenuItem>
-              </Select>
-            </FormControl>
-            <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM/dd/yyyy"
-          value={selectedQuant.date}
-          onChange={(e) => handleUpdateDate({...selectedQuant, date: e ? e : selectedQuant.date} )}
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <div className={styles.modal__content__buttons}>
-          <Button onClick={handleUpdate}>Update</Button>
-          <Button onClick={() => handleComplete(quant)}>Complete</Button>
-          <Button onClick={() => handleDelete(quant)}>Delete</Button>
-        </div>
-      </>
-    ) : (
-            <p>{quant.name}</p>
-    )}
+            {selectedQuant && selectedQuant?._id === quant._id ? (
+              <>
+                <Input
+                  value={selectedQuant?.name}
+                  onChange={(e) =>
+                    setSelectedQuant({ ...selectedQuant, name: e.target.value })
+                  }
+                />
+                <Typography>Repeat</Typography>
+                <FormControl>
+                  <Select
+                    className={styles.modal__content__period}
+                    value={selectedQuant?.period}
+                    onChange={(e) =>
+                      handleUpdatePeriod({
+                        ...selectedQuant,
+                        period: e.target.value,
+                      })
+                    }
+                  >
+                    <MenuItem value={"None"}>None</MenuItem>
+                    <MenuItem value={"Daily"}>Daily</MenuItem>
+                    <MenuItem value={"Two"}>Two Days</MenuItem>
+                    <MenuItem value={"Three"}>Three Days</MenuItem>
+                    <MenuItem value={"Weekly"}>Weekly</MenuItem>
+                    <MenuItem value={"Fortnightly"}>Fortnightly</MenuItem>
+                    <MenuItem value={"Monthly"}>Monthly</MenuItem>
+                  </Select>
+                </FormControl>
+                <div className={styles.dataSelected__content__date}>
+                <MobileDatePicker
+                  label="Date mobile"
+                  inputFormat="MM/dd/yyyy"
+                  value={selectedQuant.date}
+                  className={styles.modal__content__date}
+                  onChange={(e) =>
+                    handleUpdateDate({
+                      ...selectedQuant,
+                      date: e ? e : selectedQuant.date,
+                    })
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                  // add style
+                  
+                />
+              </div>
+                <div className={styles.modal__content__buttons}>
+                  <Button onClick={handleUpdate}>Update</Button>
+                  <Button onClick={() => handleComplete(quant)}>
+                    Complete
+                  </Button>
+                  <Button onClick={() => handleDelete(quant)}>Delete</Button>
+                </div>
+              </>
+            ) : (
+              <p>{quant.name}</p>
+            )}
           </div>
         </div>
-
       </div>
+    </div>
   );
 };
