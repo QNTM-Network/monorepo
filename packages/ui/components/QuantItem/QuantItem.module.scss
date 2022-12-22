@@ -63,6 +63,8 @@
   transform: rotate(45deg);
   height: calc(500px + 8px);
   transition: transform 0.8s out;
+  height: 235px !important;
+  width: 235px !important;
 
   &__content {
     transform: rotate(-45deg);
@@ -83,7 +85,6 @@
 
 .data__record,
 .dataSelected {
-  margin: 20px 0;
   cursor: pointer;
   overflow: hidden;
   -ms-overflow-style: none; /* IE and Edge */
