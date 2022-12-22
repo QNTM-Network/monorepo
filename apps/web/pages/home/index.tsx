@@ -110,7 +110,7 @@ const Web = ({ quants, user}: Props) => {
       <div>
         {map(displayQuants, (quant: IQuant, key: number) => {
           return (
-            <div key={key}>
+            <div style={{ display: "flex", justifyContent: "center"  }}key={key}>
               <QuantItem
                 setQuantsByTags={setQuantsByTags}
                 displayQuants={displayQuants}
