@@ -44,9 +44,11 @@
 
 .dataSelected__content:hover,
 .dataSelected__content {
+  @include for-size('tablet') {
   transform: rotate(-45deg);
+  
 
-}
+}}
 
 .data__record:h2,
 .dataSelected:h2 {
@@ -60,19 +62,23 @@
   justify-content: center;
   align-items: center;
   transition: transform 0.5s ease-in-out;
-  transform: rotate(45deg);
+  height: 300px;
+
+  @include for-size('tablet') {
   height: calc(500px + 8px);
   transition: transform 0.8s out;
-  height: 235px !important;
-  width: 235px !important;
+
+  transform: rotate(45deg);
 
   &__content {
     transform: rotate(-45deg);
     
     
+  }
   &__date {
     margin: 5px 0;
   }
+
   }
 }
 
@@ -121,8 +127,12 @@
 }
 
 .dataSelected::after {
+  height: 100%;
+
+  @include for-size('tablet') {
   height: calc(500px + 18px);
-}
+  
+}}
 
 .data__record:hover::after {
   height: calc(100% + 8px);
