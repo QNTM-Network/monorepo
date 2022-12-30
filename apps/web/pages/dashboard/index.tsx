@@ -41,7 +41,7 @@ const Dashboard = ({ quants }: Props) => {
   }, []);
 
   return (
-    <div>
+    <div style={{background:'white'}}>
       <h1>Dashboard</h1>
       <div
         style={{
