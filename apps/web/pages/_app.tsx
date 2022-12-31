@@ -1,9 +1,12 @@
 import { Layout } from '../components/Layout';
 import "../styles/base/_styles.scss";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Provider } from "react-redux";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {wrapper} from '../store';
+
+const activeChainId = ChainId.Mainnet;
 
 /// <reference types="react-scripts" />
 import { ExternalProvider } from "@ethersproject/providers";
@@ -29,11 +32,13 @@ function MyApp({ Component, ...rest }: MyAppProps) {
   const {  pageProps } = props;
   return (
     <Provider store={store}>
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Layout >
-        <Component {...pageProps} />
-      </Layout>
-    </LocalizationProvider>
+      <ThirdwebProvider desiredChainId={activeChainId}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Layout >
+            <Component {...pageProps} />
+          </Layout>
+        </LocalizationProvider>
+      </ThirdwebProvider>
     </Provider>
   );
 }
