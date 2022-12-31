@@ -18,7 +18,14 @@
       "cache": false
     }
   },
-    "globalEnv": [
-      "JWT_SECRET"
-    ]
+  "globalEnv": [
+    "JWT_SECRET",
+    "MONGODB_URI",
+    "NEXT_PUBLIC_NETWORK",
+    "NEXT_PUBLIC_INFURA_ID"
+  ],
+  "globalDependencies": [
+    ".env", 
+    "tsconfig.json" 
+  ]
 }

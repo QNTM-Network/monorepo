@@ -16,12 +16,6 @@ interface Ethereum extends ExternalProvider {
 }
 
 
-declare global {
-  interface Window {
-    ethereum?: Ethereum;
-  }
-}
-
 interface MyAppProps {
   Component: any;
   pageProps: any;
