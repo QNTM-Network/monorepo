@@ -1,17 +1,60 @@
 @import '../../../../styles/base/variables.scss';
+@import '../../../../styles/base/mixins.scss';
 
 .header {
-	width: 100%;
-	background-color: #000000d9;
 	display: flex;
-	justify-content: space-evenly;
+	flex-direction: column;
 	align-items: center;
-	height: 60px;
-	border-bottom: 3px solid white;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	@include for-size('desktop') {
+		width: 100%;
+		background-color: #000000d9;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+		height: 60px;
+		border-bottom: 3px solid white;
+	}
+
+
+	&__left {
+		display: flex;
+		@include for-size('desktop') {
+			justify-content: flex-start;
+		}
+	}
+
+	&__right {
+
+		&__connect {
+			width: 100px !important;
+			min-width: 100px !important;
+			height: 15px !important;
+			@include for-size('desktop') {
+				display: flex;
+				align-items: center;
+				min-width: 200px !important;
+				justify-content: space-evenly;
+				color: black;
+				font-size: 1.2rem;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease-in-out;
+			}
+
+			&:hover {
+				background-color: 000000;
+			}
+		}
+	}
 
 	&__title {
+		padding: 0 10px;
 		color: white;
 		font-family: 'Roboto', sans-serif;
 		font-size: 24px;
+		cursor: pointer;
 	}
 }
