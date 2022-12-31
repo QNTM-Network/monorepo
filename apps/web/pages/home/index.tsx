@@ -64,8 +64,6 @@ const Web = ({ quants, user}: Props) => {
 
   useEffect(() => {
     if (quants) {
-      
-      console.log("quants", quants);
       //@ts-ignore
       setQuantsByTags(getQuantsByTags(quants));
     }

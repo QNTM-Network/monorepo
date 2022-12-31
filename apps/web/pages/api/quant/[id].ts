@@ -4,7 +4,7 @@ import dbConnect from "../../../utils/dbConnect";
 import Quant from "../../../models/Quant";
 import {
   getDateFromPeriod,
-  getMostRecentDateFromDateOrToday,
+  getNextDate  
 } from "../../../utils/dates";
 
 export default async function handler(
@@ -90,7 +90,7 @@ export default async function handler(
             ...body,
             date: getDateFromPeriod(
               body.period,
-              getMostRecentDateFromDateOrToday(quant.date || quant.created_at)
+              new Date()
             ),
             status: 1,
           });
