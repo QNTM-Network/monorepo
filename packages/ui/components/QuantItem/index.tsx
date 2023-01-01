@@ -21,7 +21,6 @@ import { SearchWithFilter  } from './SearchWithFilter';
 import { getExpectation } from "../../utils/getExpected";
 import QuantModal from "./QuantModal/index";
 import { IQuant, IQuantsByTags } from "../../utils/types/index";
-import Search from "./Search";
 
 // @ts-ignore
 import styles from "./QuantItem.module.scss";
