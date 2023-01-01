@@ -68,8 +68,10 @@ const quantsWithParentsNames  = quants.map((q) => {
       );
       // check if tasks date is now available on or after today
       const isAvailable =
-        isBefore(new Date(quant.date || new Date()), new Date()) ||
-        isSameDay(new Date(quant.date || new Date()), new Date());
+        (isBefore(new Date(quant.date || new Date()), new Date()) ||
+        isSameDay(new Date(quant.date || new Date()), new Date())) &&
+        quant.period != "Dark Matter";
+
 
       if (!isNotTask && isAvailable) {
         const existingTaskTag = find(quantsByTags, {
@@ -99,7 +101,17 @@ const quantsWithParentsNames  = quants.map((q) => {
     }
   });
 
-  console.log("quantsByTags", quantsByTags);
+  // order quantsByTags with Tasks first and ViewAll second
+  const orderedQuantsByTags = quantsByTags.sort((a) => {
+    if (a.tag === "Tasks") return -1;
+    if (a.tag === "ViewAll") return 1;
+    if (a.tag === "Upcoming") return -1;
+    if (a.tag === "Weekly") return -1;
+    return 0;
+  });
 
-  return quantsByTags;
+  console.log({ orderedQuantsByTags });
+
+  return orderedQuantsByTags;
 };
+

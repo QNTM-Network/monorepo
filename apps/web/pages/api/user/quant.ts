@@ -17,7 +17,7 @@ export default async function handler(
   switch (method) {
     case "POST":
       try {
-        const user = await User.findOne({ address });
+        const user = await User.findOne({ address: {$regex: address, $options: "i" }});
         if (!user) {
           // create user
           const newUser = new User({
@@ -32,7 +32,8 @@ export default async function handler(
           await newUser.save();
 
         } else {
-          const updatedUser = updateCount(user, tags, expected);
+          const updatedUser = await updateCount(user, tags, expected);
+          console.log('updatedUser', updatedUser.daily_count);
 
           await user.save();
           return res.status(200).json({ success: true, message: "Success" });
