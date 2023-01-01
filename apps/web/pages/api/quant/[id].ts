@@ -4,7 +4,6 @@ import dbConnect from "../../../utils/dbConnect";
 import Quant from "../../../models/Quant";
 import {
   getDateFromPeriod,
-  getNextDate  
 } from "../../../utils/dates";
 
 export default async function handler(
