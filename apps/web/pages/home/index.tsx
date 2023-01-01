@@ -138,12 +138,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       const userId = get(req, "cookies._id");
 
-
       const userResult = await findExistingUser("_id", userId!);
       const user = JSON.parse(JSON.stringify(userResult));
       store.dispatch(setUser(user));
 
-      const result = await Quant.find({ user: user.address, status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const result = await Quant.find({ user: { $regex: user.address, $options: "i" } , status: {$ne: 0 }}).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
 
       return {

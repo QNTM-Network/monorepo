@@ -16,11 +16,12 @@ interface Props {
   quant: IQuant;
   displayedOptions: string[];
   setSearchText: (searchText: string) => void;
-  setSelectedQuant: (quant: IQuant) => void;
+  setDisplayQuants: (quants: IQuant[]) => void;
   relationship: string;
+  displayQuants: IQuant[];
 }
 
-export const SearchWithFilter = ({relationship, displayedOptions, setSelectedQuant, quant, setSearchText }: Props) => {
+export const SearchWithFilter = ({relationship, displayQuants, displayedOptions, setDisplayQuants, quant, setSearchText }: Props) => {
 
   const tag = relationship === 'parents' ? 'tags' : 'children';
 
@@ -28,11 +29,13 @@ export const SearchWithFilter = ({relationship, displayedOptions, setSelectedQua
     const { value } = event.target;
     const key = relationship === 'parents' ? 'tags' : 'children';
     const newQuant = { ...quant, [key]: value };
-    setSelectedQuant(newQuant);
+    console.log({newQuant});
+    setDisplayQuants(displayQuants.map((q) => (q._id === quant._id ? newQuant : q)));
   };
 
+
 return (
-        <Box sx={{ m: 10 }}>
+        <Box >
           <FormControl fullWidth>
             <InputLabel id="search-select-label">{startCase(relationship)}</InputLabel>
             <Select

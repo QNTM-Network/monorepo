@@ -25,12 +25,12 @@ export const getExpectation = (quants: IQuantWithCount[]) => {
       isBefore(new Date(quant.date || new Date()), new Date()) ||
       isSameDay(new Date(quant.date || new Date()), new Date());
 
-    const isNotTask = !nonTasks.some((nonTask) => quant.tags.includes(nonTask));
+    const isTask = !nonTasks.some((nonTask) => quant.tags.includes(nonTask));
 
     const isActive = quant.status == 1;
 
     // return quant if it is available and not a task
-    if (isActive && isNotTask) {
+    if (isActive && isTask) {
       let quantWithCount = quant;
       if (quant.period) {
         switch (quant.period) {
@@ -48,6 +48,12 @@ export const getExpectation = (quants: IQuantWithCount[]) => {
             break;
           case "Fortnightly":
             quantWithCount.count = 1 / 14;
+            break;
+          case "Monthly":
+            quantWithCount.count = 1 / 30;
+            break;
+          case "Dark Matter":
+            quantWithCount.count = 0;
             break;
         }
       } else if (isAvailable) {
