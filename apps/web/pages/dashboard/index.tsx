@@ -29,7 +29,7 @@ const Dashboard = ({ quants }: Props) => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (user.address) {
+    if (user.address && user.dailyCount.length > 0) {
       setDayExpectation(user.dailyCount[user.dailyCount.length - 1]["expected"]);
 
       setTodayCount(user.dailyCount[user.dailyCount.length - 1]['count'])
@@ -99,7 +99,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const user = JSON.parse(JSON.stringify(userResult));
 
       const result = await Quant.find({
-        user: user.address,
+        user: { $regex: user.address, $options: "i" },
         status: { $ne: 0 },
       }).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
