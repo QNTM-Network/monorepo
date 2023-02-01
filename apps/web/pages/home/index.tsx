@@ -24,13 +24,17 @@ interface Props {
   quantAtoms: PrimitiveAtom<IQuant>[];
 }
 
-type QuantAtom = PrimitiveAtom<IQuant>;
+interface QuantAtom extends PrimitiveAtom<IQuant> {
+  read: () => IQuant;
+  _id: string;
+}
 
 
 const Web = ({ quants, user, quantAtoms }: Props) => {
   const [input, setInput] = useState("");
   const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
-  const [quantsAtom, setQuantsAtom] = useAtom(quantAtoms);
+  // @ts-ignore
+  const [quantsAtom, setQuantsAtom] = useAtom<QuantAtom[]>(quantAtoms);
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
@@ -63,7 +67,7 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
   };
 
   const handleDelete = (quantAtom: QuantAtom) => {
-    setQuantsAtom(quantsAtom.filter((q) => q !== quantAtom));
+    setQuantsAtom(quantsAtom.filter((q: QuantAtom) => q !== quantAtom));
 
     setSelectedQuant(null);
     axios.delete(`/api/quant/${quantAtom._id}`).then(
@@ -83,10 +87,15 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
   useEffect(() => {
     if (quants) {
       setQuantsAtom(quants);
-      //@ts-ignore
-      setQuantsByTags(getQuantsByTags(quants));
     }
   }, [quants]);
+
+  useEffect(() => {
+    if (quantsAtom) {
+      //@ts-ignore
+    setQuantsByTags(getQuantsByTags(quantsAtom))
+    }
+  }, [quantsAtom]);
 
   useEffect(() => {
     if (quantsByTags) {
@@ -105,8 +114,7 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
     if (filter) {
       setDisplayQuants(
         //@ts-ignore
-        (
-          quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || {
+        (quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || {
             quants: [],
           }
         ).quants
@@ -125,7 +133,7 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
       />
       <Tags setFilter={setFilter} tags={tags} />
       <div>
-        {map(quantsAtom, (quantAtom: IQuant) => {
+        {map(displayQuants, (quantAtom: IQuant) => {
           return (
             <div
               style={{ display: "flex", justifyContent: "center" }}

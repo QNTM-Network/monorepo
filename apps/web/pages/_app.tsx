@@ -23,7 +23,9 @@ interface MyAppProps {
   pageProps: any;
 }
 
-type QuantAtom = PrimitiveAtom<IQuant>;
+interface QuantAtom extends PrimitiveAtom<IQuant> {
+  read: () => IQuant;
+}
 
 function MyApp({ Component, ...rest }: MyAppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
