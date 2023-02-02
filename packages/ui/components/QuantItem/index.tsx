@@ -1,38 +1,32 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import {
   Input,
-  InputAdornment,
-  ListSubheader,
   MenuItem,
   FormControl,
-  InputLabel,
   Select,
   Button,
-  Box,
   Typography,
-  DialogActions,
-  DialogContent,
   TextField,
 } from "@mui/material";
 import axios from "axios";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { SearchWithFilter  } from './SearchWithFilter';
+import { SearchWithFilter } from "./SearchWithFilter";
 
 import { getExpectation } from "../../utils/getExpected";
-import QuantModal from "./QuantModal/index";
 import { IQuant, IQuantsByTags } from "../../utils/types/index";
 
 // @ts-ignore
 import styles from "./QuantItem.module.scss";
 
 interface Props {
-  quant: any;
+  quantAtom: any;
   setDisplayQuants: (quants: IQuant[]) => void;
   displayQuants: IQuant[];
   setQuantsByTags: (quants: IQuantsByTags) => void;
   quants: IQuant[];
   setSelectedQuant: (quant: IQuant | null) => void;
   selectedQuant?: IQuant | null;
+  handleDelete: (quantAtom: any) => void;
 }
 
 interface IQuantWithExpectation extends IQuant {
@@ -59,26 +53,14 @@ export const QuantItem = ({
   quants,
   displayQuants,
   setDisplayQuants,
-  quant,
+  handleDelete,
+  quantAtom,
 }: Props) => {
   const [searchText, setSearchText] = useState("");
   const [quantsNames, setQuantsNames] = useState<any>([]);
+
   const handleClose = () => {
     setSelectedQuant(null);
-  };
-
-  const handleDelete = (quant: IQuant) => {
-    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
-
-    setSelectedQuant(null);
-    axios.delete(`/api/quant/${quant._id}`).then(
-      (response) => {
-        console.log(response);
-      },
-      (err) => {
-        console.log(err.text);
-      }
-    );
   };
 
   const handleComplete = (quant: IQuant) => {
@@ -102,19 +84,9 @@ export const QuantItem = ({
       expected,
     });
   };
-  
 
   const handleUpdate = () => {
-    setDisplayQuants(
-      displayQuants.map((q) => {
-        if (q._id === selectedQuant?._id) {
-          return selectedQuant;
-        }
-        return q;
-      })
-    );
-
-    axios.patch(`/api/quant/${quant._id}`, selectedQuant).then(
+    axios.patch(`/api/quant/${quantAtom._id}`, selectedQuant).then(
       (response) => {
         console.log(response);
       },
@@ -124,12 +96,13 @@ export const QuantItem = ({
     );
   };
 
+
   const handleUpdateDate = (quant: any) => {
     // convert date to string
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === quant._id) {
-          return quant;
+          return { ...q, date: quant.date };
         }
         return q;
       })
@@ -147,8 +120,6 @@ export const QuantItem = ({
     );
   };
 
-
-
   useEffect(() => {
     setQuantsNames(quants.map((q: any) => q.name));
   }, []);
@@ -157,27 +128,29 @@ export const QuantItem = ({
     text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
   const displayedOptions = useMemo(
     () =>
-    quantsNames.filter((option: string) => containsText(option, searchText)),
+      quantsNames.filter((option: string) => containsText(option, searchText)),
     [quantsNames, searchText]
   );
 
-  useEffect(() => {
-  }, [selectedQuant]);
 
   return (
     <div
       className={
-        selectedQuant?._id === quant._id
-        ? styles.dataSelected
-        : styles.data__record
+        selectedQuant?._id === quantAtom._id
+          ? styles.dataSelected
+          : styles.data__record
       }
-      onClick={() => setSelectedQuant(quant)}
+      onClick={
+        selectedQuant?._id === quantAtom._id
+          ? () => clickSelected
+          : () => setSelectedQuant(quantAtom)
+      }
     >
       <div
         className={
-          selectedQuant?._id === quant._id
-          ? styles.dataSelected__content
-          : styles.data__record__content
+          selectedQuant?._id === quantAtom._id
+            ? styles.dataSelected__content
+            : styles.data__record__content
         }
       >
         <div className={styles.data__record__left}>
@@ -185,12 +158,12 @@ export const QuantItem = ({
             <span className="data-record-checkmark"></span>
           </label>
           <div className={styles.data__record__title}>
-            {selectedQuant && selectedQuant?._id === quant._id ? (
+            {selectedQuant && selectedQuant?._id === quantAtom._id ? (
               <>
                 <Input
                   value={selectedQuant?.name}
                   onChange={(e) =>
-                  setSelectedQuant({ ...selectedQuant, name: e.target.value })
+                    setSelectedQuant({ ...selectedQuant, name: e.target.value })
                   }
                 />
                 <Typography>Repeat</Typography>
@@ -199,10 +172,10 @@ export const QuantItem = ({
                     className={styles.modal__content__period}
                     value={selectedQuant?.period}
                     onChange={(e) =>
-                    handleUpdatePeriod({
-                      ...selectedQuant,
-                      period: e.target.value,
-                    })
+                      setSelectedQuant({
+                        ...selectedQuant,
+                        period: e.target.value,
+                      })
                     }
                   >
                     <MenuItem value={"None"}>None</MenuItem>
@@ -222,49 +195,53 @@ export const QuantItem = ({
                     value={selectedQuant.date}
                     className={styles.modal__content__date}
                     onChange={(e) =>
-                    handleUpdateDate({
-                      ...selectedQuant,
-                      date: e ? e : selectedQuant.date,
-                    })
+                      setSelectedQuant({ ...selectedQuant, date: e ? e : undefined })
                     }
                     renderInput={(params) => <TextField {...params} />}
-                    // add style
-                />
-              </div>
-              {selectedQuant.tags && (
-                <SearchWithFilter
-                setSearchText={setSearchText}
-                displayedOptions={displayedOptions}
-                quant={selectedQuant}
-                displayQuants={displayQuants}
-                setDisplayQuants={setDisplayQuants}
-                relationship="parents"
-                />
-              )}
-              {selectedQuant.children && (
-                <SearchWithFilter
-                  setSearchText={setSearchText}
-                  displayedOptions={displayedOptions}
-                  displayQuants={displayQuants}
-                  quant={selectedQuant}
-                  setDisplayQuants={setDisplayQuants}
-                  relationship="children"
-                />
-              )}
-              <div className={styles.modal__content__buttons}>
-                <Button onClick={handleUpdate}>Update</Button>
-                <Button onClick={() => handleComplete(quant)}>
-                  Complete
-                </Button>
-                <Button onClick={() => handleDelete(quant)}>Delete</Button>
-              </div>
-            </>
-          ) : (
-            <p>{quant.name}</p>
-          )}
+                  />
+                </div>
+                {selectedQuant.tags && (
+                  <SearchWithFilter
+                    setSearchText={setSearchText}
+                    displayedOptions={displayedOptions}
+                    selectedQuant={selectedQuant}
+                    setSelectedQuant={setSelectedQuant}
+                    quant={selectedQuant}
+                    displayQuants={displayQuants}
+                    setDisplayQuants={setDisplayQuants}
+                    relationship="parents"
+                  />
+                )}
+                {selectedQuant.children && (
+                  <SearchWithFilter
+                    setSearchText={setSearchText}
+                    selectedQuant={selectedQuant}
+                    setSelectedQuant={setSelectedQuant}
+                    displayedOptions={displayedOptions}
+                    displayQuants={displayQuants}
+                    quant={selectedQuant}
+                    setDisplayQuants={setDisplayQuants}
+                    relationship="children"
+                  />
+                )}
+                <div className={styles.modal__content__buttons}>
+                  <Button onClick={handleUpdate}>Update</Button>
+                  <Button onClick={() => handleComplete(quantAtom)}>
+                    Complete
+                  </Button>
+                  <Button onClick={() => handleDelete(quantAtom)}>
+                    Delete
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <p>{quantAtom.name}</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
+
+export default memo(QuantItem);

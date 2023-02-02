@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { atom, useAtom, PrimitiveAtom } from "jotai";
 import axios from "axios";
 import { get, find, map } from "lodash";
 
@@ -20,17 +21,24 @@ import { wrapper } from "../../store";
 interface Props {
   quants: IQuant[];
   user: IUser;
+  quantAtoms: PrimitiveAtom<IQuant>[];
 }
 
-const Web = ({ quants, user}: Props) => {
+interface QuantAtom extends PrimitiveAtom<IQuant> {
+  read: () => IQuant;
+  _id: string;
+}
+
+
+const Web = ({ quants, user, quantAtoms }: Props) => {
   const [input, setInput] = useState("");
   const [quantsByTags, setQuantsByTags] = useState<IQuantsByTags>();
+  // @ts-ignore
+  const [quantsAtom, setQuantsAtom] = useAtom<QuantAtom[]>(quantAtoms);
   const [displayQuants, setDisplayQuants] = useState<IQuant[]>([]);
   const [filter, setFilter] = useState("Tasks");
   const [tags, setTags] = useState([]);
- const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
-
-
+  const [selectedQuant, setSelectedQuant] = useState<IQuant | null>(null);
 
   // set the selected quant to none by clicking outside the modal
   useEffect(() => {
@@ -45,16 +53,12 @@ const Web = ({ quants, user}: Props) => {
     };
   }, []);
 
-    
-
-
   const createQuant = () => {
     axios.post("/api/quant", { name: input, user: user.address }).then(
       (response) => {
         setInput("");
         const newQuant = response.data.data;
-        setSelectedQuant(newQuant);
-        setDisplayQuants([...displayQuants, newQuant]);
+        setQuantsAtom([...quantsAtom, newQuant]);
       },
       (err) => {
         console.log(err.text);
@@ -62,12 +66,33 @@ const Web = ({ quants, user}: Props) => {
     );
   };
 
+  const handleDelete = useCallback(
+    (quantAtom: QuantAtom) => {
+    setQuantsAtom(quantsAtom.filter((q: QuantAtom) => q !== quantAtom));
+
+    setSelectedQuant(null);
+    axios.delete(`/api/quant/${quantAtom._id}`).then(
+      (response) => {
+        console.log(response);
+      },
+      (err) => {
+        console.log(err.text);
+      }
+    );
+  }, [quantsAtom]);
+
   useEffect(() => {
     if (quants) {
-      //@ts-ignore
-      setQuantsByTags(getQuantsByTags(quants));
+      setQuantsAtom(quants);
     }
   }, [quants]);
+
+  useEffect(() => {
+    if (quantsAtom) {
+      //@ts-ignore
+    setQuantsByTags(getQuantsByTags(quantsAtom))
+    }
+  }, [quantsAtom]);
 
   useEffect(() => {
     if (quantsByTags) {
@@ -85,9 +110,8 @@ const Web = ({ quants, user}: Props) => {
   useEffect(() => {
     if (filter) {
       setDisplayQuants(
-        (
-          //@ts-ignore
-          quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || {
+        //@ts-ignore
+        (quantsByTags?.find((t: IQuantsByTags) => t.tag === filter) || {
             quants: [],
           }
         ).quants
@@ -106,17 +130,22 @@ const Web = ({ quants, user}: Props) => {
       />
       <Tags setFilter={setFilter} tags={tags} />
       <div>
-        {map(displayQuants, (quant: IQuant, key: number) => {
+        {map(displayQuants, (quantAtom: IQuant) => {
           return (
-            <div style={{ display: "flex", justifyContent: "center"  }}key={key}>
+            <div
+              style={{ display: "flex", justifyContent: "center" }}
+              key={`${quantAtom}`}
+            >
               <QuantItem
+                key={quantAtom._id}
                 setQuantsByTags={setQuantsByTags}
                 displayQuants={displayQuants}
                 setDisplayQuants={setDisplayQuants}
-                quant={quant}
+                quantAtom={quantAtom}
                 quants={quants}
                 setSelectedQuant={setSelectedQuant}
                 selectedQuant={selectedQuant}
+                handleDelete={handleDelete}
               />
             </div>
           );
@@ -126,14 +155,11 @@ const Web = ({ quants, user}: Props) => {
   );
 };
 
-
 export default Web;
-
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query, req }) => {
-
       await dbConnect();
 
       const userId = get(req, "cookies._id");
@@ -142,7 +168,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const user = JSON.parse(JSON.stringify(userResult));
       store.dispatch(setUser(user));
 
-      const result = await Quant.find({ user: { $regex: user.address, $options: "i" } , status: {$ne: 0 }}).sort({ createdAt: -1 });
+      const result = await Quant.find({
+        user: { $regex: user.address, $options: "i" },
+        status: { $ne: 0 },
+      }).sort({ createdAt: -1 });
       const quants = JSON.parse(JSON.stringify(result));
 
       return {

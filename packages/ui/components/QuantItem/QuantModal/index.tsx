@@ -43,6 +43,7 @@ interface Props {
   handleComplete: (quant: IQuant) => void;
   handleDelete: (quant: IQuant) => void;
   handleUpdate: () => void;
+
   setSelectedQuant: (quant: IQuant) => void;
   selectedQuant: IQuant;
   quants: IQuant[];
