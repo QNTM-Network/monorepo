@@ -1,3 +1,4 @@
+
 export interface IQuant{
   _id: string;
   name: string;
@@ -42,6 +43,7 @@ export interface IDailyCount{
 }
 
 
-export interface IQuantsByTags {
-  [key: string]: IQuant[];
+export interface IQuantsByTag {
+  tag: string;
+  quants: IQuant[];
 }

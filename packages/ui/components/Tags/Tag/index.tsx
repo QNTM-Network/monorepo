@@ -1,5 +1,5 @@
 interface Props {
-	tag: string;
+  [key: string]: any;
 	setFilter: (tag: string) => void;
 }
 

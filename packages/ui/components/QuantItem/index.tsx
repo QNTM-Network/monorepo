@@ -13,7 +13,7 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { SearchWithFilter } from "./SearchWithFilter";
 
 import { getExpectation } from "../../utils/getExpected";
-import { IQuant, IQuantsByTags } from "../../utils/types/index";
+import { IQuant, IQuantsByTag} from "../../utils/types/index";
 
 // @ts-ignore
 import styles from "./QuantItem.module.scss";
@@ -21,8 +21,8 @@ import styles from "./QuantItem.module.scss";
 interface Props {
   quantAtom: any;
   setDisplayQuants: (quants: IQuant[]) => void;
-  displayQuants: IQuant[];
-  setQuantsByTags: (quants: IQuantsByTags) => void;
+  displayQuants: IQuant[] | undefined;
+  setQuantsByTags: (quants: IQuantsByTag[]) => void;
   quants: IQuant[];
   setSelectedQuant: (quant: IQuant | null) => void;
   selectedQuant?: IQuant | null;
@@ -64,7 +64,7 @@ export const QuantItem = ({
   };
 
   const handleComplete = (quant: IQuant) => {
-    setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
+    setDisplayQuants(displayQuants!.filter((q) => q._id !== quant._id));
     const expected = getExpectation(quants as IQuantWithExpectation[]);
 
     setSelectedQuant(null);
@@ -86,6 +86,9 @@ export const QuantItem = ({
   };
 
   const handleUpdate = () => {
+    setSelectedQuant(null);
+    const expected = getExpectation(quants as IQuantWithExpectation[]);
+    setDisplayQuants(displayQuants!.map((q) => (q._id === selectedQuant?._id ? selectedQuant : q)));
     axios.patch(`/api/quant/${quantAtom._id}`, selectedQuant).then(
       (response) => {
         console.log(response);
@@ -103,7 +106,7 @@ export const QuantItem = ({
   const handleUpdateDate = (quant: any) => {
     // convert date to string
     setDisplayQuants(
-      displayQuants.map((q) => {
+      displayQuants!.map((q) => {
         if (q._id === quant._id) {
           return { ...q, date: quant.date };
         }
@@ -114,7 +117,7 @@ export const QuantItem = ({
 
   const handleUpdatePeriod = (quant: any) => {
     setDisplayQuants(
-      displayQuants.map((q) => {
+      displayQuants!.map((q) => {
         if (q._id === quant._id) {
           return { ...q, period: quant.period };
         }

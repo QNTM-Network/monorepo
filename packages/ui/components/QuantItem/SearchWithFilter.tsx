@@ -19,7 +19,7 @@ interface Props {
   setSearchText: (searchText: string) => void;
   setDisplayQuants: (quants: IQuant[]) => void;
   relationship: string;
-  displayQuants: IQuant[];
+  displayQuants: IQuant[] | undefined;
   setSelectedQuant: (quant: IQuant) => void;
   selectedQuant: IQuant;
 }
