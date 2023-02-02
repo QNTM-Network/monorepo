@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   InputAdornment,
   ListSubheader,
@@ -19,18 +20,20 @@ interface Props {
   setDisplayQuants: (quants: IQuant[]) => void;
   relationship: string;
   displayQuants: IQuant[];
+  setSelectedQuant: (quant: IQuant) => void;
+  selectedQuant: IQuant;
 }
 
-export const SearchWithFilter = ({relationship, displayQuants, displayedOptions, setDisplayQuants, quant, setSearchText }: Props) => {
+export const SearchWithFilter = ({relationship, displayQuants, displayedOptions, selectedQuant, setSelectedQuant, quant, setSearchText }: Props) => {
 
   const tag = relationship === 'parents' ? 'tags' : 'children';
 
   const handleChange = (event: any, quant: IQuant) => {
     const { value } = event.target;
+    // changing parents to tags here for database preference
     const key = relationship === 'parents' ? 'tags' : 'children';
     const newQuant = { ...quant, [key]: value };
-    console.log({newQuant});
-    setDisplayQuants(displayQuants.map((q) => (q._id === quant._id ? newQuant : q)));
+    setSelectedQuant(newQuant);
   };
 
 

@@ -86,15 +86,6 @@ export const QuantItem = ({
   };
 
   const handleUpdate = () => {
-    setDisplayQuants(
-      displayQuants.map((q) => {
-        if (q._id === selectedQuant?._id) {
-          return selectedQuant;
-        }
-        return q;
-      })
-    );
-
     axios.patch(`/api/quant/${quantAtom._id}`, selectedQuant).then(
       (response) => {
         console.log(response);
@@ -105,16 +96,13 @@ export const QuantItem = ({
     );
   };
 
-  const clickSelected = (quant: IQuant) => {
-    console.log(quant);
-  };
 
   const handleUpdateDate = (quant: any) => {
     // convert date to string
     setDisplayQuants(
       displayQuants.map((q) => {
         if (q._id === quant._id) {
-          return quant;
+          return { ...q, date: quant.date };
         }
         return q;
       })
@@ -144,9 +132,6 @@ export const QuantItem = ({
     [quantsNames, searchText]
   );
 
-  useEffect(() => {
-    console.log('selectedQuant', selectedQuant)
-  }, [selectedQuant])
 
   return (
     <div
@@ -155,7 +140,11 @@ export const QuantItem = ({
           ? styles.dataSelected
           : styles.data__record
       }
-      onClick={selectedQuant?._id === quantAtom._id ? () => clickSelected : () => setSelectedQuant(quantAtom)}
+      onClick={
+        selectedQuant?._id === quantAtom._id
+          ? () => clickSelected
+          : () => setSelectedQuant(quantAtom)
+      }
     >
       <div
         className={
@@ -183,7 +172,7 @@ export const QuantItem = ({
                     className={styles.modal__content__period}
                     value={selectedQuant?.period}
                     onChange={(e) =>
-                      handleUpdatePeriod({
+                      setSelectedQuant({
                         ...selectedQuant,
                         period: e.target.value,
                       })
@@ -206,10 +195,7 @@ export const QuantItem = ({
                     value={selectedQuant.date}
                     className={styles.modal__content__date}
                     onChange={(e) =>
-                      handleUpdateDate({
-                        ...selectedQuant,
-                        date: e ? e : selectedQuant.date,
-                      })
+                      setSelectedQuant({ ...selectedQuant, date: e ? e : undefined })
                     }
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -218,6 +204,8 @@ export const QuantItem = ({
                   <SearchWithFilter
                     setSearchText={setSearchText}
                     displayedOptions={displayedOptions}
+                    selectedQuant={selectedQuant}
+                    setSelectedQuant={setSelectedQuant}
                     quant={selectedQuant}
                     displayQuants={displayQuants}
                     setDisplayQuants={setDisplayQuants}
@@ -227,6 +215,8 @@ export const QuantItem = ({
                 {selectedQuant.children && (
                   <SearchWithFilter
                     setSearchText={setSearchText}
+                    selectedQuant={selectedQuant}
+                    setSelectedQuant={setSelectedQuant}
                     displayedOptions={displayedOptions}
                     displayQuants={displayQuants}
                     quant={selectedQuant}
