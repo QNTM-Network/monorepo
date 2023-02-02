@@ -96,6 +96,9 @@ export const QuantItem = ({
     );
   };
 
+  const clickSelected = (quant: IQuant) => {
+    console.log(quant);
+  };
 
   const handleUpdateDate = (quant: any) => {
     // convert date to string
