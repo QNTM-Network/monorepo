@@ -66,7 +66,8 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
     );
   };
 
-  const handleDelete = (quantAtom: QuantAtom) => {
+  const handleDelete = useCallback(
+    (quantAtom: QuantAtom) => {
     setQuantsAtom(quantsAtom.filter((q: QuantAtom) => q !== quantAtom));
 
     setSelectedQuant(null);
@@ -78,10 +79,6 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
         console.log(err.text);
       }
     );
-  };
-
-  useEffect(() => {
-    console.log("quantsAtom", quantsAtom);
   }, [quantsAtom]);
 
   useEffect(() => {

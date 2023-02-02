@@ -58,10 +58,10 @@ export const QuantItem = ({
 }: Props) => {
   const [searchText, setSearchText] = useState("");
   const [quantsNames, setQuantsNames] = useState<any>([]);
+
   const handleClose = () => {
     setSelectedQuant(null);
   };
-
 
   const handleComplete = (quant: IQuant) => {
     setDisplayQuants(displayQuants.filter((q) => q._id !== quant._id));
@@ -105,6 +105,10 @@ export const QuantItem = ({
     );
   };
 
+  const clickSelected = (quant: IQuant) => {
+    console.log(quant);
+  };
+
   const handleUpdateDate = (quant: any) => {
     // convert date to string
     setDisplayQuants(
@@ -140,7 +144,9 @@ export const QuantItem = ({
     [quantsNames, searchText]
   );
 
-  useEffect(() => {}, [selectedQuant]);
+  useEffect(() => {
+    console.log('selectedQuant', selectedQuant)
+  }, [selectedQuant])
 
   return (
     <div
@@ -149,7 +155,7 @@ export const QuantItem = ({
           ? styles.dataSelected
           : styles.data__record
       }
-      onClick={() => setSelectedQuant(quantAtom)}
+      onClick={selectedQuant?._id === quantAtom._id ? () => clickSelected : () => setSelectedQuant(quantAtom)}
     >
       <div
         className={
@@ -233,7 +239,9 @@ export const QuantItem = ({
                   <Button onClick={() => handleComplete(quantAtom)}>
                     Complete
                   </Button>
-                  <Button onClick={() => handleDelete(quantAtom)}>Delete</Button>
+                  <Button onClick={() => handleDelete(quantAtom)}>
+                    Delete
+                  </Button>
                 </div>
               </>
             ) : (
