@@ -96,6 +96,16 @@ const Web = ({ quants, user, quantAtoms }: Props) => {
     }
   }, [quantsAtom]);
 
+  useEffect(() => {
+    if (quantsByTags) {
+      const quants = get(quantsByTags, filter, []);
+      setDisplayQuants(quants);
+    }
+
+    const tags = map(quantsByTags, "tag");
+    setTags(tags);
+  }, [quantsByTags, filter]);
+
 
   useEffect(() => {
     if (filter) {
