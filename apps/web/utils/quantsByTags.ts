@@ -4,38 +4,35 @@ import { isBefore, isAfter, isSameDay } from "date-fns";
 
 import { nonTasks } from "./constants";
 export const getQuantsByTags = (quants: IQuant[]) => {
-
   console.log({ quants });
 
-const findQuantsFromIds = (quants: any, ids: any) => {
-  if (!ids) return [];
-  const matches = quants.filter((q: any) => ids.includes(q._id));
-  // map through each 
-  const names = matches.map((q: any) => q.name);
-  return names;
-};
+  const findQuantsFromIds = (quants: any, ids: any) => {
+    if (!ids) return [];
+    const matches = quants.filter((q: any) => ids.includes(q._id));
+    // map through each
+    const names = matches.map((q: any) => q.name);
+    return names;
+  };
 
-const quantsWithParentsNames  = quants.map((q) => {
-  q.parents = findQuantsFromIds(quants, q.parents);
-  return q;
-});
+  const quantsWithParentsNames = quants.map((q) => {
+    q.parents = findQuantsFromIds(quants, q.parents);
+    return q;
+  });
 
   const quantsByTags = [
-    
     {
       tag: "ViewAll",
       quants: quants,
     },
   ];
 
-  console.log({quantsWithParentsNames});
-
+  console.log({ quantsWithParentsNames });
 
   forEach(quants, (quant) => {
     if (quant) {
       // map through each quant and add to the quantsByTags array
       forEach(quant.tags, (tag) => {
-        const existingTag = find(quantsByTags, { tag});
+        const existingTag = find(quantsByTags, { tag });
         if (existingTag) {
           existingTag.quants.push(quant);
         } else {
@@ -61,7 +58,6 @@ const quantsWithParentsNames  = quants.map((q) => {
         }
       }
 
-
       // variable that returns true if quant.tags does not include any of the nonTasks
       const isNotTask = nonTasks.some((nonTask) =>
         quant.tags.includes(nonTask)
@@ -69,9 +65,8 @@ const quantsWithParentsNames  = quants.map((q) => {
       // check if tasks date is now available on or after today
       const isAvailable =
         (isBefore(new Date(quant.date || new Date()), new Date()) ||
-        isSameDay(new Date(quant.date || new Date()), new Date())) &&
+          isSameDay(new Date(quant.date || new Date()), new Date())) &&
         quant.period != "Dark Matter";
-
 
       if (!isNotTask && isAvailable) {
         const existingTaskTag = find(quantsByTags, {
@@ -114,4 +109,3 @@ const quantsWithParentsNames  = quants.map((q) => {
 
   return orderedQuantsByTags;
 };
-
